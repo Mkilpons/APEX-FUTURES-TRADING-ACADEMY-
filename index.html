@@ -146,13 +146,16 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
 .fade-up.visible{opacity:1;transform:translateY(0);}
 
 @media(max-width:768px){
-  nav{padding:0 16px;}
+  nav{padding:0 12px;}
+  .nav-cta{padding:6px 12px;font-size:10px;letter-spacing:1px;}
+  .hamburger{display:flex !important;}
   .hero{padding:90px 20px 50px;}
   .hero-stats{gap:24px;}
   #chart-section,#concepts,#roadmap,#candlesticks,#founder,#contact,#signup-section{padding:56px 20px;}
   .anatomy-grid{grid-template-columns:1fr;}
-  footer{padding:32px 20px;flex-direction:column;align-items:flex-start;}
+  footer{padding:32px 20px;flex-direction:column;align-items:flex-start;gap:28px;}
   .risk-banner{margin:0 20px 32px;}
+  #disclaimer{padding:48px 20px;}
 }
 @media(max-width:480px){
   .tab{font-size:8px;padding:7px 0;}
@@ -287,7 +290,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
   <div class="pattern-row fade-up" id="patternRow"></div>
   <div class="fade-up" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 20px;background:rgba(0,208,132,0.04);border:1px solid rgba(0,208,132,0.15);border-top:none;">
     <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;">Full anatomy · 12 patterns · Bull &amp; Bear flags</div>
-    <a href="candlesticks.html" onclick="sessionStorage.setItem('apexTab','patterns')" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
+    <a href="candlesticks.html" onclick="sessionStorage.setItem('apexTab','patterns');return true;" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
   </div>
 </section>
 
@@ -403,20 +406,22 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:8px;line-height:1.7;">© 2026 Apex Futures Academy<br>Educational Use Only</div>
   </div>
-  <div style="display:flex;flex-direction:column;gap:8px;">
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:4px;">Pages</div>
-    <a href="courses.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Courses</a>
-    <a href="futures.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Futures</a>
-    <a href="candlesticks.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Candles</a>
-    <a href="contracts.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contract Info</a>
-    <a href="ict.html" style="font-family:var(--mono);font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--gold)'">ICT Concepts</a>
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:2px;">Navigate</div>
+    <a href="index.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Home</a>
+    <a href="courses.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Courses</a>
+    <a href="futures.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Futures</a>
+    <a href="candlesticks.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Candles</a>
+    <a href="contracts.html" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contract Info</a>
+    <a href="ict.html" style="font-family:var(--mono);font-size:11px;color:var(--gold);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--gold)'">ICT Concepts</a>
   </div>
-  <div style="display:flex;flex-direction:column;gap:8px;">
-    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:4px;">Info</div>
-    <a href="#roadmap" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Roadmap</a>
-    <a href="#contact" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
-    <a href="#signup-section" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Save a Spot</a>
-    <a href="index.html#disclaimer" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Disclaimer</a>
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:2px;">More</div>
+    <a href="#concepts" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Concepts</a>
+    <a href="#roadmap" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Roadmap</a>
+    <a href="#contact" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
+    <a href="#signup-section" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Save a Spot</a>
+    <a href="#disclaimer" style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Disclaimer</a>
   </div>
 </footer>
 
