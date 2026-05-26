@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX FUTURES — Contract Info</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#070b14;--bg2:#0a0f1e;--bg3:#0d1428;
+    --border:#1a2540;--green:#00d084;--red:#ff4466;
+    --blue:#00d4ff;--gold:#f0c040;--purple:#bd93f9;
+    --text:#c8d8e8;--muted:#3a5070;
+    --mono:'Share Tech Mono',monospace;
+    --display:'Bebas Neue',sans-serif;
+    --body:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
+ 
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
+  .nav-logo span{color:var(--text);}
+  .nav-links{display:flex;gap:24px;list-style:none;}
+  .nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--green);}
+  .nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+  .nav-cta:hover{background:var(--green);color:var(--bg);}
+ 
+  /* HERO */
+  .page-hero{padding:100px 40px 56px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 30%,transparent 100%);}
+  .hero-inner{position:relative;z-index:1;max-width:720px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;display:inline-block;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+  .page-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .page-hero h1{font-family:var(--display);font-size:clamp(48px,7vw,88px);letter-spacing:4px;line-height:0.95;color:var(--text);margin-bottom:16px;}
+  .page-hero h1 span{color:var(--green);}
+  .page-hero p{font-size:14px;color:var(--muted);line-height:1.8;max-width:560px;}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:20px;}
+  .breadcrumb a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .breadcrumb a:hover{color:var(--green);}
+ 
+  /* PAGE TABS */
+  .page-tabs{display:flex;border-bottom:2px solid var(--border);background:var(--bg2);position:sticky;top:60px;z-index:50;overflow-x:auto;scrollbar-width:none;}
+  .page-tabs::-webkit-scrollbar{display:none;}
+  .page-tab{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:14px 24px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0;}
+  .page-tab.active{color:var(--green);border-bottom-color:var(--green);background:rgba(0,208,132,0.04);}
+  .page-tab:hover:not(.active){color:var(--text);}
+ 
+  /* TAB PANELS */
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+ 
+  /* SECTIONS */
+  section{position:relative;z-index:1;padding:64px 40px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
+  .section-title{font-family:var(--display);font-size:clamp(32px,4vw,52px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:14px;}
+  .section-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:600px;margin-bottom:32px;}
+ 
+  /* TABLE */
+  .table-wrap{overflow-x:auto;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px;}
+  thead tr{background:rgba(0,208,132,0.06);border-bottom:2px solid var(--green);}
+  th{padding:13px 16px;text-align:left;letter-spacing:2px;color:var(--green);font-size:9px;text-transform:uppercase;white-space:nowrap;}
+  tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;}
+  tbody tr:hover{background:var(--bg3);}
+  tbody tr:last-child{border-bottom:none;}
+  td{padding:13px 16px;color:var(--text);white-space:nowrap;letter-spacing:0.5px;font-size:11px;}
+  td.ticker{font-family:var(--display);font-size:20px;letter-spacing:2px;}
+  td.up{color:var(--green);}
+  td.muted{color:var(--muted);}
+  td.gold{color:var(--gold);}
+  td.blue{color:var(--blue);}
+  .table-note{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:16px;line-height:1.8;padding:14px 18px;border-left:2px solid var(--border);background:rgba(26,37,64,0.3);}
+ 
+  /* ASSET CARDS */
+  .assets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+  .asset-card{background:var(--bg);padding:28px;transition:background 0.2s;position:relative;}
+  .asset-card:hover{background:var(--bg3);}
+  .asset-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;}
+  .es::before{background:var(--green);}
+  .nq::before{background:var(--blue);}
+  .gc::before{background:var(--gold);}
+  .cl::before{background:#ff9f43;}
+  .ym::before{background:var(--purple);}
+  .si::before{background:#a8c8e8;}
+  .asset-ticker{font-family:var(--display);font-size:42px;letter-spacing:3px;line-height:1;margin-bottom:4px;}
+  .asset-name{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;}
+  .asset-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+  .asset-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .asset-stat{background:var(--bg2);padding:9px 12px;border:1px solid var(--border);}
+  .stat-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+  .stat-val{font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--text);}
+  .asset-tag{display:inline-block;font-family:var(--mono);font-size:8px;letter-spacing:2px;padding:3px 10px;border:1px solid;text-transform:uppercase;margin-top:12px;}
+ 
+  /* HOW GRID */
+  .how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+  .how-card{background:var(--bg);padding:28px;position:relative;}
+  .how-card:hover{background:var(--bg3);}
+  .how-num{font-family:var(--display);font-size:48px;letter-spacing:2px;color:var(--green);opacity:0.12;position:absolute;top:10px;right:14px;line-height:1;}
+  .how-card h3{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+  .how-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+ 
+  /* COMPARE */
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .compare-card{background:var(--bg);padding:32px;}
+  .compare-card.micro{border-top:2px solid var(--green);}
+  .compare-card.full{border-top:2px solid var(--blue);}
+  .compare-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;}
+  .compare-card h3{font-family:var(--display);font-size:30px;letter-spacing:2px;color:var(--text);margin-bottom:16px;}
+  .compare-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .compare-list li{font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;letter-spacing:0.5px;line-height:1.5;}
+  .compare-list li::before{content:'›';position:absolute;left:0;}
+  .compare-card.micro .compare-list li::before{color:var(--green);}
+  .compare-card.full .compare-list li::before{color:var(--blue);}
+  .recommend{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 12px;background:rgba(0,208,132,0.1);border:1px solid rgba(0,208,132,0.3);color:var(--green);text-transform:uppercase;margin-top:16px;}
+ 
+  /* RISK */
+  .risk-banner{background:rgba(255,68,102,0.06);border:1px solid rgba(255,68,102,0.2);border-left:3px solid var(--red);padding:18px 28px;margin:0 40px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;}
+  .risk-banner strong{color:var(--red);}
+ 
+  /* FOOTER */
+  footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .footer-logo{font-family:var(--display);font-size:20px;letter-spacing:4px;color:var(--green);opacity:0.6;}
+  .footer-copy{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;}
+  .footer-links{display:flex;gap:24px;list-style:none;}
+  .footer-links a{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
+  .footer-links a:hover{color:var(--green);}
+ 
+  .fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
+  .fade-up.visible{opacity:1;transform:translateY(0);}
+ 
+  @media(max-width:768px){
+    nav{padding:0 16px;}.nav-links{display:none;}
+    section,.page-hero{padding:52px 20px;}
+    .compare-grid{grid-template-columns:1fr;}
+    footer{padding:28px 20px;flex-direction:column;align-items:flex-start;}
+    .risk-banner{margin:0 20px 28px;}
+  }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="futures.html">Futures</a></li>
+    <li><a href="candlesticks.html">Candles</a></li>
+    <li><a href="contracts.html" class="active">Contract Info</a></li>
+  </ul>
+  <button class="nav-cta">Save a Spot</button>
+</nav>
+ 
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">Contract Info</span></div>
+    <div class="page-label"><div class="dot"></div>APEX FUTURES · CONTRACT GUIDE</div>
+    <h1>KNOW YOUR<br><span>CONTRACTS.</span></h1>
+    <p>Tick values, point values, margins, and session hours for every major futures contract — plus a full breakdown of how futures actually work before you risk a single dollar.</p>
+  </div>
+</div>
+ 
+<!-- PAGE TABS -->
+<div class="page-tabs">
+  <button class="page-tab active" onclick="switchTab('overview')">Overview</button>
+  <button class="page-tab" onclick="switchTab('conversion')">Conversion Table</button>
+  <button class="page-tab" onclick="switchTab('micro')">Micro vs Full</button>
+  <button class="page-tab" onclick="switchTab('howworks')">How It Works</button>
+</div>
+ 
+<!-- ── TAB: OVERVIEW ── -->
+<div class="tab-panel active" id="tab-overview">
+  <section>
+    <div class="fade-up">
+      <div class="section-label">// major contracts</div>
+      <div class="section-title">THE BIG SIX</div>
+      <p class="section-desc">The six most actively traded futures contracts. Each has its own tick size, tick value, and personality. Know the numbers before you trade.</p>
+    </div>
+    <div class="assets-grid fade-up">
+ 
+      <div class="asset-card es">
+        <div class="asset-ticker" style="color:var(--green)">ES</div>
+        <div class="asset-name">S&P 500 E-Mini · CME</div>
+        <p class="asset-desc">The world's most liquid futures contract. Tracks the S&P 500 — 500 of the largest US companies. Tight spreads, excellent structure, ideal for beginners.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">0.25 pts</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$12.50</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$50 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$12,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:var(--green);border-color:rgba(0,208,132,0.3)">Best for Beginners</span>
+      </div>
+ 
+      <div class="asset-card nq">
+        <div class="asset-ticker" style="color:var(--blue)">NQ</div>
+        <div class="asset-name">Nasdaq 100 E-Mini · CME</div>
+        <p class="asset-desc">Tracks the top 100 non-financial Nasdaq companies. Heavy tech weighting — Apple, Microsoft, Nvidia. More volatile than ES with bigger intraday swings.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">0.25 pts</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$5.00</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$20 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$18,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:var(--blue);border-color:rgba(0,212,255,0.3)">Intermediate</span>
+      </div>
+ 
+      <div class="asset-card gc">
+        <div class="asset-ticker" style="color:var(--gold)">GC</div>
+        <div class="asset-name">Gold Futures · COMEX</div>
+        <p class="asset-desc">The world's most popular precious metal. Safe haven during uncertainty. Moves with the dollar, inflation data, and geopolitical events. Trends cleanly.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">0.10 pts</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$10.00</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$100 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$9,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:var(--gold);border-color:rgba(240,192,64,0.3)">Trend Friendly</span>
+      </div>
+ 
+      <div class="asset-card cl">
+        <div class="asset-ticker" style="color:#ff9f43">CL</div>
+        <div class="asset-name">Crude Oil · NYMEX</div>
+        <p class="asset-desc">WTI Crude Oil — one of the most volatile contracts. Driven by OPEC, inventory reports, and geopolitical events. Big opportunity and big risk. Not for beginners.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">0.01 pts</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$10.00</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$1,000 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$6,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:#ff9f43;border-color:rgba(255,159,67,0.3)">Advanced · High Vol</span>
+      </div>
+ 
+      <div class="asset-card ym">
+        <div class="asset-ticker" style="color:var(--purple)">YM</div>
+        <div class="asset-name">Dow Jones E-Mini · CME</div>
+        <p class="asset-desc">Tracks the Dow Jones — 30 of the most influential US companies. Slower than ES and NQ. Good for learning market structure without excessive noise.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">1 pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$5.00</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$5 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$8,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:var(--purple);border-color:rgba(189,147,249,0.3)">Beginner Friendly</span>
+      </div>
+ 
+      <div class="asset-card si">
+        <div class="asset-ticker" style="color:#a8c8e8">SI</div>
+        <div class="asset-name">Silver Futures · COMEX</div>
+        <p class="asset-desc">Follows gold but with more volatility — sometimes called "gold on steroids." Reacts to both industrial demand and safe haven flows. Can have explosive intraday ranges.</p>
+        <div class="asset-stats">
+          <div class="asset-stat"><div class="stat-label">Tick Size</div><div class="stat-val">0.005 pts</div></div>
+          <div class="asset-stat"><div class="stat-label">Tick Value</div><div class="stat-val">$25.00</div></div>
+          <div class="asset-stat"><div class="stat-label">Point Value</div><div class="stat-val">$5,000 / pt</div></div>
+          <div class="asset-stat"><div class="stat-label">Margin ~</div><div class="stat-val">$10,000</div></div>
+        </div>
+        <span class="asset-tag" style="color:#a8c8e8;border-color:rgba(168,200,232,0.3)">Volatile · Advanced</span>
+      </div>
+ 
+    </div>
+  </section>
+</div>
+ 
+<!-- ── TAB: CONVERSION TABLE ── -->
+<div class="tab-panel" id="tab-conversion">
+  <section>
+    <div class="fade-up">
+      <div class="section-label">// conversion table</div>
+      <div class="section-title">WHAT EACH MOVE COSTS</div>
+      <p class="section-desc">Exactly how much money you make or lose per tick, per point, and per typical move. Memorize the contracts you trade.</p>
+    </div>
+    <div class="table-wrap fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Contract</th>
+            <th>Full Name</th>
+            <th>Tick Size</th>
+            <th>$ / Tick</th>
+            <th>$ / Point</th>
+            <th>5pt Move</th>
+            <th>10pt Move</th>
+            <th>20pt Move</th>
+            <th>Avg Daily Range</th>
+            <th>Margin ~</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker" style="color:var(--green)">ES</td>
+            <td>S&P 500 E-Mini</td>
+            <td class="muted">0.25</td>
+            <td class="up">$12.50</td>
+            <td class="up">$50</td>
+            <td class="up">$250</td>
+            <td class="up">$500</td>
+            <td class="up">$1,000</td>
+            <td class="muted">40–60 pts</td>
+            <td class="gold">~$12,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--green)">MES</td>
+            <td>Micro S&P 500</td>
+            <td class="muted">0.25</td>
+            <td class="up">$1.25</td>
+            <td class="up">$5</td>
+            <td class="up">$25</td>
+            <td class="up">$50</td>
+            <td class="up">$100</td>
+            <td class="muted">40–60 pts</td>
+            <td class="gold">~$1,200</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--blue)">NQ</td>
+            <td>Nasdaq 100 E-Mini</td>
+            <td class="muted">0.25</td>
+            <td class="up">$5.00</td>
+            <td class="up">$20</td>
+            <td class="up">$100</td>
+            <td class="up">$200</td>
+            <td class="up">$400</td>
+            <td class="muted">150–250 pts</td>
+            <td class="gold">~$18,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--blue)">MNQ</td>
+            <td>Micro Nasdaq 100</td>
+            <td class="muted">0.25</td>
+            <td class="up">$0.50</td>
+            <td class="up">$2</td>
+            <td class="up">$10</td>
+            <td class="up">$20</td>
+            <td class="up">$40</td>
+            <td class="muted">150–250 pts</td>
+            <td class="gold">~$1,800</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--gold)">GC</td>
+            <td>Gold Futures</td>
+            <td class="muted">0.10</td>
+            <td class="up">$10.00</td>
+            <td class="up">$100</td>
+            <td class="up">$500</td>
+            <td class="up">$1,000</td>
+            <td class="up">$2,000</td>
+            <td class="muted">15–30 pts</td>
+            <td class="gold">~$9,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--gold)">MGC</td>
+            <td>Micro Gold</td>
+            <td class="muted">0.10</td>
+            <td class="up">$1.00</td>
+            <td class="up">$10</td>
+            <td class="up">$50</td>
+            <td class="up">$100</td>
+            <td class="up">$200</td>
+            <td class="muted">15–30 pts</td>
+            <td class="gold">~$900</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:#ff9f43">CL</td>
+            <td>Crude Oil</td>
+            <td class="muted">0.01</td>
+            <td class="up">$10.00</td>
+            <td class="up">$1,000</td>
+            <td class="up">$5,000</td>
+            <td class="up">$10,000</td>
+            <td class="up">$20,000</td>
+            <td class="muted">1–3 pts</td>
+            <td class="gold">~$6,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--purple)">YM</td>
+            <td>Dow Jones E-Mini</td>
+            <td class="muted">1 pt</td>
+            <td class="up">$5.00</td>
+            <td class="up">$5</td>
+            <td class="up">$25</td>
+            <td class="up">$50</td>
+            <td class="up">$100</td>
+            <td class="muted">200–350 pts</td>
+            <td class="gold">~$8,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--purple)">MYM</td>
+            <td>Micro Dow Jones</td>
+            <td class="muted">1 pt</td>
+            <td class="up">$0.50</td>
+            <td class="up">$0.50</td>
+            <td class="up">$2.50</td>
+            <td class="up">$5</td>
+            <td class="up">$10</td>
+            <td class="muted">200–350 pts</td>
+            <td class="gold">~$800</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:#a8c8e8">SI</td>
+            <td>Silver Futures</td>
+            <td class="muted">0.005</td>
+            <td class="up">$25.00</td>
+            <td class="up">$5,000</td>
+            <td class="up">$25,000</td>
+            <td class="up">$50,000</td>
+            <td class="up">$100,000</td>
+            <td class="muted">0.3–0.8 pts</td>
+            <td class="gold">~$10,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note fade-up">
+      ⚠ Margin requirements vary by broker and change frequently. Values above are approximate intraday margins — always verify with your broker.<br>
+      Micro contracts (MES, MNQ, MGC, MYM) are exactly 1/10th the size of full contracts. Same chart, same setups, 10x less dollar exposure.
+    </div>
+  </section>
+</div>
+ 
+<!-- ── TAB: MICRO VS FULL ── -->
+<div class="tab-panel" id="tab-micro">
+  <section>
+    <div class="fade-up">
+      <div class="section-label">// where to start</div>
+      <div class="section-title">MICRO vs FULL</div>
+      <p class="section-desc">Should you start with micro contracts or full-size? The answer is almost always micro — here's exactly why.</p>
+    </div>
+    <div class="compare-grid fade-up">
+      <div class="compare-card micro">
+        <div class="compare-label" style="color:var(--green)">✓ Start Here</div>
+        <h3>MICRO CONTRACTS</h3>
+        <ul class="compare-list">
+          <li>1/10th the size of full contracts</li>
+          <li>MES margin ~$1,200 vs ~$12,000 for ES</li>
+          <li>Same chart, same setup, same execution</li>
+          <li>Lose far less while you're still learning</li>
+          <li>Build confidence without blowing your account</li>
+          <li>Scale up gradually as you prove consistency</li>
+          <li>Available: MES, MNQ, MGC, MYM, MCL</li>
+          <li>Offered on all major platforms (Tradovate, NinjaTrader, etc.)</li>
+        </ul>
+        <span class="recommend">Recommended for all beginners</span>
+      </div>
+      <div class="compare-card full">
+        <div class="compare-label" style="color:var(--blue)">When You're Ready</div>
+        <h3>FULL CONTRACTS</h3>
+        <ul class="compare-list">
+          <li>10x the profit potential per contract</li>
+          <li>ES margin ~$12,000 per contract</li>
+          <li>One ES contract = exactly 10 MES contracts</li>
+          <li>Higher capital requirement per trade</li>
+          <li>Requires proven consistency on micro first</li>
+          <li>Standard for prop firm funded accounts</li>
+          <li>Available: ES, NQ, GC, CL, YM, SI, RTY</li>
+          <li>Lower commissions per dollar traded at scale</li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div style="margin-top:32px;" class="fade-up">
+      <div class="section-label">// micro contract reference</div>
+    </div>
+    <div class="table-wrap fade-up">
+      <table>
+        <thead>
+          <tr>
+            <th>Micro</th>
+            <th>Full Size</th>
+            <th>Ratio</th>
+            <th>Micro $ / Tick</th>
+            <th>Full $ / Tick</th>
+            <th>Micro Margin ~</th>
+            <th>Full Margin ~</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker" style="color:var(--green)">MES</td>
+            <td style="color:var(--green);font-family:var(--mono)">ES</td>
+            <td class="muted">1/10</td>
+            <td class="up">$1.25</td>
+            <td class="up">$12.50</td>
+            <td class="gold">~$1,200</td>
+            <td class="gold">~$12,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--blue)">MNQ</td>
+            <td style="color:var(--blue);font-family:var(--mono)">NQ</td>
+            <td class="muted">1/10</td>
+            <td class="up">$0.50</td>
+            <td class="up">$5.00</td>
+            <td class="gold">~$1,800</td>
+            <td class="gold">~$18,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--gold)">MGC</td>
+            <td style="color:var(--gold);font-family:var(--mono)">GC</td>
+            <td class="muted">1/10</td>
+            <td class="up">$1.00</td>
+            <td class="up">$10.00</td>
+            <td class="gold">~$900</td>
+            <td class="gold">~$9,000</td>
+          </tr>
+          <tr>
+            <td class="ticker" style="color:var(--purple)">MYM</td>
+            <td style="color:var(--purple);font-family:var(--mono)">YM</td>
+            <td class="muted">1/10</td>
+            <td class="up">$0.50</td>
+            <td class="up">$5.00</td>
+            <td class="gold">~$800</td>
+            <td class="gold">~$8,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+ 
+<!-- ── TAB: HOW IT WORKS ── -->
+<div class="tab-panel" id="tab-howworks">
+  <section>
+    <div class="fade-up">
+      <div class="section-label">// futures basics</div>
+      <div class="section-title">HOW FUTURES WORK</div>
+      <p class="section-desc">Four things every new trader must understand before placing their first futures trade. No shortcuts here.</p>
+    </div>
+    <div class="how-grid fade-up">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <h3>Leverage</h3>
+        <p>Futures use margin — you control a large contract with a fraction of its value. A $1,200 MES margin controls a ~$220,000 position. This amplifies both gains AND losses equally. Respect it at all times.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <h3>Tick Value</h3>
+        <p>Every contract has a minimum price movement called a tick. For ES that's 0.25 points = $12.50. If price moves 10 points in your favor on one ES contract you make $500. Against you — you lose $500. Know this cold.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <h3>Expiration</h3>
+        <p>Futures contracts expire quarterly — March, June, September, December. Most traders roll to the next contract before expiry. Your platform automatically shows the active front-month contract.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <h3>Session Hours</h3>
+        <p>Most equity futures trade nearly 24 hours. The most liquid window is the regular US session: 9:30am–4:00pm EST. The open (9:30–10:30am) and close (3:00–4:00pm) carry the highest volume and volatility.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">05</div>
+        <h3>Margin Calls</h3>
+        <p>If your account equity drops below the maintenance margin your broker will issue a margin call — requiring you to deposit more funds or close positions. Avoid this by always knowing your risk before entry.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">06</div>
+        <h3>Mark to Market</h3>
+        <p>Unlike stocks, futures are settled daily. Profits and losses are credited or debited to your account at the end of each session. Your account balance reflects real-time P&L at all times during the trading day.</p>
+      </div>
+    </div>
+  </section>
+</div>
+ 
+<!-- RISK BANNER -->
+<div class="risk-banner">
+  <strong>⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss. Margin requirements can change at any time. All values shown are approximate and for educational purposes only. Always verify current margins with your broker. Never trade with money you cannot afford to lose completely.
+</div>
+ 
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">APEX FUTURES</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="futures.html">Futures</a></li>
+    <li><a href="candlesticks.html">Candles</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
+</footer>
+ 
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+  // Trigger fade-ups in the newly shown panel
+  document.querySelectorAll('#tab-' + id + ' .fade-up').forEach(el => {
+    el.classList.remove('visible');
+    setTimeout(() => el.classList.add('visible'), 80);
+  });
+}
+ 
+// Fade in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
