@@ -641,6 +641,14 @@ function closeMenu(){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+ 
+// ── AUTO OPEN TAB ──
+(function(){
+  const target = sessionStorage.getItem('apexTab');
+  if(target === 'patterns'){
+    sessionStorage.removeItem('apexTab');
+    const section = document.getElementById('patterns');
+    if(section) setTimeout(()=>section.scrollIntoView({behavior:'smooth',block:'start'}),300);
+  }
+})();
 </script>
-</body>
-</html>
