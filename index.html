@@ -230,7 +230,8 @@
   </div>
   <div class="modal-body">
     <div class="modal-tabs">
-      <button class="modal-tab active" data-mconcept="trend">Structure</button>
+      <button class="modal-tab active" data-mconcept="bullish">Bullish</button>
+      <button class="modal-tab" data-mconcept="bearish">Bearish</button>
       <button class="modal-tab" data-mconcept="support">S&amp;R</button>
       <button class="modal-tab" data-mconcept="pullback">Pullback</button>
       <button class="modal-tab" data-mconcept="rr">R/R</button>
@@ -256,10 +257,13 @@
   <ul class="nav-links">
     <li><a href="#chart-section">Chart</a></li>
     <li><a href="courses.html">Courses</a></li>
+    <li><a href="futures.html">Futures</a></li>
+    <li><a href="candlesticks.html">Candles</a></li>
+    <li><a href="contracts.html">Contract Info</a></li>
     <li><a href="#concepts">Concepts</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
   </ul>
-  <button class="nav-cta" id="navCta">Sign Up Free</button>
+  <button class="nav-cta" id="navCta">Save a Spot</button>
 </nav>
  
 <!-- HERO -->
@@ -275,7 +279,7 @@
     <div class="stat"><span class="stat-val">$0</span><span class="stat-label">To Start</span></div>
   </div>
   <div class="hero-btns">
-    <button onclick="openSignupModal()" class="btn-primary">Sign Up Free →</button>
+    <button onclick="openSignupModal()" class="btn-primary">Save a Spot →</button>
     <a href="#roadmap" class="btn-ghost">View Roadmap</a>
   </div>
 </section>
@@ -300,13 +304,14 @@
   <div class="chart-wrap fade-up">
     <div class="chart-status"><div class="dot"></div>PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE</div>
     <div class="tabs">
-      <button class="tab active" data-concept="trend">Structure</button>
+      <button class="tab active" data-concept="bullish">Bullish</button>
+      <button class="tab" data-concept="bearish">Bearish</button>
       <button class="tab" data-concept="support">S&amp;R</button>
       <button class="tab" data-concept="pullback">Pullback</button>
       <button class="tab" data-concept="rr">R/R</button>
       <button class="tab" data-concept="sd">S&amp;D</button>
     </div>
-    <div class="concept-desc"><span>▸</span><span id="desc-text">Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.</span></div>
+    <div class="concept-desc"><span>▸</span><span id="desc-text">Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.</span></div>
     <canvas id="chart" height="380"></canvas>
     <div class="chart-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00d084"></div>Bullish Candle</div>
@@ -314,6 +319,69 @@
       <div class="legend-item" id="legend-concept"><div class="legend-dot" style="background:#00d4ff"></div><span id="legend-label">Market Structure</span></div>
       <span style="margin-left:auto;color:var(--muted)">Hover candles for OHLC</span>
     </div>
+  </div>
+</section>
+ 
+<!-- CANDLESTICK SECTION -->
+<section id="candlesticks" style="padding:72px 40px;border-top:1px solid var(--border);">
+  <div class="fade-up">
+    <div class="section-label">// candlestick guide</div>
+    <div class="section-title">READ EVERY CANDLE.</div>
+    <p class="section-desc">Every candle tells the story of a battle between buyers and sellers. Learn anatomy, reversal patterns, and continuation setups.</p>
+  </div>
+ 
+  <!-- Anatomy row -->
+  <div class="fade-up" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:40px;">
+ 
+    <!-- Bullish anatomy -->
+    <div style="background:var(--bg);padding:32px;display:flex;gap:32px;align-items:center;flex-wrap:wrap;">
+      <canvas id="homeAnatomyBull" width="90" height="200" style="flex-shrink:0;"></canvas>
+      <div>
+        <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--green);margin-bottom:12px;">BULLISH CANDLE</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;letter-spacing:1px;">▲ HIGH — Top of upper wick</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:1px;">▲ CLOSE — Top of green body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:1px;">▼ OPEN — Bottom of green body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:1px;">▼ LOW — Bottom of lower wick</div>
+        </div>
+        <div style="margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:10px;border-left:2px solid var(--green);background:rgba(0,208,132,0.05);">
+          Close &gt; Open = Buyers won. Green = bullish momentum.
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Bearish anatomy -->
+    <div style="background:var(--bg);padding:32px;display:flex;gap:32px;align-items:center;flex-wrap:wrap;">
+      <canvas id="homeAnatomyBear" width="90" height="200" style="flex-shrink:0;"></canvas>
+      <div>
+        <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--red);margin-bottom:12px;">BEARISH CANDLE</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;letter-spacing:1px;">▲ HIGH — Top of upper wick</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:1px;">▲ OPEN — Top of red body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:1px;">▼ CLOSE — Bottom of red body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:#8a3050;letter-spacing:1px;">▼ LOW — Bottom of lower wick</div>
+        </div>
+        <div style="margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:10px;border-left:2px solid var(--red);background:rgba(255,68,102,0.05);">
+          Close &lt; Open = Sellers won. Red = bearish momentum.
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Pattern preview row -->
+  <div class="fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-top:none;">
+    <div id="homePatternHammer" style="background:var(--bg);padding:20px;text-align:center;"></div>
+    <div id="homePatternEngulf" style="background:var(--bg);padding:20px;text-align:center;"></div>
+    <div id="homePatternStar" style="background:var(--bg);padding:20px;text-align:center;"></div>
+    <div id="homePatternPin" style="background:var(--bg);padding:20px;text-align:center;"></div>
+    <div id="homePatternDoji" style="background:var(--bg);padding:20px;text-align:center;"></div>
+    <div id="homePatternMarubozu" style="background:var(--bg);padding:20px;text-align:center;"></div>
+  </div>
+ 
+  <!-- CTA -->
+  <div class="fade-up" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:20px 24px;background:rgba(0,208,132,0.04);border:1px solid rgba(0,208,132,0.15);border-top:none;">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;">Full anatomy · 12 patterns · Bull & Bear flags</div>
+    <a href="candlesticks.html" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
   </div>
 </section>
  
@@ -502,7 +570,8 @@ const candles = [
   {o:4368,h:4375,l:4360,c:4365},{o:4365,h:4380,l:4360,c:4377},
 ];
 const conceptData = {
-  trend:   {color:'#00d4ff',label:'Market Structure',    desc:'Bullish structure = Higher Highs (HH) + Higher Lows (HL). Bearish structure = Lower Highs (LH) + Lower Lows (LL). Always identify which structure is in play before entering a trade.'},
+  bullish: {color:'#00d4ff', label:'Bullish Structure', desc:'Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.'},
+  bearish: {color:'#ff4466', label:'Bearish Structure', desc:'Bearish market structure = Lower Highs (LH) followed by Lower Lows (LL). Each rally fails below the previous high. As long as this pattern continues, the trend is down.'},
   support: {color:'#f0c040',label:'Support & Resistance', desc:'Key price levels where buyers (support) or sellers (resistance) historically step in. Price often bounces or rejects at these zones.'},
   pullback:{color:'#50fa7b',label:'Pullback Entry',       desc:'After identifying the trend, wait for price to pull back to a key level. This gives you a better entry with less risk and more reward.'},
   rr:      {color:'#ff6b6b',label:'Risk / Reward',        desc:'Always define your stop loss and target BEFORE entering. A 1:2 or 1:3 risk/reward means you can be wrong 50% of the time and still profit.'},
@@ -640,107 +709,48 @@ function buildChart(canvasId, getActiveConcept, getHovered) {
       if(isHov){cx.strokeStyle='#ffffff55';cx.lineWidth=1;cx.strokeRect(x-cw/2,bTop,cw,bH);}
     });
  
-    if(ac==='trend'){
-      // ── BULLISH STRUCTURE (left half, candles 0-5) ──
-      // Key price points for bullish swing
-      const bull_pts = [
-        {i:0, p:4272, type:'LL'},   // starting low
-        {i:2, p:4318, type:'LH'},   // first lower high (before breakout)
-        {i:1, p:4285, type:'HL'},   // higher low forms
-        {i:3, p:4328, type:'HH1'},  // first HH
-        {i:2, p:4298, type:'HL2'},  // second HL
-        {i:5, p:4352, type:'HH'},   // second HH (main)
-        {i:7, p:4318, type:'HL3'},  // third HL (pullback)
-      ];
+    if(ac==='bullish'){
+      // HH — floating box above highest candle (13)
+      const hhX=candX(13),hhY=py(candles[13].h);
+      cx.fillStyle='rgba(0,212,255,0.18)';cx.strokeStyle='#00d4ff';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(hhX-20,hhY-26,40,18,4);cx.fill();cx.stroke();
+      cx.fillStyle='#00d4ff';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
+      cx.fillText('HH',hhX,hhY-12);
  
-      // Draw zigzag structure lines for bullish
-      const bullSwing = [
-        {i:0,p:4272}, {i:2,p:4315}, {i:1,p:4285},
-        {i:3,p:4325}, {i:2,p:4298}, {i:5,p:4348}, {i:7,p:4318}
-      ];
-      cx.strokeStyle='#00d4ff';cx.lineWidth=1.5;cx.setLineDash([4,3]);cx.globalAlpha=0.5;
-      cx.beginPath();
-      bullSwing.forEach((pt,idx)=>{
-        if(idx===0) cx.moveTo(candX(pt.i),py(pt.p));
-        else cx.lineTo(candX(pt.i),py(pt.p));
-      });
-      cx.stroke();cx.setLineDash([]);cx.globalAlpha=1;
+      // HL — floating box below candle 7 (higher low after pullback)
+      const hlX=candX(7),hlY=py(candles[7].l);
+      cx.fillStyle='rgba(0,212,255,0.13)';cx.strokeStyle='#00d4ff88';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(hlX-20,hlY+10,40,18,4);cx.fill();cx.stroke();
+      cx.fillStyle='#00d4ff';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
+      cx.fillText('HL',hlX,hlY+23);
  
-      // HH labels (highs)
-      const hhPoints = [{i:3,p:4330,lbl:'HH1'},{i:5,p:4358,lbl:'HH2'}];
-      hhPoints.forEach(({i,p,lbl})=>{
-        // dot
-        cx.fillStyle='#00d4ff';cx.shadowColor='#00d4ff';cx.shadowBlur=8;
-        cx.beginPath();cx.arc(candX(i),py(p)-6,3,0,Math.PI*2);cx.fill();cx.shadowBlur=0;
-        // label pill
-        cx.fillStyle='rgba(0,212,255,0.15)';cx.strokeStyle='#00d4ff';cx.lineWidth=1;
-        cx.beginPath();cx.roundRect(candX(i)-14,py(p)-24,28,14,3);cx.fill();cx.stroke();
-        cx.fillStyle='#00d4ff';cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='center';
-        cx.fillText(lbl,candX(i),py(p)-13);
-      });
- 
-      // HL labels (lows of bullish structure)
-      const hlPoints = [{i:1,p:4282,lbl:'HL1'},{i:2,p:4295,lbl:'HL2'},{i:7,p:4312,lbl:'HL3'}];
-      hlPoints.forEach(({i,p,lbl})=>{
-        cx.fillStyle='#00d4ff';cx.shadowColor='#00d4ff';cx.shadowBlur=6;
-        cx.beginPath();cx.arc(candX(i),py(p)+6,3,0,Math.PI*2);cx.fill();cx.shadowBlur=0;
-        cx.fillStyle='rgba(0,212,255,0.12)';cx.strokeStyle='#00d4ff44';cx.lineWidth=1;
-        cx.beginPath();cx.roundRect(candX(i)-14,py(p)+12,28,14,3);cx.fill();cx.stroke();
-        cx.fillStyle='#00d4ff';cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='center';
-        cx.fillText(lbl,candX(i),py(p)+22);
-      });
- 
-      // Bullish label badge
+      // Badge
       cx.fillStyle='rgba(0,212,255,0.1)';cx.strokeStyle='#00d4ff44';cx.lineWidth=1;
-      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+6,100,18,3);cx.fill();cx.stroke();
+      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+6,118,18,3);cx.fill();cx.stroke();
       cx.fillStyle='#00d4ff';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('▲ BULLISH STRUCTURE',PAD.l+8,PAD.t+18);
+      cx.fillText('▲ BULLISH  ·  HH  +  HL',PAD.l+8,PAD.t+18);
+    }
  
-      // ── BEARISH STRUCTURE (right half, candles 5-13) ──
-      const bearSwing = [
-        {i:5,p:4348},{i:6,p:4328},{i:11,p:4368},{i:10,p:4348},
-        {i:13,p:4377},{i:12,p:4360}
-      ];
+    if(ac==='bearish'){
+      // LH — floating box above candle 5 (lower high)
+      const lhX=candX(5),lhY=py(candles[5].h);
+      cx.fillStyle='rgba(255,68,102,0.18)';cx.strokeStyle='#ff4466';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(lhX-20,lhY-26,40,18,4);cx.fill();cx.stroke();
+      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
+      cx.fillText('LH',lhX,lhY-12);
  
-      // Override — show a hypothetical bearish continuation
-      const bearSwing2 = [
-        {i:5,p:4348},{i:7,p:4322},{i:9,p:4338},{i:11,p:4368},{i:12,p:4360},{i:13,p:4377}
-      ];
+      // LL — floating box below candle 7 (lower low)
+      const llX=candX(7),llY=py(candles[7].l);
+      cx.fillStyle='rgba(255,68,102,0.13)';cx.strokeStyle='#ff446688';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(llX-20,llY+10,40,18,4);cx.fill();cx.stroke();
+      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
+      cx.fillText('LL',llX,llY+23);
  
-      // Draw bearish zigzag
-      cx.strokeStyle='#ff4466';cx.lineWidth=1.5;cx.setLineDash([4,3]);cx.globalAlpha=0.5;
-      cx.beginPath();
-      bearSwing2.forEach((pt,idx)=>{
-        if(idx===0) cx.moveTo(candX(pt.i),py(pt.p));
-        else cx.lineTo(candX(pt.i),py(pt.p));
-      });
-      cx.stroke();cx.setLineDash([]);cx.globalAlpha=1;
- 
-      // LH labels (lower highs in bearish)
-      [{i:9,p:4342,lbl:'LH1'},{i:11,p:4358,lbl:'LH2'}].forEach(({i,p,lbl})=>{
-        cx.fillStyle='#ff4466';cx.shadowColor='#ff4466';cx.shadowBlur=8;
-        cx.beginPath();cx.arc(candX(i),py(p)-6,3,0,Math.PI*2);cx.fill();cx.shadowBlur=0;
-        cx.fillStyle='rgba(255,68,102,0.15)';cx.strokeStyle='#ff446644';cx.lineWidth=1;
-        cx.beginPath();cx.roundRect(candX(i)-14,py(p)-24,28,14,3);cx.fill();cx.stroke();
-        cx.fillStyle='#ff4466';cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='center';
-        cx.fillText(lbl,candX(i),py(p)-13);
-      });
- 
-      // LL labels (lower lows in bearish)
-      [{i:7,p:4318,lbl:'LL1'},{i:12,p:4360,lbl:'LL2'}].forEach(({i,p,lbl})=>{
-        cx.fillStyle='#ff4466';cx.shadowColor='#ff4466';cx.shadowBlur=6;
-        cx.beginPath();cx.arc(candX(i),py(p)+6,3,0,Math.PI*2);cx.fill();cx.shadowBlur=0;
-        cx.fillStyle='rgba(255,68,102,0.12)';cx.strokeStyle='#ff446633';cx.lineWidth=1;
-        cx.beginPath();cx.roundRect(candX(i)-14,py(p)+12,28,14,3);cx.fill();cx.stroke();
-        cx.fillStyle='#ff4466';cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='center';
-        cx.fillText(lbl,candX(i),py(p)+22);
-      });
- 
-      // Bearish label badge
+      // Badge
       cx.fillStyle='rgba(255,68,102,0.1)';cx.strokeStyle='#ff446644';cx.lineWidth=1;
-      cx.beginPath();cx.roundRect(candX(6),PAD.t+6,110,18,3);cx.fill();cx.stroke();
+      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+6,118,18,3);cx.fill();cx.stroke();
       cx.fillStyle='#ff4466';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('▼ BEARISH STRUCTURE',candX(6)+4,PAD.t+18);
+      cx.fillText('▼ BEARISH  ·  LH  +  LL',PAD.l+8,PAD.t+18);
     }
  
     if(hi>=0){
@@ -776,8 +786,137 @@ function buildChart(canvasId, getActiveConcept, getHovered) {
   return {draw, resize};
 }
  
-// ── INLINE CHART ──
-let inlineActive='trend', inlineHovered=-1;
+// ── HOME CANDLESTICK SECTION ──
+(function(){
+  const DPR = window.devicePixelRatio || 1;
+ 
+  function setup(id, w, h) {
+    const cv = document.getElementById(id);
+    if (!cv) return null;
+    cv.width = w * DPR; cv.height = h * DPR;
+    cv.style.width = w + 'px'; cv.style.height = h + 'px';
+    const ctx = cv.getContext('2d');
+    ctx.scale(DPR, DPR);
+    return ctx;
+  }
+ 
+  // Anatomy candles
+  function drawAnatomy(ctx, w, h, bull) {
+    const col = bull ? '#00d084' : '#ff4466';
+    const cx = w / 2;
+    const bodyTop = bull ? 55 : 40, bodyBot = bull ? 145 : 160;
+    ctx.fillStyle = '#070b14'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = col; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx, 14); ctx.lineTo(cx, h - 14); ctx.stroke();
+    ctx.fillStyle = col; ctx.shadowColor = col; ctx.shadowBlur = 10;
+    ctx.fillRect(cx - 18, bodyTop, 36, bodyBot - bodyTop);
+    ctx.shadowBlur = 0;
+    // Labels on right
+    const pts = [
+      { y: 14, label: 'H', color: '#ff9f43' },
+      { y: bull ? bodyTop : bodyBot, label: bull ? 'C' : 'O', color: bull ? '#00d084' : '#ff4466' },
+      { y: bull ? bodyBot : bodyTop, label: bull ? 'O' : 'C', color: '#00d4ff' },
+      { y: h - 14, label: 'L', color: bull ? '#8a3050' : '#8a3050' },
+    ];
+    pts.forEach(({ y, label, color }) => {
+      ctx.fillStyle = color; ctx.font = "bold 8px 'Share Tech Mono'"; ctx.textAlign = 'right';
+      ctx.fillText(label, w - 4, y + 3);
+      ctx.strokeStyle = color + '55'; ctx.setLineDash([2, 2]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cx + 18, y); ctx.lineTo(w - 10, y); ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  }
+ 
+  const bCtx = setup('homeAnatomyBull', 90, 200);
+  if (bCtx) drawAnatomy(bCtx, 90, 200, true);
+  const brCtx = setup('homeAnatomyBear', 90, 200);
+  if (brCtx) drawAnatomy(brCtx, 90, 200, false);
+ 
+  // Pattern cards
+  const patterns = [
+    { id: 'homePatternHammer',   name: 'Hammer',          signal: '▲ Bullish', color: '#00d084',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        const cx=w/2;
+        ctx.strokeStyle='#00d084';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx,18);ctx.lineTo(cx,h-14);ctx.stroke();
+        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
+        ctx.fillRect(cx-14,18,28,26);ctx.shadowBlur=0;
+      }
+    },
+    { id: 'homePatternEngulf',   name: 'Engulfing',       signal: '▲ Strong', color: '#00d084',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        ctx.fillStyle='#ff4466';ctx.fillRect(w/2-28,36,22,48);
+        ctx.strokeStyle='#ff4466';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(w/2-17,22);ctx.lineTo(w/2-17,36);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(w/2-17,84);ctx.lineTo(w/2-17,98);ctx.stroke();
+        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
+        ctx.fillRect(w/2+2,22,24,86);ctx.shadowBlur=0;
+        ctx.strokeStyle='#00d084';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(w/2+14,10);ctx.lineTo(w/2+14,22);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(w/2+14,108);ctx.lineTo(w/2+14,118);ctx.stroke();
+      }
+    },
+    { id: 'homePatternStar',     name: 'Shooting Star',   signal: '▼ Bearish', color: '#ff4466',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        const cx=w/2;
+        ctx.strokeStyle='#ff4466';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
+        ctx.fillStyle='#ff4466';ctx.shadowColor='#ff4466';ctx.shadowBlur=8;
+        ctx.fillRect(cx-14,h-46,28,26);ctx.shadowBlur=0;
+      }
+    },
+    { id: 'homePatternPin',      name: 'Pinbar',          signal: '▲ Rejection', color: '#00d084',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        const cx=w/2;
+        ctx.strokeStyle='#00d084';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
+        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
+        ctx.fillRect(cx-14,14,28,22);ctx.shadowBlur=0;
+      }
+    },
+    { id: 'homePatternDoji',     name: 'Doji',            signal: '→ Indecision', color: '#bd93f9',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        const cx=w/2, mid=h/2;
+        ctx.strokeStyle='#bd93f9';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
+        ctx.fillStyle='#bd93f9';ctx.shadowColor='#bd93f9';ctx.shadowBlur=8;
+        ctx.fillRect(cx-16,mid-4,32,8);ctx.shadowBlur=0;
+      }
+    },
+    { id: 'homePatternMarubozu', name: 'Marubozu',        signal: '→ Momentum', color: '#f0c040',
+      draw(ctx, w, h) {
+        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=10;
+        ctx.fillRect(w/2-16,14,32,h-28);ctx.shadowBlur=0;
+      }
+    },
+  ];
+ 
+  patterns.forEach(p => {
+    const wrap = document.getElementById(p.id);
+    if (!wrap) return;
+    const cv = document.createElement('canvas');
+    const w = 80, h = 120;
+    cv.width = w * DPR; cv.height = h * DPR;
+    cv.style.width = w + 'px'; cv.style.height = h + 'px';
+    const ctx = cv.getContext('2d');
+    ctx.scale(DPR, DPR);
+    p.draw(ctx, w, h);
+    wrap.appendChild(cv);
+    wrap.innerHTML += `
+      <div style="font-family:var(--display);font-size:14px;letter-spacing:1px;color:var(--text);margin-top:8px;">${p.name}</div>
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:1px;color:${p.color};margin-top:2px;">${p.signal}</div>
+    `;
+  });
+})();
+ 
+ 
+let inlineActive='bullish', inlineHovered=-1;
 const inlineChart = buildChart('chart', ()=>inlineActive, ()=>inlineHovered);
  
 document.querySelectorAll('.tab').forEach(tab=>{
@@ -808,7 +947,7 @@ inlineCanvas.addEventListener('mousemove',e=>{
 inlineCanvas.addEventListener('mouseleave',()=>{inlineHovered=-1;inlineChart.draw();});
  
 // ── MODAL CHART ──
-let modalActive='trend', modalHovered=-1;
+let modalActive='bullish', modalHovered=-1;
 let modalChart=null;
  
 function openChartModal(){
@@ -932,4 +1071,3 @@ inlineChart.resize();
 </script>
 </body>
 </html>
- 
