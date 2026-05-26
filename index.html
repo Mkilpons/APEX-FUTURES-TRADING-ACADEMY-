@@ -311,7 +311,7 @@
  
   /* ── CHART SECTION ── */
   #chart-section {
-    padding: 80px 40px;
+    padding: 60px 28px;
     background: var(--bg2);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -321,10 +321,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 12px;
   }
+ 
+  .chart-header .section-title { font-size: clamp(22px, 3vw, 42px); }
+  .chart-header .section-desc { font-size: 13px; }
  
   /* Concept tabs */
   .tabs {
@@ -334,16 +337,17 @@
     margin-bottom: 0;
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
  
   .tabs::-webkit-scrollbar { display: none; }
  
   .tab {
     font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 2px;
+    font-size: 9px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 10px 18px;
+    padding: 8px 12px;
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
@@ -351,6 +355,7 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
+    flex-shrink: 0;
   }
  
   .tab.active { color: var(--green); border-bottom-color: var(--green); background: rgba(0,208,132,0.04); }
@@ -358,16 +363,23 @@
  
   /* Description */
   .concept-desc {
-    padding: 12px 20px;
+    padding: 10px 16px;
     background: rgba(0,208,132,0.05);
     border-bottom: 1px solid rgba(0,208,132,0.15);
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 11px;
     color: #8aa8c8;
     line-height: 1.6;
   }
  
   .concept-desc span { color: var(--green); margin-right: 8px; }
+ 
+  @media (max-width: 480px) {
+    .tab { font-size: 8px; padding: 7px 9px; letter-spacing: 0.3px; }
+    .concept-desc { font-size: 10px; padding: 8px 12px; }
+    #chart-section { padding: 36px 14px; }
+    .chart-header .section-title { font-size: 22px; }
+  }
  
   /* Chart canvas */
   .chart-wrap {
@@ -584,6 +596,134 @@
  
   .footer-links a:hover { color: var(--green); }
  
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(7,11,20,0.97);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.open {
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-overlay.visible { opacity: 1; }
+ 
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .modal-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-title strong { color: var(--green); }
+  .modal-close {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--red); color: var(--red); }
+ 
+  .modal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+ 
+  .modal-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-shrink: 0;
+  }
+  .modal-tabs::-webkit-scrollbar { display: none; }
+  .modal-tab {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .modal-tab.active { color: var(--green); border-bottom-color: var(--green); background: rgba(0,208,132,0.04); }
+  .modal-tab:hover:not(.active) { color: var(--text); }
+ 
+  .modal-concept-desc {
+    padding: 10px 20px;
+    background: rgba(0,208,132,0.05);
+    border-bottom: 1px solid rgba(0,208,132,0.15);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #8aa8c8;
+    line-height: 1.6;
+    flex-shrink: 0;
+  }
+  .modal-concept-desc span { color: var(--green); margin-right: 8px; }
+ 
+  .modal-chart-wrap {
+    flex: 1;
+    position: relative;
+    background: #070b14;
+    min-height: 0;
+  }
+  .modal-chart-status {
+    position: absolute;
+    top: 10px; left: 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 2px;
+    z-index: 2;
+  }
+  #modalChart { display: block; width: 100%; height: 100%; }
+ 
+  .modal-legend {
+    display: flex;
+    gap: 24px;
+    padding: 10px 20px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    background: var(--bg2);
+  }
+  .modal-legend .legend-item { display: flex; align-items: center; gap: 6px; }
+  .modal-legend .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+ 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     nav { padding: 0 20px; }
@@ -606,6 +746,42 @@
 </style>
 </head>
 <body>
+ 
+<!-- FULLSCREEN CHART MODAL -->
+<div class="modal-overlay" id="chartModal">
+  <div class="modal-header">
+    <div class="modal-title">
+      <div class="dot"></div>
+      <strong>APEX FUTURES</strong> · Interactive Chart · ES 5M · Paper Mode
+    </div>
+    <button class="modal-close" onclick="closeChartModal()">✕ Close</button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-mconcept="trend">Market Structure</button>
+      <button class="modal-tab" data-mconcept="support">Support & Resistance</button>
+      <button class="modal-tab" data-mconcept="pullback">Pullback Entry</button>
+      <button class="modal-tab" data-mconcept="rr">Risk / Reward</button>
+      <button class="modal-tab" data-mconcept="vwap">VWAP</button>
+    </div>
+    <div class="modal-concept-desc">
+      <span>▸</span><span id="modalDescText">Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.</span>
+    </div>
+    <div class="modal-chart-wrap" id="modalChartWrap">
+      <div class="modal-chart-status">
+        <div class="dot"></div>
+        PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE
+      </div>
+      <canvas id="modalChart"></canvas>
+    </div>
+    <div class="modal-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#00d084"></div>Bullish Candle</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff4466"></div>Bearish Candle</div>
+      <div class="legend-item" id="modalLegendConcept"><div class="legend-dot" style="background:#00d4ff"></div><span id="modalLegendLabel">Market Structure</span></div>
+      <span style="margin-left:auto">Hover candles for OHLC data</span>
+    </div>
+  </div>
+</div>
  
 <!-- NAV -->
 <nav>
@@ -650,7 +826,7 @@
     </div>
   </div>
   <div class="hero-btns">
-    <a href="#chart-section" class="btn-primary">Open Chart →</a>
+    <button onclick="openChartModal()" class="btn-primary">Open Chart →</button>
     <a href="#roadmap" class="btn-ghost">View Roadmap</a>
   </div>
 </section>
@@ -1141,9 +1317,222 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
  
-window.addEventListener('resize', resize);
-resize();
-</script>
+// ── MODAL CHART ──
+const mCanvas = document.getElementById('modalChart');
+const mCtx = mCanvas.getContext('2d');
+let mActiveConcept = 'trend';
+let mHoveredIdx = -1;
+const mDpr = window.devicePixelRatio || 1;
+ 
+const mConcepts = {
+  trend:   {color:'#00d4ff', label:'Market Structure',     desc:'Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.'},
+  support: {color:'#f0c040', label:'Support & Resistance',  desc:'Key price levels where buyers (support) or sellers (resistance) historically step in. Price often bounces or rejects at these zones.'},
+  pullback:{color:'#50fa7b', label:'Pullback Entry',        desc:'After identifying the trend, wait for price to pull back to a key level. This gives you a better entry with less risk and more reward.'},
+  rr:      {color:'#ff6b6b', label:'Risk / Reward',         desc:'Always define your stop loss and target BEFORE entering. A 1:2 or 1:3 risk/reward means you can be wrong 50% of the time and still profit.'},
+  vwap:    {color:'#bd93f9', label:'VWAP',                  desc:'Volume Weighted Average Price — the most important intraday level. Price above VWAP = bullish bias. Below = bearish. Institutions use this.'},
+};
+ 
+const mCandles = [
+  {o:4280,h:4295,l:4272,c:4290},{o:4290,h:4308,l:4285,c:4302},
+  {o:4302,h:4318,l:4298,c:4315},{o:4315,h:4330,l:4310,c:4325},
+  {o:4325,h:4340,l:4318,c:4335},{o:4335,h:4352,l:4330,c:4348},
+  {o:4348,h:4350,l:4328,c:4332},{o:4332,h:4338,l:4318,c:4322},
+  {o:4322,h:4328,l:4315,c:4325},{o:4325,h:4342,l:4320,c:4338},
+  {o:4338,h:4358,l:4334,c:4354},{o:4354,h:4372,l:4348,c:4368},
+  {o:4368,h:4375,l:4360,c:4365},{o:4365,h:4380,l:4360,c:4377},
+];
+ 
+const mPAD = {l:58,r:16,t:36,b:28};
+const mSUPPORT=4318,mRESISTANCE=4352,mSTOP=4312,mT1=4340,mT2=4368,mENTRY=9;
+ 
+function mChartDims(){const W=mCanvas.width/mDpr,H=mCanvas.height/mDpr;return{W,H,cW:W-mPAD.l-mPAD.r,cH:H-mPAD.t-mPAD.b};}
+function mPriceRange(){const p=mCandles.flatMap(c=>[c.h,c.l]);return{min:Math.min(...p)-8,max:Math.max(...p)+8};}
+function mPy(price){const{H,cH}=mChartDims();const{min,max}=mPriceRange();return mPAD.t+cH*(1-(price-min)/(max-min));}
+function mCx(i){const{cW}=mChartDims();const s=cW/mCandles.length;return mPAD.l+s*i+s/2;}
+function mVwap(){return mCandles.reduce((s,c)=>s+(c.h+c.l+c.c)/3,0)/mCandles.length;}
+ 
+function mResizeAndDraw(){
+  const wrap = document.getElementById('modalChartWrap');
+  const w = wrap.clientWidth;
+  const h = wrap.clientHeight || Math.max(300, w * 0.5);
+  mCanvas.width = w * mDpr;
+  mCanvas.height = h * mDpr;
+  mCanvas.style.height = h + 'px';
+  mCtx.scale(mDpr, mDpr);
+  mDraw();
+}
+ 
+function mDraw(){
+  const{W,H,cW,cH}=mChartDims();
+  mCtx.clearRect(0,0,W,H);
+  mCtx.fillStyle='#070b14';mCtx.fillRect(0,0,W,H);
+  const{min,max}=mPriceRange();
+  const step=Math.round((max-min)/6);
+  for(let p=Math.ceil(min/step)*step;p<=max;p+=step){
+    const y=mPy(p);
+    mCtx.strokeStyle='#1a2540';mCtx.setLineDash([3,8]);mCtx.lineWidth=1;
+    mCtx.beginPath();mCtx.moveTo(mPAD.l,y);mCtx.lineTo(W-mPAD.r,y);mCtx.stroke();
+    mCtx.fillStyle='#2a4060';mCtx.font="10px 'Share Tech Mono'";mCtx.textAlign='right';
+    mCtx.fillText(p,mPAD.l-6,y+3);
+  }
+  mCtx.setLineDash([]);
+  const col=mConcepts[mActiveConcept].color;
+  const candleW=Math.max(10,cW/mCandles.length*0.7);
+ 
+  if(mActiveConcept==='support'){
+    [[mSUPPORT,'#50fa7b'],[mRESISTANCE,'#ff4466']].forEach(([p,c])=>{mCtx.fillStyle=c+'12';mCtx.fillRect(mPAD.l,mPy(p+3),cW,mPy(p-3)-mPy(p+3));});
+    [[mSUPPORT,'#50fa7b',`Support ${mSUPPORT}`],[mRESISTANCE,'#ff4466',`Resistance ${mRESISTANCE}`]].forEach(([p,c,lbl])=>{
+      mCtx.strokeStyle=c;mCtx.setLineDash([6,4]);mCtx.lineWidth=1.5;mCtx.globalAlpha=0.85;
+      mCtx.beginPath();mCtx.moveTo(mPAD.l,mPy(p));mCtx.lineTo(W-mPAD.r,mPy(p));mCtx.stroke();
+      mCtx.setLineDash([]);mCtx.globalAlpha=1;mCtx.fillStyle=c;mCtx.font="10px 'Share Tech Mono'";mCtx.textAlign='right';
+      mCtx.fillText(lbl,W-mPAD.r-4,mPy(p)-5);
+    });
+  }
+ 
+  if(mActiveConcept==='pullback'){
+    mCtx.strokeStyle='#50fa7b';mCtx.setLineDash([4,4]);mCtx.lineWidth=1.2;mCtx.globalAlpha=0.7;
+    mCtx.beginPath();mCtx.moveTo(mPAD.l,mPy(mSUPPORT));mCtx.lineTo(W-mPAD.r,mPy(mSUPPORT));mCtx.stroke();
+    mCtx.setLineDash([]);mCtx.globalAlpha=1;
+    mCtx.fillStyle='#50fa7b';mCtx.textAlign='right';mCtx.font="10px 'Share Tech Mono'";
+    mCtx.fillText(`Key Level ${mSUPPORT}`,W-mPAD.r-4,mPy(mSUPPORT)-5);
+    const ex=mCx(mENTRY),ey=mPy(mCandles[mENTRY].l)+20;
+    mCtx.strokeStyle=col;mCtx.lineWidth=2;mCtx.shadowColor=col;mCtx.shadowBlur=10;
+    mCtx.beginPath();mCtx.arc(ex,ey,16,0,Math.PI*2);mCtx.stroke();
+    mCtx.shadowBlur=0;mCtx.fillStyle=col;mCtx.textAlign='center';mCtx.font="10px 'Share Tech Mono'";
+    mCtx.fillText('ENTRY',ex,ey+32);
+  }
+ 
+  if(mActiveConcept==='rr'){
+    const eY=mPy(mCandles[mENTRY].c),sY=mPy(mSTOP),t2Y=mPy(mT2);
+    const rx=mCx(mENTRY)-candleW,rw=W-mPAD.r-rx-8;
+    mCtx.fillStyle='#ff446622';mCtx.fillRect(rx,eY,rw,sY-eY);
+    mCtx.fillStyle='#00ff8815';mCtx.fillRect(rx,t2Y,rw,eY-t2Y);
+    [[mSTOP,'#ff4444',`Stop ${mSTOP}`],[mT1,'#50fa7b',`T1 ${mT1}`],[mT2,'#00ff88',`T2 ${mT2}`]].forEach(([p,c,lbl])=>{
+      mCtx.strokeStyle=c;mCtx.setLineDash([4,3]);mCtx.lineWidth=1.2;mCtx.globalAlpha=0.9;
+      mCtx.beginPath();mCtx.moveTo(mPAD.l,mPy(p));mCtx.lineTo(W-mPAD.r,mPy(p));mCtx.stroke();
+      mCtx.setLineDash([]);mCtx.globalAlpha=1;mCtx.fillStyle=c;mCtx.textAlign='right';mCtx.font="10px 'Share Tech Mono'";
+      mCtx.fillText(lbl,W-mPAD.r-4,mPy(p)-5);
+    });
+    mCtx.fillStyle='#ff4444';mCtx.textAlign='left';mCtx.font="10px 'Share Tech Mono'";mCtx.fillText('RISK',rx+6,sY-4);
+    mCtx.fillStyle='#00ff88';mCtx.fillText('REWARD',rx+6,t2Y+14);
+  }
+ 
+  if(mActiveConcept==='vwap'){
+    const vp=mVwap();
+    mCtx.strokeStyle=col;mCtx.setLineDash([8,4]);mCtx.lineWidth=2;
+    mCtx.shadowColor=col;mCtx.shadowBlur=8;mCtx.globalAlpha=0.85;
+    mCtx.beginPath();mCtx.moveTo(mPAD.l,mPy(vp));mCtx.lineTo(W-mPAD.r,mPy(vp));mCtx.stroke();
+    mCtx.setLineDash([]);mCtx.shadowBlur=0;mCtx.globalAlpha=1;
+    mCtx.fillStyle=col;mCtx.textAlign='right';mCtx.font="10px 'Share Tech Mono'";
+    mCtx.fillText(`VWAP ${vp.toFixed(0)}`,W-mPAD.r-4,mPy(vp)-6);
+  }
+ 
+  // Candles
+  mCandles.forEach((c,i)=>{
+    const x=mCx(i);const bull=c.c>=c.o;
+    const isEntry=mActiveConcept==='pullback'&&i===mENTRY;
+    const isHover=i===mHoveredIdx;
+    const color=isEntry?col:(bull?'#00d084':'#ff4466');
+    mCtx.strokeStyle=color;mCtx.lineWidth=isHover?2:1.5;mCtx.globalAlpha=0.9;
+    mCtx.beginPath();mCtx.moveTo(x,mPy(c.h));mCtx.lineTo(x,mPy(c.l));mCtx.stroke();
+    mCtx.globalAlpha=1;
+    const bTop=mPy(Math.max(c.o,c.c)),bBot=mPy(Math.min(c.o,c.c)),bH=Math.max(2,bBot-bTop);
+    if(isEntry){mCtx.shadowColor=col;mCtx.shadowBlur=12;}
+    mCtx.fillStyle=color;mCtx.globalAlpha=isHover?1:0.88;
+    mCtx.fillRect(x-candleW/2,bTop,candleW,bH);
+    mCtx.shadowBlur=0;mCtx.globalAlpha=1;
+    if(isHover){mCtx.strokeStyle='#ffffff55';mCtx.lineWidth=1;mCtx.strokeRect(x-candleW/2,bTop,candleW,bH);}
+  });
+ 
+  if(mActiveConcept==='trend'){
+    mCtx.strokeStyle=col;mCtx.lineWidth=1.5;mCtx.setLineDash([5,3]);mCtx.globalAlpha=0.7;
+    mCtx.beginPath();mCtx.moveTo(mCx(0),mPy(4282));mCtx.lineTo(mCx(5),mPy(4345));mCtx.stroke();
+    mCtx.setLineDash([]);mCtx.globalAlpha=1;
+    [['HH',5,4360],['HL',7,4306]].forEach(([lbl,i,p])=>{
+      mCtx.fillStyle=col;mCtx.textAlign='center';mCtx.font="bold 13px 'Share Tech Mono'";
+      mCtx.shadowColor=col;mCtx.shadowBlur=8;mCtx.fillText(lbl,mCx(i),mPy(p));mCtx.shadowBlur=0;
+    });
+  }
+ 
+  // Hover tooltip
+  if(mHoveredIdx>=0){
+    const c=mCandles[mHoveredIdx];const bull=c.c>=c.o;const hx=mCx(mHoveredIdx);
+    mCtx.strokeStyle='#ffffff15';mCtx.setLineDash([3,5]);mCtx.lineWidth=1;
+    mCtx.beginPath();mCtx.moveTo(hx,mPAD.t);mCtx.lineTo(hx,H-mPAD.b);mCtx.stroke();
+    mCtx.setLineDash([]);
+    const tx=Math.min(hx+10,W-120),ty=mPAD.t+6;
+    mCtx.fillStyle='#0a0f1e';mCtx.strokeStyle='#1a2540';mCtx.lineWidth=1;
+    mCtx.beginPath();mCtx.roundRect(tx,ty,110,76,4);mCtx.fill();mCtx.stroke();
+    mCtx.fillStyle=bull?'#00d084':'#ff4466';mCtx.font="bold 10px 'Share Tech Mono'";mCtx.textAlign='left';
+    mCtx.fillText(bull?'▲ BULLISH':'▼ BEARISH',tx+8,ty+16);
+    [['O',c.o],['H',c.h],['L',c.l],['C',c.c]].forEach(([lbl,val],li)=>{
+      mCtx.fillStyle='#3a5070';mCtx.fillText(lbl+':',tx+8,ty+30+li*12);
+      mCtx.fillStyle='#c8d8e8';mCtx.fillText(val,tx+32,ty+30+li*12);
+    });
+  }
+ 
+  // Time labels
+  mCandles.forEach((_,i)=>{
+    if(i%3!==0)return;
+    const hour=9+Math.floor(i*5/60),min=(30+i*5)%60;
+    mCtx.fillStyle='#2a4060';mCtx.font="9px 'Share Tech Mono'";mCtx.textAlign='center';
+    mCtx.fillText(`${hour}:${String(min).padStart(2,'0')}`,mCx(i),H-mPAD.b+16);
+  });
+}
+ 
+// Modal mouse events
+mCanvas.addEventListener('mousemove',e=>{
+  const rect=mCanvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left;
+  const{cW}=mChartDims();
+  const s=cW/mCandles.length;
+  const idx=Math.floor((mx-mPAD.l)/s);
+  mHoveredIdx=(idx>=0&&idx<mCandles.length)?idx:-1;
+  mDraw();
+});
+mCanvas.addEventListener('mouseleave',()=>{mHoveredIdx=-1;mDraw();});
+ 
+// Modal tabs
+document.querySelectorAll('.modal-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    mActiveConcept=tab.dataset.mconcept;
+    const c=mConcepts[mActiveConcept];
+    document.getElementById('modalDescText').textContent=c.desc;
+    document.getElementById('modalLegendLabel').textContent=c.label;
+    document.querySelector('#modalLegendConcept .legend-dot').style.background=c.color;
+    document.querySelector('.modal-concept-desc').style.background=c.color+'0a';
+    document.querySelector('.modal-concept-desc').style.borderBottomColor=c.color+'22';
+    mDraw();
+  });
+});
+ 
+// Open / close modal
+function openChartModal(){
+  const modal=document.getElementById('chartModal');
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>{
+    modal.classList.add('visible');
+    mResizeAndDraw();
+  });
+}
+ 
+function closeChartModal(){
+  const modal=document.getElementById('chartModal');
+  modal.classList.remove('visible');
+  document.body.style.overflow='';
+  setTimeout(()=>modal.classList.remove('open'),300);
+}
+ 
+// Close on ESC key
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeChartModal(); });
+ 
+// Resize modal chart on window resize
+window.addEventListener('resize',()=>{ if(document.getElementById('chartModal').classList.contains('open')) mResizeAndDraw(); });
+ 
+ 
 </body>
 </html>
  
