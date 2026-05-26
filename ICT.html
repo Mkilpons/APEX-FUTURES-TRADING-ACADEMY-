@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX FUTURES — ICT Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b14;--bg2:#0a0f1e;--bg3:#0d1428;--border:#1a2540;--green:#00d084;--red:#ff4466;--blue:#00d4ff;--gold:#f0c040;--purple:#bd93f9;--text:#c8d8e8;--muted:#3a5070;--mono:'Share Tech Mono',monospace;--display:'Bebas Neue',sans-serif;--body:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
+.nav-logo span{color:var(--text);}
+.nav-back{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.nav-back:hover{color:var(--green);}
+.hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;background:transparent;border:1px solid var(--border);padding:7px 8px;transition:border-color 0.2s;flex-shrink:0;}
+.hamburger:hover{border-color:var(--green);}
+.hamburger span{display:block;width:100%;height:2px;background:var(--muted);transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--green);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--green);}
+.slide-menu{position:fixed;top:60px;left:0;bottom:0;z-index:99;background:rgba(7,11,20,0.99);backdrop-filter:blur(20px);transform:translateX(-100%);transition:transform 0.35s ease;display:flex;flex-direction:column;padding:28px 28px 48px;overflow-y:auto;border-right:1px solid var(--border);width:280px;}
+.slide-menu.open{transform:translateX(0);}
+.slide-menu a{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;padding:14px 0;border-bottom:1px solid var(--border);transition:color 0.2s;display:flex;align-items:center;justify-content:space-between;}
+.slide-menu a:hover,.slide-menu a.active-link{color:var(--green);}
+.slide-menu a::after{content:'›';font-size:16px;opacity:0.4;}
+.slide-menu-label{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:16px;}
+.menu-overlay{position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.6);display:none;}
+.menu-overlay.open{display:block;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;display:inline-block;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.page-hero{padding:100px 40px 56px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 30%,transparent 100%);}
+.hero-inner{position:relative;z-index:1;max-width:720px;}
+.page-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:20px;}
+.breadcrumb a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.breadcrumb a:hover{color:var(--green);}
+section{position:relative;z-index:1;padding:64px 40px;}
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;}
+.section-title{font-family:var(--display);font-size:clamp(32px,4vw,56px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:16px;}
+.section-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:600px;margin-bottom:36px;}
+/* CONCEPT CARDS */
+.ict-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.ict-card{background:var(--bg);padding:32px;transition:background 0.2s;border-top:2px solid transparent;}
+.ict-card:hover{background:var(--bg3);}
+.ict-num{font-family:var(--display);font-size:52px;letter-spacing:2px;opacity:0.1;position:absolute;top:12px;right:16px;line-height:1;}
+.ict-card{position:relative;}
+.ict-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;}
+.ict-card h3{font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:12px;line-height:1.1;}
+.ict-card p{font-size:13px;color:var(--muted);line-height:1.8;}
+.ict-card ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:7px;}
+.ict-card li{font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;letter-spacing:0.5px;line-height:1.5;}
+.ict-card li::before{content:'›';position:absolute;left:0;color:var(--gold);}
+/* DISCLAIMER */
+.disclaimer-box{background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.15);border-left:3px solid var(--red);padding:20px 28px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.8;letter-spacing:0.5px;}
+.disclaimer-box strong{color:var(--red);}
+/* FOOTER */
+footer{padding:40px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+.footer-logo{font-family:var(--display);font-size:20px;letter-spacing:4px;color:var(--green);opacity:0.6;}
+.footer-copy{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:4px;}
+.footer-nav{display:flex;flex-direction:column;gap:8px;}
+.footer-nav a{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
+.footer-nav a:hover{color:var(--green);}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+@media(max-width:768px){nav{padding:0 16px;}section,.page-hero{padding:56px 20px;}footer{padding:28px 20px;flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="slide-menu" id="slideMenu">
+  <div class="slide-menu-label">Menu</div>
+  <a href="index.html">Home</a>
+  <a href="courses.html">Courses</a>
+  <a href="futures.html">Futures</a>
+  <a href="candlesticks.html">Candles</a>
+  <a href="contracts.html">Contract Info</a>
+  <a href="ict.html" class="active-link">ICT Concepts</a>
+  <div style="margin-top:auto;padding-top:28px;"><a href="index.html#signup-section" style="background:var(--green);color:var(--bg);border:none;justify-content:center;font-weight:bold;padding:12px 0;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Save a Spot →</a></div>
+</div>
+<nav>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
+  </div>
+  <a href="index.html" class="nav-back">← Home</a>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">ICT Concepts</span></div>
+    <div class="page-label"><div class="dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold);"></div>Inner Circle Trader · Methodology</div>
+    <div style="font-family:var(--display);font-size:clamp(48px,7vw,88px);letter-spacing:4px;line-height:0.95;color:var(--text);margin-bottom:16px;">TRADE LIKE<br><span style="color:var(--gold);">INSTITUTIONS.</span></div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.8;max-width:540px;">ICT (Inner Circle Trader) is a methodology developed by Michael J. Huddleston that teaches traders to understand how institutional money — banks, hedge funds, and market makers — moves price. This is a free educational overview of its core concepts.</p>
+    <div style="margin-top:20px;padding:12px 16px;background:rgba(240,192,64,0.06);border-left:2px solid var(--gold);font-family:var(--mono);font-size:10px;color:#a08030;letter-spacing:1px;line-height:1.7;">⚠ This page is for educational purposes only. ICT concepts are complex — study them deeply before applying to real trading.</div>
+  </div>
+</div>
+
+<!-- WHAT IS ICT -->
+<section id="what-is-ict" style="background:var(--bg2);border-bottom:1px solid var(--border);">
+  <div class="fade-up">
+    <div class="section-label">// overview</div>
+    <div class="section-title">WHAT IS ICT?</div>
+    <p class="section-desc">ICT stands for <strong style="color:var(--gold);">Inner Circle Trader</strong> — a trading methodology created by Michael J. Huddleston. The core philosophy is that retail traders consistently lose because they trade against institutional order flow. ICT teaches you to read the market the way institutions actually move it.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--bg);padding:24px;"><div style="font-family:var(--display);font-size:32px;letter-spacing:2px;color:var(--gold);">ICT</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px;">Inner Circle Trader</div><p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">Creator: Michael J. Huddleston. Free content available on YouTube.</p></div>
+      <div style="background:var(--bg);padding:24px;"><div style="font-family:var(--display);font-size:32px;letter-spacing:2px;color:var(--gold);">SMC</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px;">Smart Money Concepts</div><p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">A simplified derivative of ICT methodology widely discussed online.</p></div>
+      <div style="background:var(--bg);padding:24px;"><div style="font-family:var(--display);font-size:32px;letter-spacing:2px;color:var(--gold);">HTF</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px;">Higher Time Frame</div><p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">ICT is built around top-down analysis — always start from the weekly/daily chart.</p></div>
+      <div style="background:var(--bg);padding:24px;"><div style="font-family:var(--display);font-size:32px;letter-spacing:2px;color:var(--gold);">PD$</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px;">Premium / Discount</div><p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">Buy in discount (below 50% of range), sell in premium (above 50%).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE ICT CONCEPTS -->
+<section id="ict-concepts">
+  <div class="fade-up">
+    <div class="section-label">// core concepts</div>
+    <div class="section-title">THE BUILDING BLOCKS</div>
+    <p class="section-desc">The eight most essential ICT concepts every student of the methodology needs to understand before applying them to live markets.</p>
+  </div>
+  <div class="ict-grid fade-up">
+
+    <div class="ict-card" style="border-top-color:var(--gold);">
+      <div class="ict-num" style="color:var(--gold);">01</div>
+      <div class="ict-tag" style="color:var(--gold);">Foundation</div>
+      <h3>Market Structure</h3>
+      <p>Institutional traders always trade in the direction of the dominant structure. Understanding how price creates swing highs and lows is the lens through which every ICT concept is applied.</p>
+      <ul>
+        <li>Higher Highs (HH) + Higher Lows (HL) = Bullish structure</li>
+        <li>Lower Highs (LH) + Lower Lows (LL) = Bearish structure</li>
+        <li>Break of Structure (BOS) = continuation of trend</li>
+        <li>Change of Character (CHOCH) = potential trend reversal</li>
+        <li>Always identify structure on HTF before executing on LTF</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:#00d4ff;">
+      <div class="ict-num" style="color:#00d4ff;">02</div>
+      <div class="ict-tag" style="color:#00d4ff;">Key Concept</div>
+      <h3>Order Blocks (OB)</h3>
+      <p>An Order Block is the last bullish or bearish candle before a significant move away from a price level. Institutions leave unfilled orders at these zones — price often returns to them.</p>
+      <ul>
+        <li>Bullish OB: last bearish candle before a strong bullish move up</li>
+        <li>Bearish OB: last bullish candle before a strong bearish move down</li>
+        <li>High probability entry when price revisits the OB zone</li>
+        <li>Combine with FVG or liquidity sweep for best results</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:var(--purple);">
+      <div class="ict-num" style="color:var(--purple);">03</div>
+      <div class="ict-tag" style="color:var(--purple);">Price Action</div>
+      <h3>Fair Value Gaps (FVG)</h3>
+      <p>A Fair Value Gap is a three-candle formation where the middle candle moves so aggressively that it leaves an imbalance — a gap between the first and third candle's wicks. Price tends to retrace back into FVGs to rebalance.</p>
+      <ul>
+        <li>Bullish FVG: gap between candle 1 high and candle 3 low</li>
+        <li>Bearish FVG: gap between candle 1 low and candle 3 high</li>
+        <li>Price "fills" FVGs before continuing in the original direction</li>
+        <li>Also called an "imbalance" or "inefficiency"</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:var(--red);">
+      <div class="ict-num" style="color:var(--red);">04</div>
+      <div class="ict-tag" style="color:var(--red);">Liquidity</div>
+      <h3>Liquidity Sweeps</h3>
+      <p>Institutions need massive volume to fill their orders. They deliberately push price above obvious highs or below obvious lows — where retail stop losses cluster — to grab liquidity before reversing.</p>
+      <ul>
+        <li>Equal highs / equal lows = liquidity pools (easy targets)</li>
+        <li>Stop hunt above swing high = bearish reversal signal</li>
+        <li>Stop hunt below swing low = bullish reversal signal</li>
+        <li>Never chase the sweep — wait for the reversal confirmation</li>
+        <li>Previous session highs/lows are major liquidity targets</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:var(--green);">
+      <div class="ict-num" style="color:var(--green);">05</div>
+      <div class="ict-tag" style="color:var(--green);">Timing</div>
+      <h3>Kill Zones</h3>
+      <p>ICT identifies specific times of day when institutional activity is highest and price is most likely to make its significant daily move. Trading outside kill zones dramatically reduces probability.</p>
+      <ul>
+        <li>London Kill Zone: 2:00–5:00 AM EST</li>
+        <li>New York Kill Zone: 8:30–11:00 AM EST (highest volume)</li>
+        <li>London Close: 10:00 AM–12:00 PM EST</li>
+        <li>Avoid: 12:00–2:00 PM EST (lunch — low volume, choppy)</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:var(--gold);">
+      <div class="ict-num" style="color:var(--gold);">06</div>
+      <div class="ict-tag" style="color:var(--gold);">Reference Point</div>
+      <h3>Optimal Trade Entry (OTE)</h3>
+      <p>The OTE is a Fibonacci-based entry zone that ICT uses to identify the highest probability point to enter a trade within a pullback. It sits between the 62%–79% retracement of the previous swing.</p>
+      <ul>
+        <li>Draw Fibonacci from swing low to swing high (bullish)</li>
+        <li>OTE zone: 0.62 to 0.79 retracement</li>
+        <li>Best entries are inside this zone during kill zones</li>
+        <li>Invalidated if price closes beyond the origin point</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:#00d4ff;">
+      <div class="ict-num" style="color:#00d4ff;">07</div>
+      <div class="ict-tag" style="color:#00d4ff;">Daily Bias</div>
+      <h3>Power of 3 (PO3)</h3>
+      <p>Also called "AMD" — Accumulation, Manipulation, Distribution. ICT theorizes that each trading day follows a 3-phase pattern engineered by institutions to trap retail traders before making the real move.</p>
+      <ul>
+        <li>Accumulation: institutions quietly build positions overnight</li>
+        <li>Manipulation: false move opposite to intended direction at open</li>
+        <li>Distribution: the real directional move of the day</li>
+        <li>Understanding PO3 helps you avoid stop hunts at the open</li>
+      </ul>
+    </div>
+
+    <div class="ict-card" style="border-top-color:var(--purple);">
+      <div class="ict-num" style="color:var(--purple);">08</div>
+      <div class="ict-tag" style="color:var(--purple);">Reference Level</div>
+      <h3>Previous Day High/Low (PDH/PDL)</h3>
+      <p>The previous day's high and low are among the most important reference levels in ICT. Institutions consistently target these levels for liquidity — price sweeps them and reverses, or uses them as support/resistance.</p>
+      <ul>
+        <li>PDH sweep + bearish OB = high probability short</li>
+        <li>PDL sweep + bullish OB = high probability long</li>
+        <li>Mark PDH and PDL every morning before the session opens</li>
+        <li>Also watch: Previous Week High/Low (PWH/PWL)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ICT vs TRADITIONAL -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="fade-up">
+    <div class="section-label">// comparison</div>
+    <div class="section-title">ICT vs TRADITIONAL</div>
+    <p class="section-desc">How ICT thinking differs from conventional technical analysis.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);" class="fade-up">
+    <div style="background:var(--bg);padding:28px;">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;">Traditional TA</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Indicators like RSI, MACD, Bollinger Bands<span style="position:absolute;left:0;color:var(--red);">✕</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Buy breakouts above resistance<span style="position:absolute;left:0;color:var(--red);">✕</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Stop loss below support<span style="position:absolute;left:0;color:var(--red);">✕</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Trade at any time of day<span style="position:absolute;left:0;color:var(--red);">✕</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Candlestick pattern signals<span style="position:absolute;left:0;color:var(--red);">✕</span></li>
+      </ul>
+    </div>
+    <div style="background:var(--bg);padding:28px;border-top:2px solid var(--gold);">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">ICT Methodology</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Price action only — no indicators needed<span style="position:absolute;left:0;color:var(--green);">✓</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Enter after liquidity sweep at OB or FVG<span style="position:absolute;left:0;color:var(--green);">✓</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Stop below order block (institutional level)<span style="position:absolute;left:0;color:var(--green);">✓</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Only trade during kill zones (high probability)<span style="position:absolute;left:0;color:var(--green);">✓</span></li>
+        <li style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-left:16px;position:relative;">Understand who is on the other side of your trade<span style="position:absolute;left:0;color:var(--green);">✓</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY PATH -->
+<section>
+  <div class="fade-up">
+    <div class="section-label">// how to learn ict</div>
+    <div class="section-title">WHERE TO START</div>
+    <p class="section-desc">ICT has made his full mentorship available for free. Here is the recommended study order.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);" class="fade-up">
+    <div style="background:var(--bg);padding:24px;position:relative;">
+      <div style="font-family:var(--display);font-size:48px;letter-spacing:2px;color:var(--gold);opacity:0.12;position:absolute;top:10px;right:14px;">01</div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Start Here</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;">Watch ICT's 2022 Mentorship on YouTube. Free. Comprehensive. Start from the beginning and take notes on every concept.</p>
+    </div>
+    <div style="background:var(--bg);padding:24px;position:relative;">
+      <div style="font-family:var(--display);font-size:48px;letter-spacing:2px;color:var(--gold);opacity:0.12;position:absolute;top:10px;right:14px;">02</div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Study Price</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;">Spend 60 days backtesting. Mark OBs, FVGs, and liquidity levels on historical charts without trading real money. Pattern recognition takes time.</p>
+    </div>
+    <div style="background:var(--bg);padding:24px;position:relative;">
+      <div style="font-family:var(--display);font-size:48px;letter-spacing:2px;color:var(--gold);opacity:0.12;position:absolute;top:10px;right:14px;">03</div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Paper Trade</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;">Apply concepts in a demo account during kill zones only. Track every trade in a journal. Do not go live until consistently profitable for 30+ days.</p>
+    </div>
+    <div style="background:var(--bg);padding:24px;position:relative;">
+      <div style="font-family:var(--display);font-size:48px;letter-spacing:2px;color:var(--gold);opacity:0.12;position:absolute;top:10px;right:14px;">04</div>
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Go Live Small</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;">Start with micro contracts only. 1 MES or 1 MNQ. Prove consistency with real money before scaling. The psychology of real money is different.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section id="disclaimer" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="fade-up">
+    <div class="section-label">// important notice</div>
+    <div class="section-title">DISCLAIMER.</div>
+    <div class="disclaimer-box">
+      <strong>⚠ EDUCATIONAL CONTENT ONLY:</strong> The ICT concepts presented on this page are strictly for educational purposes. Apex Futures Academy is not affiliated with, endorsed by, or officially associated with Michael J. Huddleston or the Inner Circle Trader brand in any way.<br><br>
+      <strong>NO FINANCIAL ADVICE:</strong> Nothing on this page constitutes financial advice, investment advice, or a recommendation to buy or sell any security, futures contract, or other financial instrument. All content is provided as general educational material only.<br><br>
+      <strong>TRADING RISK:</strong> Futures trading involves substantial risk of loss. The majority of retail traders lose money. Learning ICT concepts does not guarantee profitability. Always paper trade before risking real capital.<br><br>
+      <strong>DO YOUR OWN RESEARCH:</strong> ICT is a complex methodology that requires extensive study. This page is a simplified introduction only. We strongly encourage you to access ICT's free original content directly before attempting to apply these concepts.
+    </div>
+  </div>
+</section>
+
+<div style="background:rgba(255,68,102,0.04);border-top:1px solid rgba(255,68,102,0.15);padding:16px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;">
+  <strong style="color:var(--red);">⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. This site is for <strong style="color:var(--red);">educational purposes only</strong> and does not constitute financial advice.
+</div>
+
+<footer>
+  <div><div class="footer-logo">APEX FUTURES</div><div class="footer-copy">Founded by Gustavo Duarte<br>© 2026 Educational Use Only</div></div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="futures.html">Futures</a>
+    <a href="candlesticks.html">Candles</a>
+    <a href="contracts.html">Contract Info</a>
+    <a href="ict.html">ICT Concepts</a>
+    <a href="index.html#disclaimer">Disclaimer</a>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){const m=document.getElementById('slideMenu'),h=document.getElementById('hamburger'),o=document.getElementById('menuOverlay');m.classList.toggle('open');h.classList.toggle('open');o.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+function closeMenu(){document.getElementById('slideMenu').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
