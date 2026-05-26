@@ -23,18 +23,18 @@
     --display: 'Bebas Neue', sans-serif;
     --body: 'DM Sans', sans-serif;
   }
-
+ 
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { background:var(--bg); color:var(--text); font-family:var(--body); overflow-x:hidden; }
-
+ 
   body::before {
     content:'';
     position:fixed; inset:0;
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events:none; z-index:0; opacity:0.4;
   }
-
+ 
   /* NAV */
   nav {
     position:fixed; top:0; left:0; right:0; z-index:100;
@@ -51,7 +51,7 @@
   .nav-links a:hover, .nav-links a.active { color:var(--green); }
   .nav-cta { font-family:var(--mono); font-size:11px; letter-spacing:2px; padding:8px 20px; background:transparent; border:1px solid var(--green); color:var(--green); cursor:pointer; text-transform:uppercase; transition:all 0.2s; }
   .nav-cta:hover { background:var(--green); color:var(--bg); }
-
+ 
   /* PAGE HERO */
   .page-hero {
     padding: 110px 40px 60px;
@@ -73,19 +73,19 @@
   .page-hero h1 { font-family:var(--display); font-size:clamp(48px,7vw,88px); letter-spacing:4px; line-height:0.95; color:var(--text); margin-bottom:20px; }
   .page-hero h1 span { color:var(--green); }
   .page-hero p { font-size:15px; color:var(--muted); line-height:1.7; max-width:480px; }
-
+ 
   /* BREADCRUMB */
   .breadcrumb { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:20px; }
   .breadcrumb a { color:var(--muted); text-decoration:none; transition:color 0.2s; }
   .breadcrumb a:hover { color:var(--green); }
   .breadcrumb span { color:var(--dim); }
-
+ 
   /* SECTION */
   section { position:relative; z-index:1; }
   .section-label { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--green); text-transform:uppercase; margin-bottom:12px; }
   .section-title { font-family:var(--display); font-size:clamp(32px,4vw,56px); letter-spacing:3px; color:var(--text); line-height:1; margin-bottom:16px; }
   .section-desc { font-size:14px; color:var(--muted); line-height:1.7; max-width:500px; }
-
+ 
   /* CHART SECTION */
   #chart-section { padding:72px 40px; }
   .chart-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:28px; flex-wrap:wrap; gap:20px; }
@@ -102,7 +102,7 @@
   .chart-legend { display:flex; gap:24px; padding:12px 20px; border-top:1px solid var(--border); flex-wrap:wrap; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; }
   .legend-item { display:flex; align-items:center; gap:6px; }
   .legend-dot { width:10px; height:10px; border-radius:2px; }
-
+ 
   /* COURSES GRID */
   #courses { padding:72px 40px; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .courses-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:48px; }
@@ -130,7 +130,7 @@
   .btn-outline:hover { border-color:var(--blue); color:var(--blue); }
   .btn-gold { background:var(--gold); color:var(--bg); }
   .btn-gold:hover { background:#ffe060; box-shadow:0 0 24px rgba(240,192,64,0.3); }
-
+ 
   /* CURRICULUM */
   #curriculum { padding:72px 40px; }
   .curriculum-wrap { margin-top:48px; border:1px solid var(--border); }
@@ -152,7 +152,7 @@
   .icon-free { background:rgba(0,212,255,0.15); color:var(--blue); border:1px solid rgba(0,212,255,0.3); }
   .icon-lock { background:rgba(26,37,64,0.5); color:var(--dim); border:1px solid var(--dim); }
   .lesson-dur { margin-left:auto; color:var(--dim); font-size:10px; }
-
+ 
   /* TESTIMONIALS */
   #testimonials { padding:72px 40px; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:48px; }
@@ -162,7 +162,7 @@
   .testimonial-text { font-size:13px; color:#8aa8c8; line-height:1.8; margin-bottom:20px; font-style:italic; }
   .testimonial-author { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; }
   .testimonial-author strong { color:var(--green); display:block; margin-bottom:2px; font-size:11px; }
-
+ 
   /* FAQ */
   #faq { padding:72px 40px; }
   .faq-wrap { margin-top:48px; max-width:720px; display:flex; flex-direction:column; gap:1px; border:1px solid var(--border); }
@@ -174,7 +174,7 @@
   .faq-icon.open { transform:rotate(45deg); }
   .faq-a { display:none; padding:0 24px 18px; font-size:13px; color:var(--muted); line-height:1.8; }
   .faq-a.open { display:block; }
-
+ 
   /* FOOTER */
   footer { padding:48px 40px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
   .footer-logo { font-family:var(--display); font-size:20px; letter-spacing:4px; color:var(--green); opacity:0.6; }
@@ -182,11 +182,11 @@
   .footer-links { display:flex; gap:24px; list-style:none; }
   .footer-links a { font-family:var(--mono); font-size:10px; color:var(--muted); text-decoration:none; letter-spacing:1px; transition:color 0.2s; }
   .footer-links a:hover { color:var(--green); }
-
+ 
   /* UTILS */
   .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
   .fade-up.visible { opacity:1; transform:translateY(0); }
-
+ 
   @media(max-width:768px) {
     nav { padding:0 20px; }
     .nav-links { display:none; }
@@ -198,19 +198,27 @@
 </style>
 </head>
 <body>
-
+ 
+<!-- SLIDE MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="slide-menu" id="slideMenu">
+  <div class="slide-menu-label">Navigation</div>
+  <a href="index.html">Home</a>
+  <a href="courses.html">Courses</a>
+  <a href="futures.html">Futures</a>
+  <a href="candlesticks.html">Candles</a>
+  <a href="contracts.html">Contract Info</a>
+  <div style="margin-top:auto;padding-top:32px;"><a href="index.html#signup-section" style="background:var(--green);color:var(--bg);border:none;justify-content:center;font-weight:bold;">Save a Spot →</a></div>
+</div>
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="courses.html" class="active">Courses</a></li>
-    <li><a href="index.html#concepts">Concepts</a></li>
-    <li><a href="index.html#roadmap">Roadmap</a></li>
-  </ul>
-  <button class="nav-cta">Enroll Now</button>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <a href="index.html" class="nav-logo" style="text-decoration:none;">APEX<span> FUTURES</span></a>
+  </div>
+  <a href="index.html" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">← Home</a>
 </nav>
-
+ 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-grid"></div>
@@ -225,7 +233,7 @@
     <p>From complete beginner to consistently profitable. Interactive chart lessons, structured curriculum, and real trade setups — all in one place.</p>
   </div>
 </div>
-
+ 
 <!-- INTERACTIVE CHART -->
 <section id="chart-section">
   <div class="chart-header fade-up">
@@ -240,7 +248,7 @@
       <div>Paper Mode Active</div>
     </div>
   </div>
-
+ 
   <div class="chart-wrap fade-up">
     <div class="chart-status">
       <div class="dot"></div>
@@ -265,7 +273,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- COURSES -->
 <section id="courses">
   <div class="fade-up">
@@ -273,7 +281,7 @@
     <div class="section-title">CHOOSE YOUR PATH</div>
     <p class="section-desc">Start free, upgrade when you're ready. Every plan includes the interactive chart tool.</p>
   </div>
-
+ 
   <div class="courses-grid fade-up">
     <!-- Free -->
     <div class="course-card">
@@ -293,7 +301,7 @@
       </ul>
       <button class="btn-enroll btn-outline">Get Started Free</button>
     </div>
-
+ 
     <!-- Pro -->
     <div class="course-card featured">
       <span class="course-badge badge-pro">Most Popular</span>
@@ -312,7 +320,7 @@
       </ul>
       <button class="btn-enroll btn-green">Enroll in Pro →</button>
     </div>
-
+ 
     <!-- Elite -->
     <div class="course-card">
       <span class="course-badge badge-elite">Elite Access</span>
@@ -333,7 +341,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- CURRICULUM -->
 <section id="curriculum">
   <div class="fade-up">
@@ -341,7 +349,7 @@
     <div class="section-title">8 MODULES.</div>
     <p class="section-desc">A structured path from zero to consistently profitable on simulation — before you ever risk real money.</p>
   </div>
-
+ 
   <div class="curriculum-wrap fade-up">
     <!-- Module 1 -->
     <div class="curriculum-module">
@@ -362,7 +370,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 2 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -383,7 +391,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 3 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -405,7 +413,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 4 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -426,7 +434,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 5 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -449,7 +457,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 6 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -469,7 +477,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 7 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -488,7 +496,7 @@
         </ul>
       </div>
     </div>
-
+ 
     <!-- Module 8 -->
     <div class="curriculum-module">
       <div class="module-header" onclick="toggleModule(this)">
@@ -510,7 +518,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="fade-up">
@@ -518,7 +526,7 @@
     <div class="section-title">REAL TRADERS.</div>
     <p class="section-desc">What students say after completing the curriculum on simulation before going live.</p>
   </div>
-
+ 
   <div class="testimonials-grid fade-up">
     <div class="testimonial-card">
       <div class="stars">★★★★★</div>
@@ -537,14 +545,14 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- FAQ -->
 <section id="faq">
   <div class="fade-up">
     <div class="section-label">// common questions</div>
     <div class="section-title">FAQ</div>
   </div>
-
+ 
   <div class="faq-wrap fade-up">
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFaq(this)">Do I need any prior trading experience?<span class="faq-icon">+</span></div>
@@ -568,7 +576,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">APEX FUTURES</div>
@@ -579,7 +587,7 @@
   </ul>
   <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
 </footer>
-
+ 
 <script>
 // ── CHART (same as homepage) ──
 const canvas = document.getElementById('chart');
@@ -629,11 +637,11 @@ canvas.addEventListener('mouseleave',()=>{hoveredIdx=-1;draw();});
 document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');activeConcept=tab.dataset.concept;const c=concepts[activeConcept];document.getElementById('desc-text').textContent=c.desc;document.getElementById('legend-label').textContent=c.label;document.querySelector('#legend-concept .legend-dot').style.background=c.color;document.querySelector('.concept-desc').style.background=c.color+'0a';document.querySelector('.concept-desc').style.borderBottomColor=c.color+'22';draw();});});
 window.addEventListener('resize',resize);
 resize();
-
+ 
 // ── ACCORDION ──
 function toggleModule(header){const body=header.nextElementSibling;const toggle=header.querySelector('.module-toggle');body.classList.toggle('open');toggle.classList.toggle('open');}
 function toggleFaq(q){const a=q.nextElementSibling;const icon=q.querySelector('.faq-icon');a.classList.toggle('open');icon.classList.toggle('open');}
-
+ 
 // ── FADE IN ──
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
