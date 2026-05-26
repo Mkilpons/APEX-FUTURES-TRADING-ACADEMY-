@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX FUTURES — Candlestick Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#070b14;--bg2:#0a0f1e;--bg3:#0d1428;
+    --border:#1a2540;--green:#00d084;--red:#ff4466;
+    --blue:#00d4ff;--gold:#f0c040;--purple:#bd93f9;
+    --text:#c8d8e8;--muted:#3a5070;
+    --mono:'Share Tech Mono',monospace;
+    --display:'Bebas Neue',sans-serif;
+    --body:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
+ 
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+  .nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
+  .nav-logo span{color:var(--text);}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--green);}
+  .nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+  .nav-cta:hover{background:var(--green);color:var(--bg);}
+ 
+  /* PAGE HERO */
+  .page-hero{padding:100px 40px 56px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 30%,transparent 100%);}
+  .hero-inner{position:relative;z-index:1;max-width:720px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;display:inline-block;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+  .page-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .page-hero h1{font-family:var(--display);font-size:clamp(48px,7vw,88px);letter-spacing:4px;line-height:0.95;color:var(--text);margin-bottom:16px;}
+  .page-hero h1 span{color:var(--green);}
+  .page-hero p{font-size:14px;color:var(--muted);line-height:1.8;max-width:520px;}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:20px;}
+  .breadcrumb a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .breadcrumb a:hover{color:var(--green);}
+ 
+  section{position:relative;z-index:1;padding:72px 40px;}
+  .section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
+  .section-title{font-family:var(--display);font-size:clamp(32px,4vw,56px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:16px;}
+  .section-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:560px;margin-bottom:40px;}
+ 
+  /* ANATOMY */
+  .anatomy-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:8px;}
+  .anatomy-card{background:var(--bg);padding:32px;display:flex;flex-direction:column;align-items:center;gap:24px;}
+  .anatomy-card canvas{display:block;}
+  .anatomy-info{width:100%;}
+  .anatomy-title{font-family:var(--display);font-size:28px;letter-spacing:2px;margin-bottom:16px;}
+  .anatomy-parts{display:flex;flex-direction:column;gap:10px;}
+  .anatomy-part{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:0.5px;}
+  .part-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .part-label{color:var(--text);min-width:60px;}
+  .part-desc{color:var(--muted);font-size:10px;}
+ 
+  /* TABS */
+  .tab-nav{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;margin-bottom:0;}
+  .tab-nav::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:10px 16px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;flex:1;text-align:center;}
+  .tab-btn.active{color:var(--green);border-bottom-color:var(--green);background:rgba(0,208,132,0.04);}
+  .tab-btn:hover:not(.active){color:var(--text);}
+  .tab-desc{padding:10px 20px;background:rgba(0,208,132,0.05);border-bottom:1px solid rgba(0,208,132,0.12);font-family:var(--mono);font-size:11px;color:#8aa8c8;line-height:1.6;}
+  .tab-desc span{color:var(--green);margin-right:6px;}
+ 
+  /* PATTERN CHARTS */
+  .pattern-section{border:1px solid var(--border);}
+  .pattern-canvas-wrap{background:#070b14;padding:0;position:relative;}
+  .pattern-canvas-wrap canvas{display:block;width:100%;}
+ 
+  /* PATTERN GRID */
+  .patterns-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
+  .pattern-card{background:var(--bg);padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:16px;transition:background 0.2s;}
+  .pattern-card:hover{background:var(--bg3);}
+  .pattern-card canvas{display:block;}
+  .pattern-info{width:100%;text-align:center;}
+  .pattern-name{font-family:var(--display);font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:6px;}
+  .pattern-signal{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .pattern-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+ 
+  /* FLAGS */
+  .flags-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
+  .flag-card{background:var(--bg);padding:32px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+  .flag-card canvas{display:block;}
+  .flag-title{font-family:var(--display);font-size:28px;letter-spacing:2px;}
+  .flag-desc{font-size:13px;color:var(--muted);line-height:1.7;text-align:center;max-width:320px;}
+  .flag-rules{list-style:none;width:100%;display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+  .flag-rules li{font-family:var(--mono);font-size:10px;color:var(--muted);padding-left:14px;position:relative;letter-spacing:0.5px;}
+  .flag-rules li::before{content:'›';position:absolute;left:0;color:var(--green);}
+ 
+  /* RISK */
+  .risk-banner{background:rgba(255,68,102,0.06);border:1px solid rgba(255,68,102,0.2);border-left:3px solid var(--red);padding:20px 32px;margin:0 40px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;}
+  .risk-banner strong{color:var(--red);}
+  footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .footer-logo{font-family:var(--display);font-size:20px;letter-spacing:4px;color:var(--green);opacity:0.6;}
+  .footer-copy{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;}
+  .footer-links{display:flex;gap:24px;list-style:none;}
+  .footer-links a{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
+  .footer-links a:hover{color:var(--green);}
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .fade-up.visible{opacity:1;transform:translateY(0);}
+ 
+  @media(max-width:768px){
+    nav{padding:0 20px;}.nav-links{display:none;}
+    section,.page-hero{padding:60px 20px;}
+    .anatomy-wrap,.flags-grid{grid-template-columns:1fr;}
+    footer{padding:32px 20px;flex-direction:column;align-items:flex-start;}
+    .risk-banner{margin:0 20px 32px;}
+  }
+</style>
+</head>
+<body>
+ 
+<nav>
+  <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="futures.html">Futures</a></li>
+    <li><a href="candlesticks.html" class="active">Candles</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location='index.html#signup'">Save a Spot</button>
+</nav>
+ 
+<div class="page-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:var(--text)">Candlestick Patterns</span></div>
+    <div class="page-label"><div class="dot"></div>APEX FUTURES · CANDLESTICK GUIDE</div>
+    <h1>READ EVERY<br><span>CANDLE.</span></h1>
+    <p>Candlesticks are the language of price. Learn anatomy, key reversal patterns, continuation patterns, and bull & bear flags — the setups traders use every single session.</p>
+  </div>
+</div>
+ 
+<!-- ANATOMY -->
+<section id="anatomy">
+  <div class="fade-up">
+    <div class="section-label">// lesson 01 · anatomy</div>
+    <div class="section-title">OPEN · HIGH · LOW · CLOSE</div>
+    <p class="section-desc">Every candle tells a story of a battle between buyers and sellers. The four prices — Open, High, Low, Close — reveal who won and by how much.</p>
+  </div>
+  <div class="anatomy-wrap fade-up">
+    <div class="anatomy-card">
+      <canvas id="bullCandle" width="160" height="260"></canvas>
+      <div class="anatomy-info">
+        <div class="anatomy-title" style="color:var(--green)">BULLISH CANDLE</div>
+        <div class="anatomy-parts">
+          <div class="anatomy-part"><div class="part-dot" style="background:#ff9f43"></div><span class="part-label">HIGH</span><span class="part-desc">Highest price reached — top of upper wick</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:var(--green)"></div><span class="part-label">CLOSE</span><span class="part-desc">Where price closed — top of body (green)</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:var(--blue)"></div><span class="part-label">OPEN</span><span class="part-desc">Where price opened — bottom of body</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:var(--red)"></div><span class="part-label">LOW</span><span class="part-desc">Lowest price reached — bottom of lower wick</span></div>
+        </div>
+        <div style="margin-top:16px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:12px;border-left:2px solid var(--green);background:rgba(0,208,132,0.05);">
+          Close &gt; Open = Buyers won this candle. Green body means bullish momentum.
+        </div>
+      </div>
+    </div>
+    <div class="anatomy-card">
+      <canvas id="bearCandle" width="160" height="260"></canvas>
+      <div class="anatomy-info">
+        <div class="anatomy-title" style="color:var(--red)">BEARISH CANDLE</div>
+        <div class="anatomy-parts">
+          <div class="anatomy-part"><div class="part-dot" style="background:#ff9f43"></div><span class="part-label">HIGH</span><span class="part-desc">Highest price reached — top of upper wick</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:var(--red)"></div><span class="part-label">OPEN</span><span class="part-desc">Where price opened — top of body (red)</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:var(--blue)"></div><span class="part-label">CLOSE</span><span class="part-desc">Where price closed — bottom of body</span></div>
+          <div class="anatomy-part"><div class="part-dot" style="background:#8a3050"></div><span class="part-label">LOW</span><span class="part-desc">Lowest price reached — bottom of lower wick</span></div>
+        </div>
+        <div style="margin-top:16px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:12px;border-left:2px solid var(--red);background:rgba(255,68,102,0.05);">
+          Close &lt; Open = Sellers won this candle. Red body means bearish momentum.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- PATTERNS -->
+<section id="patterns" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="fade-up">
+    <div class="section-label">// lesson 02 · reversal patterns</div>
+    <div class="section-title">KEY PATTERNS</div>
+    <p class="section-desc">These are the most reliable single and two-candle patterns. Each signals a potential shift in momentum — but always confirm with context.</p>
+  </div>
+ 
+  <!-- Tabs -->
+  <div class="pattern-section fade-up">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showPatternTab('bullish-patterns','▸ Bullish reversal patterns — price is likely turning UP from a low.')">Bullish Reversals</button>
+      <button class="tab-btn" onclick="showPatternTab('bearish-patterns','▸ Bearish reversal patterns — price is likely turning DOWN from a high.')">Bearish Reversals</button>
+      <button class="tab-btn" onclick="showPatternTab('continuation-patterns','▸ Continuation patterns — price pauses briefly then continues in the same direction.')">Continuation</button>
+    </div>
+    <div class="tab-desc"><span>▸</span><span id="patternTabDesc">Bullish reversal patterns — price is likely turning UP from a low.</span></div>
+    <div style="background:#070b14;padding:32px 24px;" id="pattern-canvas-area"></div>
+  </div>
+</section>
+ 
+<!-- FLAGS -->
+<section id="flags">
+  <div class="fade-up">
+    <div class="section-label">// lesson 03 · continuation patterns</div>
+    <div class="section-title">BULL & BEAR FLAGS</div>
+    <p class="section-desc">Flags are among the most powerful continuation setups in futures trading. A strong move followed by a tight consolidation — then another push in the same direction.</p>
+  </div>
+  <div class="flags-grid fade-up">
+    <div class="flag-card">
+      <div class="flag-title" style="color:var(--green)">BULL FLAG</div>
+      <canvas id="bullFlag" width="380" height="220"></canvas>
+      <p class="flag-desc">A sharp move up (the pole), followed by a tight downward or sideways consolidation (the flag), then a breakout continuation upward.</p>
+      <ul class="flag-rules">
+        <li>Strong bullish pole — big green candles</li>
+        <li>Consolidation on low volume — small candles</li>
+        <li>Flag pulls back no more than 50% of pole</li>
+        <li>Enter on breakout above flag high</li>
+        <li>Target = pole height added to breakout</li>
+      </ul>
+    </div>
+    <div class="flag-card">
+      <div class="flag-title" style="color:var(--red)">BEAR FLAG</div>
+      <canvas id="bearFlag" width="380" height="220"></canvas>
+      <p class="flag-desc">A sharp move down (the pole), followed by a tight upward or sideways consolidation (the flag), then a breakdown continuation downward.</p>
+      <ul class="flag-rules">
+        <li>Strong bearish pole — big red candles</li>
+        <li>Consolidation on low volume — small candles</li>
+        <li>Flag retraces no more than 50% of pole</li>
+        <li>Enter on breakdown below flag low</li>
+        <li>Target = pole height subtracted from breakdown</li>
+      </ul>
+    </div>
+  </div>
+</section>
+ 
+<div class="risk-banner">
+  <strong>⚠ EDUCATIONAL NOTE:</strong> Candlestick patterns are tools, not guarantees. Always use them in context — at key levels, with trend confirmation, and with a defined risk/reward. No pattern works 100% of the time.
+</div>
+ 
+<footer>
+  <div>
+    <div class="footer-logo">APEX FUTURES</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="courses.html">Courses</a></li>
+    <li><a href="futures.html">Futures</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
+</footer>
+ 
+<script>
+const DPR = window.devicePixelRatio || 1;
+ 
+function setupCanvas(id, w, h) {
+  const cv = document.getElementById(id);
+  if (!cv) return null;
+  cv.width = w * DPR; cv.height = h * DPR;
+  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  const ctx = cv.getContext('2d');
+  ctx.scale(DPR, DPR);
+  return ctx;
+}
+ 
+// ── ANATOMY CANDLES ──
+function drawAnatomyCandle(ctx, w, h, bullish) {
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#070b14';
+  ctx.fillRect(0, 0, w, h);
+ 
+  const cx = w / 2;
+  const bodyTop = bullish ? 80 : 60;
+  const bodyBot = bullish ? 180 : 200;
+  const highY = 20; const lowY = h - 20;
+  const bodyW = 40;
+  const col = bullish ? '#00d084' : '#ff4466';
+ 
+  // Wick
+  ctx.strokeStyle = col; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx, highY); ctx.lineTo(cx, lowY); ctx.stroke();
+ 
+  // Body
+  ctx.fillStyle = col;
+  ctx.shadowColor = col; ctx.shadowBlur = 12;
+  ctx.fillRect(cx - bodyW / 2, bodyTop, bodyW, bodyBot - bodyTop);
+  ctx.shadowBlur = 0;
+ 
+  // Labels
+  const labels = [
+    { y: highY, label: 'HIGH', color: '#ff9f43' },
+    { y: bullish ? bodyBot : bodyTop, label: bullish ? 'OPEN' : 'OPEN', color: bullish ? '#00d4ff' : '#ff4466' },
+    { y: bullish ? bodyTop : bodyBot, label: bullish ? 'CLOSE' : 'CLOSE', color: bullish ? '#00d084' : '#00d4ff' },
+    { y: lowY, label: 'LOW', color: bullish ? '#8a3050' : '#8a3050' },
+  ];
+ 
+  labels.forEach(({ y, label, color }) => {
+    // Line
+    ctx.strokeStyle = color + '66'; ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx + 24, y); ctx.lineTo(w - 8, y); ctx.stroke();
+    ctx.setLineDash([]);
+    // Dot
+    ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 6;
+    ctx.beginPath(); ctx.arc(cx + (y === highY || y === lowY ? 0 : bodyW / 2 * (bullish ? 1 : 1)), y, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+    // Text
+    ctx.fillStyle = color; ctx.font = "bold 9px 'Share Tech Mono'"; ctx.textAlign = 'right';
+    ctx.fillText(label, w - 10, y + 3);
+  });
+ 
+  // Body bracket
+  ctx.strokeStyle = col + '44'; ctx.lineWidth = 1; ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(cx - bodyW / 2 - 6, bodyTop); ctx.lineTo(cx - bodyW / 2 - 14, bodyTop); ctx.lineTo(cx - bodyW / 2 - 14, bodyBot); ctx.lineTo(cx - bodyW / 2 - 6, bodyBot); ctx.stroke();
+  ctx.fillStyle = col; ctx.font = "8px 'Share Tech Mono'"; ctx.textAlign = 'center';
+  ctx.save(); ctx.translate(cx - bodyW / 2 - 20, (bodyTop + bodyBot) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('BODY', 0, 0); ctx.restore();
+}
+ 
+const bCtx = setupCanvas('bullCandle', 160, 260);
+if (bCtx) drawAnatomyCandle(bCtx, 160, 260, true);
+const brCtx = setupCanvas('bearCandle', 160, 260);
+if (brCtx) drawAnatomyCandle(brCtx, 160, 260, false);
+ 
+// ── PATTERN DEFINITIONS ──
+const patterns = {
+  'bullish-patterns': [
+    { name: 'Hammer', signal: '▲ Bullish Reversal', color: '#00d084', desc: 'Small body at the top, long lower wick. Buyers rejected the lows. Found at support.', draw: drawHammer },
+    { name: 'Bullish Engulfing', signal: '▲ Strong Bullish', color: '#00d084', desc: 'A large green candle fully engulfs the previous red candle. Strong shift in momentum.', draw: drawBullEngulf },
+    { name: 'Morning Star', signal: '▲ Bullish Reversal', color: '#00d084', desc: 'Three candle pattern: bearish → small doji → bullish. Indecision followed by buyers taking control.', draw: drawMorningStar },
+    { name: 'Bullish Pinbar', signal: '▲ Rejection', color: '#00d084', desc: 'Long lower wick showing price was aggressively rejected from lows. High probability at key levels.', draw: drawBullPin },
+  ],
+  'bearish-patterns': [
+    { name: 'Shooting Star', signal: '▼ Bearish Reversal', color: '#ff4466', desc: 'Small body at the bottom, long upper wick. Sellers rejected the highs. Found at resistance.', draw: drawShootingStar },
+    { name: 'Bearish Engulfing', signal: '▼ Strong Bearish', color: '#ff4466', desc: 'A large red candle fully engulfs the previous green candle. Strong shift to selling pressure.', draw: drawBearEngulf },
+    { name: 'Evening Star', signal: '▼ Bearish Reversal', color: '#ff4466', desc: 'Three candle pattern: bullish → small doji → bearish. Buyers exhausted, sellers take over.', draw: drawEveningStar },
+    { name: 'Bearish Pinbar', signal: '▼ Rejection', color: '#ff4466', desc: 'Long upper wick showing price was aggressively rejected from highs. High probability at resistance.', draw: drawBearPin },
+  ],
+  'continuation-patterns': [
+    { name: 'Marubozu', signal: '→ Continuation', color: '#f0c040', desc: 'No wicks at all — pure body. Extreme momentum with no rejection. Usually continues in direction.', draw: drawMarubozu },
+    { name: 'Doji', signal: '→ Indecision', color: '#bd93f9', desc: 'Open and close are nearly equal. Neither buyers nor sellers in control. Watch next candle for direction.', draw: drawDoji },
+    { name: 'Inside Bar', signal: '→ Compression', color: '#f0c040', desc: 'Second candle is completely inside the first. Market compressing before a big move. Trade the breakout.', draw: drawInsideBar },
+    { name: 'Three Soldiers', signal: '▲ Strong Bull', color: '#00d084', desc: 'Three consecutive green candles each closing near their high. Sustained buying pressure — trend continuation.', draw: drawThreeSoldiers },
+  ],
+};
+ 
+function drawHammer(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const cx=w/2; ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,h-20); ctx.stroke();
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=8;
+  ctx.fillRect(cx-18,20,36,30); ctx.shadowBlur=0;
+}
+function drawBullEngulf(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  // Small red candle
+  ctx.fillStyle='#ff4466'; ctx.fillRect(w/2-40,50,28,60);
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2-26,30); ctx.lineTo(w/2-26,50); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2-26,110); ctx.lineTo(w/2-26,130); ctx.stroke();
+  // Large green candle
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=8;
+  ctx.fillRect(w/2+4,30,36,110); ctx.shadowBlur=0;
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2+22,15); ctx.lineTo(w/2+22,30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2+22,140); ctx.lineTo(w/2+22,155); ctx.stroke();
+}
+function drawMorningStar(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const gap=4;
+  // Bear
+  ctx.fillStyle='#ff4466'; ctx.fillRect(10,20,30,60);
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(25,10); ctx.lineTo(25,20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(25,80); ctx.lineTo(25,95); ctx.stroke();
+  // Doji
+  ctx.fillStyle='#f0c040'; ctx.fillRect(w/2-12,78,24,10);
+  ctx.strokeStyle='#f0c040'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2,65); ctx.lineTo(w/2,78); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2,88); ctx.lineTo(w/2,102); ctx.stroke();
+  // Bull
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=8;
+  ctx.fillRect(w-46,30,30,60); ctx.shadowBlur=0;
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w-31,18); ctx.lineTo(w-31,30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w-31,90); ctx.lineTo(w-31,104); ctx.stroke();
+}
+function drawBullPin(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const cx=w/2;
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,h-20); ctx.stroke();
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=8;
+  ctx.fillRect(cx-18,20,36,24); ctx.shadowBlur=0;
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(cx,44); ctx.lineTo(cx,h-20); ctx.stroke();
+}
+function drawShootingStar(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const cx=w/2;
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,h-20); ctx.stroke();
+  ctx.fillStyle='#ff4466'; ctx.shadowColor='#ff4466'; ctx.shadowBlur=8;
+  ctx.fillRect(cx-18,h-50,36,30); ctx.shadowBlur=0;
+}
+function drawBearEngulf(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#00d084'; ctx.fillRect(w/2-40,50,28,60);
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2-26,30); ctx.lineTo(w/2-26,50); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2-26,110); ctx.lineTo(w/2-26,130); ctx.stroke();
+  ctx.fillStyle='#ff4466'; ctx.shadowColor='#ff4466'; ctx.shadowBlur=8;
+  ctx.fillRect(w/2+4,30,36,110); ctx.shadowBlur=0;
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2+22,15); ctx.lineTo(w/2+22,30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2+22,140); ctx.lineTo(w/2+22,155); ctx.stroke();
+}
+function drawEveningStar(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=6;
+  ctx.fillRect(10,50,30,55); ctx.shadowBlur=0;
+  ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(25,35); ctx.lineTo(25,50); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(25,105); ctx.lineTo(25,120); ctx.stroke();
+  ctx.fillStyle='#f0c040'; ctx.fillRect(w/2-12,42,24,10);
+  ctx.strokeStyle='#f0c040'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w/2,32); ctx.lineTo(w/2,42); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w/2,52); ctx.lineTo(w/2,66); ctx.stroke();
+  ctx.fillStyle='#ff4466'; ctx.shadowColor='#ff4466'; ctx.shadowBlur=8;
+  ctx.fillRect(w-46,40,30,65); ctx.shadowBlur=0;
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w-31,26); ctx.lineTo(w-31,40); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w-31,105); ctx.lineTo(w-31,118); ctx.stroke();
+}
+function drawBearPin(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const cx=w/2;
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,h-20); ctx.stroke();
+  ctx.fillStyle='#ff4466'; ctx.shadowColor='#ff4466'; ctx.shadowBlur=8;
+  ctx.fillRect(cx-18,h-44,36,24); ctx.shadowBlur=0;
+}
+function drawMarubozu(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=10;
+  ctx.fillRect(w/2-22,20,44,h-40); ctx.shadowBlur=0;
+}
+function drawDoji(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  const cx=w/2, mid=h/2;
+  ctx.strokeStyle='#bd93f9'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,h-20); ctx.stroke();
+  ctx.fillStyle='#bd93f9'; ctx.shadowColor='#bd93f9'; ctx.shadowBlur=8;
+  ctx.fillRect(cx-20,mid-4,40,8); ctx.shadowBlur=0;
+}
+function drawInsideBar(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#ff4466'; ctx.fillRect(10,20,36,120);
+  ctx.strokeStyle='#ff4466'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(28,10); ctx.lineTo(28,20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(28,140); ctx.lineTo(28,155); ctx.stroke();
+  ctx.fillStyle='#f0c040'; ctx.shadowColor='#f0c040'; ctx.shadowBlur=6;
+  ctx.fillRect(w-54,45,36,70); ctx.shadowBlur=0;
+  ctx.strokeStyle='#f0c040'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(w-36,35); ctx.lineTo(w-36,45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w-36,115); ctx.lineTo(w-36,128); ctx.stroke();
+}
+function drawThreeSoldiers(ctx, w, h) {
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
+  [[10,80,100],[60,60,115],[w-56,35,125]].forEach(([x,top,bot])=>{
+    ctx.fillStyle='#00d084'; ctx.shadowColor='#00d084'; ctx.shadowBlur=6;
+    ctx.fillRect(x,top,34,bot-top); ctx.shadowBlur=0;
+    ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(x+17,top-10); ctx.lineTo(x+17,top); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+17,bot); ctx.lineTo(x+17,bot+8); ctx.stroke();
+  });
+}
+ 
+function renderPatterns(tabId) {
+  const area = document.getElementById('pattern-canvas-area');
+  area.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);';
+  patterns[tabId].forEach(p => {
+    const card = document.createElement('div');
+    card.style.cssText = 'background:var(--bg);padding:24px;display:flex;flex-direction:column;align-items:center;gap:12px;';
+    const cv = document.createElement('canvas');
+    cv.width = 160 * DPR; cv.height = 160 * DPR;
+    cv.style.width = '160px'; cv.style.height = '160px';
+    card.appendChild(cv);
+    const info = document.createElement('div');
+    info.style.cssText = 'width:100%;text-align:center;';
+    info.innerHTML = `
+      <div style="font-family:var(--display);font-size:18px;letter-spacing:2px;color:var(--text);margin-bottom:4px;">${p.name}</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:${p.color};margin-bottom:8px;">${p.signal}</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;">${p.desc}</div>
+    `;
+    card.appendChild(info);
+    grid.appendChild(card);
+    area.appendChild(grid);
+    const ctx = cv.getContext('2d');
+    ctx.scale(DPR, DPR);
+    p.draw(ctx, 160, 160);
+  });
+}
+ 
+function showPatternTab(tabId, desc) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('patternTabDesc').textContent = desc;
+  renderPatterns(tabId);
+}
+ 
+renderPatterns('bullish-patterns');
+ 
+// ── BULL FLAG ──
+function drawFlag(canvasId, bull) {
+  const cv = document.getElementById(canvasId);
+  if (!cv) return;
+  const w = 380, h = 220;
+  cv.width = w * DPR; cv.height = h * DPR;
+  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  const ctx = cv.getContext('2d');
+  ctx.scale(DPR, DPR);
+  ctx.fillStyle = '#070b14'; ctx.fillRect(0, 0, w, h);
+ 
+  const col = bull ? '#00d084' : '#ff4466';
+  const cw = 18, gap = 6;
+ 
+  if (bull) {
+    // Pole — strong up candles
+    const poleCandles = [
+      {x:20,o:180,c:150},{x:44,o:150,c:115},{x:68,o:115,c:75},{x:92,o:75,c:40}
+    ];
+    poleCandles.forEach(({x,o,c})=>{
+      ctx.strokeStyle='#00d084';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(x+cw/2,c-10);ctx.lineTo(x+cw/2,o+8);ctx.stroke();
+      ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=6;
+      ctx.fillRect(x,c,cw,o-c);ctx.shadowBlur=0;
+    });
+    // Flag — small consolidation candles drifting down
+    const flagCandles=[
+      {x:122,o:52,c:44},{x:146,o:58,c:50},{x:170,o:64,c:56},{x:194,o:62,c:54}
+    ];
+    flagCandles.forEach(({x,o,c})=>{
+      ctx.strokeStyle='#ff446688';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(x+cw/2,c-6);ctx.lineTo(x+cw/2,o+6);ctx.stroke();
+      ctx.fillStyle='#ff446666';ctx.fillRect(x,c,cw,o-c);
+    });
+    // Breakout candle
+    ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=10;
+    ctx.fillRect(228,20,cw,42);ctx.shadowBlur=0;
+    ctx.strokeStyle='#00d084';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(228+cw/2,10);ctx.lineTo(228+cw/2,20);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(228+cw/2,62);ctx.lineTo(228+cw/2,70);ctx.stroke();
+    // Arrow
+    ctx.strokeStyle='#00d084';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.moveTo(260,55);ctx.lineTo(340,20);ctx.stroke();
+    ctx.setLineDash([]);ctx.globalAlpha=1;
+    // Labels
+    ctx.fillStyle='#00d084';ctx.font="bold 9px 'Share Tech Mono'";ctx.textAlign='center';
+    ctx.fillText('POLE',60,h-10);
+    ctx.fillStyle='#ff4466';ctx.fillText('FLAG',158,h-10);
+    ctx.fillStyle='#00d084';ctx.fillText('BREAKOUT',237,h-10);
+    ctx.fillStyle='rgba(0,208,132,0.08)';ctx.strokeStyle='#00d08433';ctx.lineWidth=1;ctx.setLineDash([3,4]);
+    ctx.beginPath();ctx.moveTo(120,20);ctx.lineTo(220,20);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#00d08466';ctx.font="8px 'Share Tech Mono'";ctx.textAlign='left';
+    ctx.fillText('breakout level',224,18);
+  } else {
+    // Bear flag
+    const poleCandles=[
+      {x:20,o:40,c:75},{x:44,o:75,c:115},{x:68,o:115,c:155},{x:92,o:155,c:190}
+    ];
+    poleCandles.forEach(({x,o,c})=>{
+      ctx.strokeStyle='#ff4466';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(x+cw/2,o-8);ctx.lineTo(x+cw/2,c+8);ctx.stroke();
+      ctx.fillStyle='#ff4466';ctx.shadowColor='#ff4466';ctx.shadowBlur=6;
+      ctx.fillRect(x,o,cw,c-o);ctx.shadowBlur=0;
+    });
+    const flagCandles=[
+      {x:122,o:168,c:176},{x:146,o:162,c:170},{x:170,o:158,c:166},{x:194,o:162,c:170}
+    ];
+    flagCandles.forEach(({x,o,c})=>{
+      ctx.strokeStyle='#00d08488';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(x+cw/2,o-6);ctx.lineTo(x+cw/2,c+6);ctx.stroke();
+      ctx.fillStyle='#00d08466';ctx.fillRect(x,o,cw,c-o);
+    });
+    ctx.fillStyle='#ff4466';ctx.shadowColor='#ff4466';ctx.shadowBlur=10;
+    ctx.fillRect(228,158,cw,42);ctx.shadowBlur=0;
+    ctx.strokeStyle='#ff4466';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(228+cw/2,148);ctx.lineTo(228+cw/2,158);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(228+cw/2,200);ctx.lineTo(228+cw/2,210);ctx.stroke();
+    ctx.strokeStyle='#ff4466';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.moveTo(260,165);ctx.lineTo(340,200);ctx.stroke();
+    ctx.setLineDash([]);ctx.globalAlpha=1;
+    ctx.fillStyle='#ff4466';ctx.font="bold 9px 'Share Tech Mono'";ctx.textAlign='center';
+    ctx.fillText('POLE',60,h-10);
+    ctx.fillStyle='#00d084';ctx.fillText('FLAG',158,h-10);
+    ctx.fillStyle='#ff4466';ctx.fillText('BREAKDOWN',237,h-10);
+    ctx.strokeStyle='#ff446633';ctx.lineWidth=1;ctx.setLineDash([3,4]);
+    ctx.beginPath();ctx.moveTo(120,190);ctx.lineTo(225,190);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#ff446666';ctx.font="8px 'Share Tech Mono'";ctx.textAlign='left';
+    ctx.fillText('breakdown level',224,202);
+  }
+}
+ 
+drawFlag('bullFlag', true);
+drawFlag('bearFlag', false);
+ 
+// Fade in
+const obs = new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
+ 
