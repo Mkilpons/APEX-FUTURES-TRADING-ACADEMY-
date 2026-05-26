@@ -11,14 +11,14 @@
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
- 
+
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
 .nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
 .nav-logo span{color:var(--text);}
 .nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;text-transform:uppercase;transition:all 0.2s;text-decoration:none;}
 .nav-cta:hover{background:var(--green);color:var(--bg);}
- 
+
 /* HAMBURGER */
 .hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;background:transparent;border:1px solid var(--border);padding:7px 8px;transition:border-color 0.2s;flex-shrink:0;}
 .hamburger:hover{border-color:var(--green);}
@@ -26,7 +26,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--green);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--green);}
- 
+
 /* SLIDE MENU */
 .slide-menu{position:fixed;top:60px;left:0;bottom:0;z-index:99;background:rgba(7,11,20,0.99);backdrop-filter:blur(20px);transform:translateX(-100%);transition:transform 0.35s ease;display:flex;flex-direction:column;padding:28px 28px 48px;overflow-y:auto;border-right:1px solid var(--border);width:280px;}
 .slide-menu.open{transform:translateX(0);}
@@ -36,7 +36,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .slide-menu-label{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:16px;}
 .menu-overlay{position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.6);display:none;}
 .menu-overlay.open{display:block;}
- 
+
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 40px 60px;position:relative;overflow:hidden;}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);}
@@ -55,7 +55,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .btn-primary:hover{background:#00ffaa;box-shadow:0 0 30px rgba(0,208,132,0.4);transform:translateY(-1px);}
 .btn-ghost{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:14px 36px;background:transparent;color:var(--text);border:1px solid var(--border);cursor:pointer;text-transform:uppercase;transition:all 0.2s;text-decoration:none;display:inline-block;}
 .btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
- 
+
 /* TICKER */
 .tape{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden;}
 .tape-track{display:flex;animation:scroll 25s linear infinite;width:max-content;}
@@ -64,13 +64,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .tape-item .sym{color:var(--muted);margin-right:8px;}
 .tape-item .up{color:var(--green);}
 .tape-item .dn{color:var(--red);}
- 
+
 /* SECTIONS */
 section{position:relative;z-index:1;}
 .section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
 .section-title{font-family:var(--display);font-size:clamp(36px,5vw,64px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:16px;}
 .section-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;}
- 
+
 /* CHART */
 #chart-section{padding:60px 28px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .chart-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
@@ -88,14 +88,14 @@ canvas{display:block;width:100%;}
 .chart-legend{display:flex;gap:24px;padding:12px 20px;border-top:1px solid var(--border);flex-wrap:wrap;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;}
 .legend-item{display:flex;align-items:center;gap:6px;}
 .legend-dot{width:10px;height:10px;border-radius:2px;}
- 
+
 /* CANDLESTICK ANATOMY */
 #candlesticks{padding:72px 40px;border-top:1px solid var(--border);}
 .anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:32px;}
 .anatomy-card{background:var(--bg);padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
 .pattern-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-top:none;}
 .pattern-cell{background:#070b14;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;}
- 
+
 /* CONCEPTS */
 #concepts{padding:80px 40px;}
 .concepts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
@@ -105,7 +105,7 @@ canvas{display:block;width:100%;}
 .concept-card h3{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:12px;}
 .concept-card p{font-size:13px;color:var(--muted);line-height:1.7;}
 .concept-tag{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;border:1px solid;text-transform:uppercase;}
- 
+
 /* ROADMAP */
 #roadmap{padding:80px 40px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .roadmap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:48px;}
@@ -115,13 +115,13 @@ canvas{display:block;width:100%;}
 .roadmap-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
 .roadmap-card li{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.5px;padding-left:14px;position:relative;}
 .roadmap-card li::before{content:'›';position:absolute;left:0;color:var(--green);}
- 
+
 /* FOUNDER */
 #founder{padding:72px 40px;border-top:1px solid var(--border);}
- 
+
 /* CONTACT */
 #contact{padding:72px 40px;border-top:1px solid var(--border);}
- 
+
 /* SIGNUP */
 #signup-section{padding:80px 40px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .signup-input{font-family:var(--mono);font-size:12px;letter-spacing:1px;padding:13px 16px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;transition:border-color 0.2s;width:100%;}
@@ -129,11 +129,11 @@ canvas{display:block;width:100%;}
 .signup-input::placeholder{color:var(--muted);}
 .signup-btn-main{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:14px;background:var(--green);color:var(--bg);border:none;cursor:pointer;text-transform:uppercase;font-weight:bold;transition:all 0.2s;width:100%;}
 .signup-btn-main:hover{background:#00ffaa;box-shadow:0 0 24px rgba(0,208,132,0.3);}
- 
+
 /* RISK */
 .risk-banner{background:rgba(255,68,102,0.06);border:1px solid rgba(255,68,102,0.2);border-left:3px solid var(--red);padding:20px 32px;margin:0 40px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;}
 .risk-banner strong{color:var(--red);}
- 
+
 /* FOOTER */
 footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
 .footer-logo{font-family:var(--display);font-size:20px;letter-spacing:4px;color:var(--green);opacity:0.6;}
@@ -141,10 +141,10 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
 .footer-links{display:flex;gap:24px;list-style:none;}
 .footer-links a{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
 .footer-links a:hover{color:var(--green);}
- 
+
 .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .fade-up.visible{opacity:1;transform:translateY(0);}
- 
+
 @media(max-width:768px){
   nav{padding:0 16px;}
   .hero{padding:90px 20px 50px;}
@@ -160,7 +160,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
 </style>
 </head>
 <body>
- 
+
 <!-- SLIDE MENU OVERLAY -->
 <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 <div class="slide-menu" id="slideMenu">
@@ -171,6 +171,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
   <a href="futures.html">Futures</a>
   <a href="candlesticks.html">Candles</a>
   <a href="contracts.html">Contract Info</a>
+  <a href="ict.html">ICT Concepts</a>
   <a href="#concepts" onclick="closeMenu()">Concepts</a>
   <a href="#roadmap" onclick="closeMenu()">Roadmap</a>
   <a href="#contact" onclick="closeMenu()">Contact</a>
@@ -178,7 +179,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <a href="#signup-section" onclick="closeMenu()" style="background:var(--green);color:var(--bg);border:none;justify-content:center;font-weight:bold;padding:12px 0;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Save a Spot →</a>
   </div>
 </div>
- 
+
 <!-- NAV -->
 <nav>
   <div style="display:flex;align-items:center;gap:12px;">
@@ -189,7 +190,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
   </div>
   <a href="#signup-section" class="nav-cta">Save a Spot</a>
 </nav>
- 
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
@@ -207,10 +208,10 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <a href="#roadmap" class="btn-ghost">View Roadmap</a>
   </div>
 </section>
- 
+
 <!-- TICKER TAPE -->
 <div class="tape"><div class="tape-track" id="tape"></div></div>
- 
+
 <!-- CHART SECTION -->
 <section id="chart-section">
   <div class="chart-header fade-up">
@@ -247,7 +248,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     </div>
   </div>
 </section>
- 
+
 <!-- CANDLESTICK ANATOMY -->
 <section id="candlesticks">
   <div class="fade-up">
@@ -289,7 +290,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <a href="candlesticks.html" onclick="sessionStorage.setItem('apexTab','patterns')" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
   </div>
 </section>
- 
+
 <!-- CONCEPTS -->
 <section id="concepts">
   <div class="fade-up">
@@ -298,15 +299,15 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <p class="section-desc">Five concepts every futures trader must internalize before risking a single dollar.</p>
   </div>
   <div class="concepts-grid fade-up">
-    <div class="concept-card"><span class="concept-icon" style="color:#00d4ff">01</span><h3>Market Structure</h3><p>Price moves in trends. Identify Higher Highs and Higher Lows for bullish structure. This is your compass before every trade.</p><span class="concept-tag" style="color:#00d4ff;border-color:#00d4ff33">Beginner</span></div>
-    <div class="concept-card"><span class="concept-icon" style="color:#f0c040">02</span><h3>Support &amp; Resistance</h3><p>Key price levels where buyers and sellers historically clash. Mark them before the session opens every single day.</p><span class="concept-tag" style="color:#f0c040;border-color:#f0c04033">Beginner</span></div>
-    <div class="concept-card"><span class="concept-icon" style="color:#50fa7b">03</span><h3>Pullback Entries</h3><p>Never chase price. Wait for it to pull back to a key level. This gives you the best entry and the tightest stop.</p><span class="concept-tag" style="color:#50fa7b;border-color:#50fa7b33">Intermediate</span></div>
-    <div class="concept-card"><span class="concept-icon" style="color:#ff6b6b">04</span><h3>Risk / Reward</h3><p>Define your stop and target before every trade. A 1:2 R/R means you only need to be right 34% of the time to break even.</p><span class="concept-tag" style="color:#ff6b6b;border-color:#ff6b6b33">Essential</span></div>
-    <div class="concept-card"><span class="concept-icon" style="color:#bd93f9">05</span><h3>VWAP</h3><p>Volume Weighted Average Price is the most watched intraday level by institutions. Price above = bullish. Below = bearish.</p><span class="concept-tag" style="color:#bd93f9;border-color:#bd93f933">Intermediate</span></div>
-    <div class="concept-card" style="background:rgba(0,208,132,0.04);border-left:2px solid var(--green);"><h3 style="color:var(--green);">Study Resources</h3><p style="margin-bottom:16px;">Recommended reading to accelerate your learning.</p><div style="display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted);"><span>› Trading in the Zone — Mark Douglas</span><span>› SMB Capital — YouTube</span><span>› TradingView — charting platform</span><span>› Bookmap — order flow tool</span></div></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#00d4ff">01</span><h3>Market Structure</h3><p>Identifying Higher Highs and Higher Lows defines an uptrend. Lower Highs and Lower Lows define a downtrend. A Break of Structure (BOS) confirms trend continuation. A Change of Character (CHOCH) signals a potential reversal. This is the lens through which every trade decision is made.</p><span class="concept-tag" style="color:#00d4ff;border-color:#00d4ff33">Foundation</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#f0c040">02</span><h3>Support &amp; Resistance</h3><p>Key price levels where buyers and sellers have historically clashed. These are not single lines but zones of interest. Mark them from the higher time frame before the session opens — they act as magnets for price and define your trade boundaries.</p><span class="concept-tag" style="color:#f0c040;border-color:#f0c04033">Beginner</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#ff9f43">03</span><h3>Liquidity Areas</h3><p>Liquidity pools are price levels where large clusters of stop losses sit — above swing highs and below swing lows. Institutions deliberately sweep these levels to fill their orders before reversing. Equal highs, equal lows, and prior session extremes are prime liquidity targets. Don't place your stops in obvious locations.</p><span class="concept-tag" style="color:#ff9f43;border-color:#ff9f4333">Intermediate</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#50fa7b">04</span><h3>Pullback Entries</h3><p>Never chase price. After a move in your direction, wait for price to pull back to a key level — a support zone, order block, or fair value gap. This gives you a tighter stop, better risk/reward, and confirmation that the trend is still valid before committing to a trade.</p><span class="concept-tag" style="color:#50fa7b;border-color:#50fa7b33">Intermediate</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#ff6b6b">05</span><h3>Risk / Reward</h3><p>Define your stop loss and profit target before every single trade — no exceptions. A minimum 1:2 risk/reward means you only need to win 34% of your trades to be profitable. A 1:3 ratio means you can lose 70% of the time and still break even. Math is your edge — protect it at all costs.</p><span class="concept-tag" style="color:#ff6b6b;border-color:#ff6b6b33">Essential</span></div>
+    <div class="concept-card" style="background:rgba(240,192,64,0.04);border-left:2px solid var(--gold);"><h3 style="color:var(--gold);">Want to Go Deeper?</h3><p style="margin-bottom:16px;color:var(--muted);">These concepts connect directly to ICT methodology — institutional order flow, order blocks, fair value gaps, and kill zones.</p><a href="ict.html" style="display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:8px 18px;background:transparent;border:1px solid var(--gold);color:var(--gold);text-decoration:none;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">Learn ICT Concepts →</a></div>
   </div>
 </section>
- 
+
 <!-- ROADMAP -->
 <section id="roadmap">
   <div class="fade-up">
@@ -321,7 +322,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <div class="roadmap-card" data-week="WEEK 04"><h3>Consistency</h3><ul><li>Trade same setup only</li><li>Track win rate &amp; avg R/R</li><li>Manage losing streaks</li><li>Evaluate real account readiness</li><li>Start with micro contracts</li></ul></div>
   </div>
 </section>
- 
+
 <!-- FOUNDER -->
 <section id="founder">
   <div class="fade-up" style="display:flex;align-items:center;gap:56px;flex-wrap:wrap;max-width:900px;margin:0 auto;">
@@ -345,7 +346,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     </div>
   </div>
 </section>
- 
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="fade-up" style="max-width:600px;">
@@ -356,7 +357,7 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:14px;">Founded by Gustavo Duarte · Response within 24–48 hours</div>
   </div>
 </section>
- 
+
 <!-- EMAIL SIGNUP -->
 <section id="signup-section">
   <div class="fade-up" style="max-width:520px;margin:0 auto;text-align:center;">
@@ -376,17 +377,49 @@ footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify
     <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:14px;">No spam. No credit card. Unsubscribe anytime.</div>
   </div>
 </section>
- 
+
+<!-- DISCLAIMER SECTION -->
+<section id="disclaimer" style="padding:64px 40px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="fade-up" style="max-width:720px;">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--red);text-transform:uppercase;margin-bottom:12px;">// disclaimer &amp; purpose</div>
+    <div style="font-family:var(--display);font-size:clamp(30px,4vw,52px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:24px;">FREE KNOWLEDGE.<br><span style="color:var(--green);">NO AGENDA.</span></div>
+    <div style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.15);border-left:3px solid var(--red);padding:24px 28px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.9;letter-spacing:0.5px;">
+      <strong style="color:var(--text);display:block;margin-bottom:10px;">The sole purpose of Apex Futures Academy is to share free, foundational trading knowledge.</strong>
+      This platform does not sell signals, manage funds, guarantee profits, or encourage anyone to trade with money they cannot afford to lose. Every concept, chart, and lesson on this site exists for one reason only — to help traders understand the basics before they risk a single dollar.<br><br>
+      <strong style="color:var(--red);">⚠ NOT FINANCIAL ADVICE:</strong> Nothing on this website constitutes financial advice, investment advice, or a recommendation to trade any financial instrument. All educational content is provided as general information only. You are solely responsible for your own trading decisions.<br><br>
+      <strong style="color:var(--red);">⚠ TRADING RISK:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. The majority of retail traders lose money. Past performance of any concept or strategy shown here is not indicative of future results.<br><br>
+      <strong style="color:var(--red);">⚠ YOUR DECISION:</strong> We do not persuade, push, or pressure anyone into trading. This site is here to teach — what you do with that knowledge is entirely your own decision. Trade responsibly. Trade with a plan. Paper trade first. Always.
+    </div>
+  </div>
+</section>
+
 <!-- RISK -->
 <div class="risk-banner fade-up"><strong>⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. The majority of retail traders lose money. This site is for <strong>educational purposes only</strong> and does not constitute financial advice. Always paper trade before using real capital.</div>
- 
+
 <!-- FOOTER -->
 <footer>
-  <div><div class="footer-logo">APEX FUTURES</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div></div>
-  <ul class="footer-links"><li><a href="courses.html">Courses</a></li><li><a href="futures.html">Futures</a></li><li><a href="candlesticks.html">Candles</a></li><li><a href="contracts.html">Contract Info</a></li></ul>
-  <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
+  <div>
+    <div class="footer-logo">APEX FUTURES</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:8px;line-height:1.7;">© 2026 Apex Futures Academy<br>Educational Use Only</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:4px;">Pages</div>
+    <a href="courses.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Courses</a>
+    <a href="futures.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Futures</a>
+    <a href="candlesticks.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Candles</a>
+    <a href="contracts.html" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contract Info</a>
+    <a href="ict.html" style="font-family:var(--mono);font-size:10px;color:var(--gold);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--gold)'">ICT Concepts</a>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:4px;">Info</div>
+    <a href="#roadmap" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Roadmap</a>
+    <a href="#contact" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Contact</a>
+    <a href="#signup-section" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Save a Spot</a>
+    <a href="index.html#disclaimer" style="font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--muted)'">Disclaimer</a>
+  </div>
 </footer>
- 
+
 <script>
 // ── HAMBURGER ──
 function toggleMenu(){
@@ -401,12 +434,12 @@ function closeMenu(){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
- 
+
 // ── TICKER ──
 const tapeData=[{sym:'ES',price:'4,377.25',chg:'+0.83%',up:true},{sym:'NQ',price:'15,842.50',chg:'+1.12%',up:true},{sym:'GC',price:'2,341.80',chg:'-0.22%',up:false},{sym:'CL',price:'78.44',chg:'+0.61%',up:true},{sym:'RTY',price:'2,018.30',chg:'-0.38%',up:false},{sym:'ZB',price:'118.12',chg:'+0.14%',up:true},{sym:'SI',price:'27.83',chg:'+0.95%',up:true},{sym:'HG',price:'4.21',chg:'-0.55%',up:false}];
 const tape=document.getElementById('tape');
 [...tapeData,...tapeData].forEach(item=>{const el=document.createElement('div');el.className='tape-item';el.innerHTML='<span class="sym">'+item.sym+'</span><span class="'+(item.up?'up':'dn')+'">'+item.price+' '+item.chg+'</span>';tape.appendChild(el);});
- 
+
 // ── CHART DATA ──
 const bullishCandles=[{o:4310,h:4328,l:4302,c:4318},{o:4318,h:4322,l:4295,c:4298},{o:4298,h:4315,l:4292,c:4310},{o:4310,h:4335,l:4305,c:4330},{o:4330,h:4345,l:4322,c:4340},{o:4340,h:4358,l:4335,c:4352},{o:4352,h:4355,l:4330,c:4335},{o:4335,h:4340,l:4318,c:4322},{o:4322,h:4330,l:4315,c:4325},{o:4325,h:4345,l:4320,c:4340},{o:4340,h:4362,l:4336,c:4358},{o:4358,h:4375,l:4352,c:4370},{o:4370,h:4378,l:4362,c:4368},{o:4368,h:4382,l:4362,c:4378}];
 const bearishCandles=[{o:4380,h:4385,l:4368,c:4372},{o:4372,h:4376,l:4355,c:4358},{o:4358,h:4362,l:4340,c:4344},{o:4344,h:4352,l:4325,c:4328},{o:4328,h:4332,l:4308,c:4312},{o:4312,h:4318,l:4292,c:4295},{o:4295,h:4310,l:4288,c:4305},{o:4305,h:4315,l:4295,c:4298},{o:4298,h:4308,l:4282,c:4285},{o:4285,h:4292,l:4268,c:4272},{o:4272,h:4278,l:4255,c:4258},{o:4258,h:4264,l:4242,c:4245},{o:4245,h:4252,l:4230,c:4234},{o:4234,h:4240,l:4220,c:4222}];
@@ -422,7 +455,7 @@ const conceptData={
 const PAD={l:54,r:16,t:34,b:26};
 const SUPPORT=4318,RESISTANCE=4352,STOP=4312,T1=4340,T2=4368,ENTRY=9;
 const DZ_TOP=4328,DZ_BOT=4315,SZ_TOP=4352,SZ_BOT=4338;
- 
+
 function buildChart(cvId,getAC,getHov){
   const cv=document.getElementById(cvId);
   const cx=cv.getContext('2d');
@@ -572,7 +605,7 @@ function buildChart(cvId,getAC,getHov){
   }
   return{draw,resize};
 }
- 
+
 // ── INLINE CHART ──
 let inlineActive='bullish',inlineHovered=-1;
 const inlineChart=buildChart('chart',()=>inlineActive,()=>inlineHovered);
@@ -604,7 +637,7 @@ document.getElementById('chart').addEventListener('mousemove',e=>{
   inlineChart.draw();
 });
 document.getElementById('chart').addEventListener('mouseleave',()=>{inlineHovered=-1;inlineChart.draw();});
- 
+
 // ── ANATOMY CANDLES ──
 (function(){
   const DPR=window.devicePixelRatio||1;
@@ -632,7 +665,7 @@ document.getElementById('chart').addEventListener('mouseleave',()=>{inlineHovere
   }
   const bCtx=setupCV('homeAnatomyBull',80,180);drawAnat(bCtx,80,180,true);
   const brCtx=setupCV('homeAnatomyBear',80,180);drawAnat(brCtx,80,180,false);
- 
+
   // Pattern cells
   const patterns=[
     {id:'pc1',name:'Hammer',sig:'▲ Bullish',col:'#00d084',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);const cx=w/2;ctx.strokeStyle='#00d084';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,16);ctx.lineTo(cx,h-14);ctx.stroke();ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;ctx.fillRect(cx-13,16,26,24);ctx.shadowBlur=0;}},
@@ -655,7 +688,7 @@ document.getElementById('chart').addEventListener('mouseleave',()=>{inlineHovere
     row.appendChild(cell);
   });
 })();
- 
+
 // ── SIGNUP ──
 function handleSignup(){
   const name=document.getElementById('secName').value.trim();
@@ -670,11 +703,11 @@ function handleSignup(){
     try{const s=JSON.parse(localStorage.getItem('apexSignups')||'[]');s.push({name,email,date:new Date().toISOString()});localStorage.setItem('apexSignups',JSON.stringify(s));}catch(e){}
   },900);
 }
- 
+
 // ── FADE IN ──
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
- 
+
 // ── RESIZE ──
 window.addEventListener('resize',()=>inlineChart.resize());
 inlineChart.resize();
