@@ -6,264 +6,188 @@
 <title>APEX FUTURES — Trading Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #070b14; --bg2: #0a0f1e; --bg3: #0d1428;
-    --border: #1a2540; --green: #00d084; --red: #ff4466;
-    --blue: #00d4ff; --gold: #f0c040; --purple: #bd93f9;
-    --text: #c8d8e8; --muted: #3a5070; --dim: #1a2a40;
-    --mono: 'Share Tech Mono', monospace;
-    --display: 'Bebas Neue', sans-serif;
-    --body: 'DM Sans', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { background:var(--bg); color:var(--text); font-family:var(--body); overflow-x:hidden; }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events:none; z-index:0; opacity:0.4;
-  }
+:root{--bg:#070b14;--bg2:#0a0f1e;--bg3:#0d1428;--border:#1a2540;--green:#00d084;--red:#ff4466;--blue:#00d4ff;--gold:#f0c040;--purple:#bd93f9;--text:#c8d8e8;--muted:#3a5070;--mono:'Share Tech Mono',monospace;--display:'Bebas Neue',sans-serif;--body:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
  
-  /* NAV */
-  nav {
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 40px; height:60px;
-    background:rgba(7,11,20,0.92); backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--border);
-  }
-  .nav-logo { font-family:var(--display); font-size:22px; letter-spacing:4px; color:var(--green); text-shadow:0 0 20px rgba(0,208,132,0.4); }
-  .nav-logo span { color:var(--text); }
-  .nav-links { display:flex; gap:32px; list-style:none; }
-  .nav-links a { font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--muted); text-decoration:none; text-transform:uppercase; transition:color 0.2s; }
-  .nav-links a:hover { color:var(--green); }
-  .nav-cta { font-family:var(--mono); font-size:11px; letter-spacing:2px; padding:8px 20px; background:transparent; border:1px solid var(--green); color:var(--green); cursor:pointer; text-transform:uppercase; transition:all 0.2s; }
-  .nav-cta:hover { background:var(--green); color:var(--bg); }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
+.nav-logo span{color:var(--text);}
+.nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;text-transform:uppercase;transition:all 0.2s;text-decoration:none;}
+.nav-cta:hover{background:var(--green);color:var(--bg);}
  
-  /* HERO */
-  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:100px 40px 60px; position:relative; overflow:hidden; }
-  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%); }
-  .hero-ticker { font-family:var(--mono); font-size:11px; letter-spacing:3px; color:var(--green); margin-bottom:24px; display:flex; align-items:center; gap:10px; }
-  .dot { width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:blink 1.5s infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-  .hero h1 { font-family:var(--display); font-size:clamp(52px,9vw,110px); letter-spacing:6px; line-height:0.92; color:var(--text); margin-bottom:8px; }
-  .hero h1 .accent { color:var(--green); }
-  .hero-sub { font-family:var(--mono); font-size:13px; letter-spacing:2px; color:var(--muted); margin:28px 0 48px; max-width:500px; line-height:1.8; }
-  .hero-stats { display:flex; gap:48px; margin-bottom:48px; flex-wrap:wrap; justify-content:center; }
-  .stat { text-align:center; }
-  .stat-val { font-family:var(--display); font-size:36px; letter-spacing:2px; color:var(--green); display:block; }
-  .stat-label { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; }
-  .hero-btns { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
-  .btn-primary { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:14px 36px; background:var(--green); color:var(--bg); border:none; cursor:pointer; text-transform:uppercase; font-weight:bold; transition:all 0.2s; text-decoration:none; display:inline-block; }
-  .btn-primary:hover { background:#00ffaa; box-shadow:0 0 30px rgba(0,208,132,0.4); transform:translateY(-1px); }
-  .btn-ghost { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:14px 36px; background:transparent; color:var(--text); border:1px solid var(--border); cursor:pointer; text-transform:uppercase; transition:all 0.2s; text-decoration:none; display:inline-block; }
-  .btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+/* HAMBURGER */
+.hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;background:transparent;border:1px solid var(--border);padding:7px 8px;transition:border-color 0.2s;flex-shrink:0;}
+.hamburger:hover{border-color:var(--green);}
+.hamburger span{display:block;width:100%;height:2px;background:var(--muted);transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--green);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--green);}
  
-  /* TICKER TAPE */
-  .tape { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:10px 0; overflow:hidden; }
-  .tape-track { display:flex; animation:scroll 25s linear infinite; width:max-content; }
-  @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .tape-item { font-family:var(--mono); font-size:11px; letter-spacing:1px; padding:0 32px; white-space:nowrap; border-right:1px solid var(--border); }
-  .tape-item .sym { color:var(--muted); margin-right:8px; }
-  .tape-item .up { color:var(--green); }
-  .tape-item .dn { color:var(--red); }
+/* SLIDE MENU */
+.slide-menu{position:fixed;top:60px;left:0;bottom:0;z-index:99;background:rgba(7,11,20,0.99);backdrop-filter:blur(20px);transform:translateX(-100%);transition:transform 0.35s ease;display:flex;flex-direction:column;padding:28px 28px 48px;overflow-y:auto;border-right:1px solid var(--border);width:280px;}
+.slide-menu.open{transform:translateX(0);}
+.slide-menu a{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;padding:14px 0;border-bottom:1px solid var(--border);transition:color 0.2s;display:flex;align-items:center;justify-content:space-between;}
+.slide-menu a:hover,.slide-menu a.active-link{color:var(--green);}
+.slide-menu a::after{content:'›';font-size:16px;opacity:0.4;}
+.slide-menu-label{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:16px;}
+.menu-overlay{position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.6);display:none;}
+.menu-overlay.open{display:block;}
  
-  /* SECTIONS */
-  section { position:relative; z-index:1; }
-  .section-label { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--green); text-transform:uppercase; margin-bottom:12px; }
-  .section-title { font-family:var(--display); font-size:clamp(36px,5vw,64px); letter-spacing:3px; color:var(--text); line-height:1; margin-bottom:16px; }
-  .section-desc { font-size:15px; color:var(--muted); line-height:1.7; max-width:520px; }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 40px 60px;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);}
+.hero-ticker{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--green);margin-bottom:24px;display:flex;align-items:center;gap:10px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;display:inline-block;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.hero h1{font-family:var(--display);font-size:clamp(52px,9vw,110px);letter-spacing:6px;line-height:0.92;color:var(--text);margin-bottom:8px;}
+.hero h1 .accent{color:var(--green);}
+.hero-sub{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--muted);margin:28px 0 48px;max-width:500px;line-height:1.8;}
+.hero-stats{display:flex;gap:48px;margin-bottom:48px;flex-wrap:wrap;justify-content:center;}
+.stat{text-align:center;}
+.stat-val{font-family:var(--display);font-size:36px;letter-spacing:2px;color:var(--green);display:block;}
+.stat-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.btn-primary{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:14px 36px;background:var(--green);color:var(--bg);border:none;cursor:pointer;text-transform:uppercase;font-weight:bold;transition:all 0.2s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{background:#00ffaa;box-shadow:0 0 30px rgba(0,208,132,0.4);transform:translateY(-1px);}
+.btn-ghost{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:14px 36px;background:transparent;color:var(--text);border:1px solid var(--border);cursor:pointer;text-transform:uppercase;transition:all 0.2s;text-decoration:none;display:inline-block;}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
  
-  /* CHART SECTION */
-  #chart-section { padding:60px 28px; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-  .chart-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
-  .chart-header .section-title { font-size:clamp(22px,3vw,42px); }
-  .chart-header .section-desc { font-size:13px; }
-  .tabs { display:flex; border-bottom:1px solid var(--border); overflow:visible; flex-wrap:nowrap; width:100%; }
-  .tab { font-family:var(--mono); font-size:8px; letter-spacing:0; text-transform:uppercase; padding:8px 0; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--muted); cursor:pointer; white-space:nowrap; transition:all 0.2s; flex:1 1 0; text-align:center; min-width:0; overflow:hidden; text-overflow:ellipsis; }
-  .tab.active { color:var(--green); border-bottom-color:var(--green); background:rgba(0,208,132,0.04); }
-  .tab:hover:not(.active) { color:var(--text); }
-  @media (max-width:500px) {
-    .tab { font-size:7px; padding:7px 0; }
-  }
-  .concept-desc { padding:10px 16px; background:rgba(0,208,132,0.05); border-bottom:1px solid rgba(0,208,132,0.15); font-family:var(--mono); font-size:11px; color:#8aa8c8; line-height:1.6; }
-  .concept-desc span { color:var(--green); margin-right:8px; }
-  .chart-wrap { background:#070b14; border:1px solid var(--border); border-top:none; position:relative; }
-  .chart-status { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:2px; padding:8px 16px; border-bottom:1px solid var(--border); background:rgba(10,15,30,0.6); }
-  canvas { display:block; width:100%; }
-  .chart-legend { display:flex; gap:24px; padding:12px 20px; border-top:1px solid var(--border); flex-wrap:wrap; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; }
-  .legend-item { display:flex; align-items:center; gap:6px; }
-  .legend-dot { width:10px; height:10px; border-radius:2px; }
+/* TICKER */
+.tape{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden;}
+.tape-track{display:flex;animation:scroll 25s linear infinite;width:max-content;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tape-item{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:0 32px;white-space:nowrap;border-right:1px solid var(--border);}
+.tape-item .sym{color:var(--muted);margin-right:8px;}
+.tape-item .up{color:var(--green);}
+.tape-item .dn{color:var(--red);}
  
-  /* CONCEPTS GRID */
-  #concepts { padding:80px 40px; }
-  .concepts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:48px; }
-  .concept-card { background:var(--bg); padding:32px; transition:background 0.2s; }
-  .concept-card:hover { background:var(--bg3); }
-  .concept-icon { font-family:var(--display); font-size:40px; letter-spacing:2px; margin-bottom:16px; display:block; }
-  .concept-card h3 { font-family:var(--mono); font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--text); margin-bottom:12px; }
-  .concept-card p { font-size:13px; color:var(--muted); line-height:1.7; }
-  .concept-tag { display:inline-block; margin-top:16px; font-family:var(--mono); font-size:9px; letter-spacing:2px; padding:4px 10px; border:1px solid; text-transform:uppercase; }
+/* SECTIONS */
+section{position:relative;z-index:1;}
+.section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
+.section-title{font-family:var(--display);font-size:clamp(36px,5vw,64px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:16px;}
+.section-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;}
  
-  /* ROADMAP */
-  #roadmap { padding:80px 40px; background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-  .roadmap-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px; margin-top:48px; }
-  .roadmap-card { position:relative; padding:28px; border:1px solid var(--border); background:var(--bg); }
-  .roadmap-card::before { content:attr(data-week); position:absolute; top:-1px; left:-1px; font-family:var(--display); font-size:11px; letter-spacing:2px; padding:4px 12px; background:var(--green); color:var(--bg); }
-  .roadmap-card h3 { font-family:var(--mono); font-size:13px; letter-spacing:1px; color:var(--text); margin:28px 0 12px; }
-  .roadmap-card ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
-  .roadmap-card li { font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.5px; padding-left:14px; position:relative; }
-  .roadmap-card li::before { content:'›'; position:absolute; left:0; color:var(--green); }
+/* CHART */
+#chart-section{padding:60px 28px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.chart-header .section-title{font-size:clamp(22px,3vw,42px);}
+.chart-wrap{background:#070b14;border:1px solid var(--border);border-top:none;position:relative;}
+.chart-status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;padding:8px 16px;border-bottom:1px solid var(--border);background:rgba(10,15,30,0.6);}
+.tabs-sticky{position:sticky;top:60px;z-index:10;background:#070b14;}
+.tabs{display:flex;border-bottom:1px solid var(--border);overflow:visible;flex-wrap:nowrap;width:100%;}
+.tab{font-family:var(--mono);font-size:9px;letter-spacing:0;text-transform:uppercase;padding:8px 0;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;flex:1;text-align:center;min-width:0;}
+.tab.active{color:var(--green);border-bottom-color:var(--green);background:rgba(0,208,132,0.04);}
+.tab:hover:not(.active){color:var(--text);}
+.concept-desc{padding:10px 16px;background:rgba(0,208,132,0.05);border-bottom:1px solid rgba(0,208,132,0.15);font-family:var(--mono);font-size:11px;color:#8aa8c8;line-height:1.6;}
+.concept-desc .arrow{color:var(--green);margin-right:8px;}
+canvas{display:block;width:100%;}
+.chart-legend{display:flex;gap:24px;padding:12px 20px;border-top:1px solid var(--border);flex-wrap:wrap;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;}
+.legend-item{display:flex;align-items:center;gap:6px;}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
  
-  /* RISK BANNER */
-  .risk-banner { background:rgba(255,68,102,0.06); border:1px solid rgba(255,68,102,0.2); border-left:3px solid var(--red); padding:20px 32px; margin:0 40px 40px; font-family:var(--mono); font-size:11px; color:#8a6070; line-height:1.7; letter-spacing:0.5px; }
-  .risk-banner strong { color:var(--red); }
+/* CANDLESTICK ANATOMY */
+#candlesticks{padding:72px 40px;border-top:1px solid var(--border);}
+.anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:32px;}
+.anatomy-card{background:var(--bg);padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+.pattern-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-top:none;}
+.pattern-cell{background:#070b14;padding:16px;text-align:center;display:flex;flex-direction:column;align-items:center;}
  
-  /* FOOTER */
-  footer { padding:48px 40px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
-  .footer-logo { font-family:var(--display); font-size:20px; letter-spacing:4px; color:var(--green); opacity:0.6; }
-  .footer-copy { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; }
-  .footer-links { display:flex; gap:24px; list-style:none; }
-  .footer-links a { font-family:var(--mono); font-size:10px; color:var(--muted); text-decoration:none; letter-spacing:1px; transition:color 0.2s; }
-  .footer-links a:hover { color:var(--green); }
+/* CONCEPTS */
+#concepts{padding:80px 40px;}
+.concepts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
+.concept-card{background:var(--bg);padding:32px;transition:background 0.2s;}
+.concept-card:hover{background:var(--bg3);}
+.concept-icon{font-family:var(--display);font-size:40px;letter-spacing:2px;margin-bottom:16px;display:block;}
+.concept-card h3{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:12px;}
+.concept-card p{font-size:13px;color:var(--muted);line-height:1.7;}
+.concept-tag{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;border:1px solid;text-transform:uppercase;}
  
-  /* SIGNUP MODAL */
-  .signup-overlay { display:none; position:fixed; inset:0; z-index:1000; background:rgba(7,11,20,0.95); backdrop-filter:blur(16px); align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease; }
-  .signup-overlay.open { display:flex; }
-  .signup-overlay.visible { opacity:1; }
-  .signup-box { background:var(--bg2); border:1px solid var(--border); padding:48px 40px; width:100%; max-width:480px; position:relative; transform:translateY(20px); transition:transform 0.3s ease; }
-  .signup-overlay.visible .signup-box { transform:translateY(0); }
-  .signup-close { position:absolute; top:16px; right:16px; font-family:var(--mono); font-size:11px; letter-spacing:2px; padding:5px 12px; background:transparent; border:1px solid var(--border); color:var(--muted); cursor:pointer; text-transform:uppercase; transition:all 0.2s; }
-  .signup-close:hover { border-color:var(--red); color:var(--red); }
-  .signup-tag { font-family:var(--mono); font-size:9px; letter-spacing:4px; color:var(--green); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-  .signup-box h2 { font-family:var(--display); font-size:42px; letter-spacing:3px; color:var(--text); line-height:1; margin-bottom:10px; }
-  .signup-box h2 span { color:var(--green); }
-  .signup-box p { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:28px; }
-  .signup-form { display:flex; flex-direction:column; gap:12px; }
-  .signup-input { font-family:var(--mono); font-size:12px; letter-spacing:1px; padding:13px 16px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; transition:border-color 0.2s; width:100%; }
-  .signup-input::placeholder { color:var(--muted); }
-  .signup-input:focus { border-color:var(--green); }
-  .signup-btn { font-family:var(--mono); font-size:12px; letter-spacing:2px; padding:14px; background:var(--green); color:var(--bg); border:none; cursor:pointer; text-transform:uppercase; font-weight:bold; transition:all 0.2s; width:100%; }
-  .signup-btn:hover { background:#00ffaa; box-shadow:0 0 24px rgba(0,208,132,0.3); }
-  .signup-btn:disabled { background:var(--muted); cursor:not-allowed; box-shadow:none; }
-  .signup-success { display:none; text-align:center; padding:20px 0; }
-  .signup-success .success-icon { font-family:var(--display); font-size:56px; color:var(--green); text-shadow:0 0 24px rgba(0,208,132,0.4); display:block; margin-bottom:12px; }
-  .signup-success h3 { font-family:var(--display); font-size:28px; letter-spacing:2px; color:var(--text); margin-bottom:8px; }
-  .signup-success p { font-size:13px; color:var(--muted); }
-  .signup-fine { font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:1px; text-align:center; margin-top:12px; line-height:1.6; }
+/* ROADMAP */
+#roadmap{padding:80px 40px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.roadmap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:48px;}
+.roadmap-card{position:relative;padding:28px;border:1px solid var(--border);background:var(--bg);}
+.roadmap-card::before{content:attr(data-week);position:absolute;top:-1px;left:-1px;font-family:var(--display);font-size:11px;letter-spacing:2px;padding:4px 12px;background:var(--green);color:var(--bg);}
+.roadmap-card h3{font-family:var(--mono);font-size:13px;letter-spacing:1px;color:var(--text);margin:28px 0 12px;}
+.roadmap-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.roadmap-card li{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.5px;padding-left:14px;position:relative;}
+.roadmap-card li::before{content:'›';position:absolute;left:0;color:var(--green);}
  
-  /* CHART MODAL */
-  .modal-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(7,11,20,0.97); backdrop-filter:blur(12px); flex-direction:column; opacity:0; transition:opacity 0.3s ease; }
-  .modal-overlay.open { display:flex; }
-  .modal-overlay.visible { opacity:1; }
-  .modal-header { display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:56px; border-bottom:1px solid var(--border); flex-shrink:0; }
-  .modal-title { font-family:var(--mono); font-size:11px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; display:flex; align-items:center; gap:10px; }
-  .modal-title strong { color:var(--green); }
-  .modal-close { font-family:var(--mono); font-size:11px; letter-spacing:2px; padding:6px 16px; background:transparent; border:1px solid var(--border); color:var(--muted); cursor:pointer; text-transform:uppercase; transition:all 0.2s; }
-  .modal-close:hover { border-color:var(--red); color:var(--red); }
-  .modal-body { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-  .modal-tabs { display:flex; border-bottom:1px solid var(--border); overflow:visible; flex-wrap:nowrap; width:100%; flex-shrink:0; }
-  .modal-tabs::-webkit-scrollbar { display:none; }
-  .modal-tab { font-family:var(--mono); font-size:8px; letter-spacing:0; text-transform:uppercase; padding:8px 0; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--muted); cursor:pointer; white-space:nowrap; transition:all 0.2s; flex:1 1 0; text-align:center; min-width:0; overflow:hidden; text-overflow:ellipsis; }
-  .modal-tab.active { color:var(--green); border-bottom-color:var(--green); background:rgba(0,208,132,0.04); }
-  .modal-tab:hover:not(.active) { color:var(--text); }
-  .modal-concept-desc { padding:10px 20px; background:rgba(0,208,132,0.05); border-bottom:1px solid rgba(0,208,132,0.15); font-family:var(--mono); font-size:11px; color:#8aa8c8; line-height:1.6; flex-shrink:0; }
-  .modal-concept-desc span { color:var(--green); margin-right:8px; }
-  .modal-chart-wrap { flex:1; position:relative; background:#070b14; min-height:0; }
-  .modal-chart-status { position:absolute; top:10px; left:16px; display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:2px; z-index:2; }
-  #modalChart { display:block; width:100%; height:100%; }
-  .modal-legend { display:flex; gap:24px; padding:10px 20px; border-top:1px solid var(--border); flex-wrap:wrap; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1px; flex-shrink:0; background:var(--bg2); }
+/* FOUNDER */
+#founder{padding:72px 40px;border-top:1px solid var(--border);}
  
-  /* FADE UP */
-  .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
-  .fade-up.visible { opacity:1; transform:translateY(0); }
+/* CONTACT */
+#contact{padding:72px 40px;border-top:1px solid var(--border);}
  
-  /* RESPONSIVE */
-  @media (max-width:768px) {
-    nav { padding:0 20px; }
-    .nav-links { display:none; }
-    .hero { padding:90px 20px 50px; }
-    .hero-stats { gap:24px; }
-    #chart-section,#concepts,#roadmap { padding:60px 20px; }
-    .chart-header { flex-direction:column; align-items:flex-start; }
-    footer { padding:32px 20px; flex-direction:column; align-items:flex-start; }
-    .risk-banner { margin:0 20px 32px; }
-    .signup-box { padding:36px 24px; margin:16px; }
-    .signup-box h2 { font-size:32px; }
-  }
-  @media (max-width:480px) {
-    .tab { font-size:8px; padding:7px 9px; letter-spacing:0.3px; }
-    .concept-desc { font-size:10px; padding:8px 12px; }
-  }
+/* SIGNUP */
+#signup-section{padding:80px 40px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.signup-input{font-family:var(--mono);font-size:12px;letter-spacing:1px;padding:13px 16px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;transition:border-color 0.2s;width:100%;}
+.signup-input:focus{border-color:var(--green);}
+.signup-input::placeholder{color:var(--muted);}
+.signup-btn-main{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:14px;background:var(--green);color:var(--bg);border:none;cursor:pointer;text-transform:uppercase;font-weight:bold;transition:all 0.2s;width:100%;}
+.signup-btn-main:hover{background:#00ffaa;box-shadow:0 0 24px rgba(0,208,132,0.3);}
+ 
+/* RISK */
+.risk-banner{background:rgba(255,68,102,0.06);border:1px solid rgba(255,68,102,0.2);border-left:3px solid var(--red);padding:20px 32px;margin:0 40px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;}
+.risk-banner strong{color:var(--red);}
+ 
+/* FOOTER */
+footer{padding:48px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-logo{font-family:var(--display);font-size:20px;letter-spacing:4px;color:var(--green);opacity:0.6;}
+.footer-copy{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;}
+.footer-links{display:flex;gap:24px;list-style:none;}
+.footer-links a{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color 0.2s;}
+.footer-links a:hover{color:var(--green);}
+ 
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+ 
+@media(max-width:768px){
+  nav{padding:0 16px;}
+  .hero{padding:90px 20px 50px;}
+  .hero-stats{gap:24px;}
+  #chart-section,#concepts,#roadmap,#candlesticks,#founder,#contact,#signup-section{padding:56px 20px;}
+  .anatomy-grid{grid-template-columns:1fr;}
+  footer{padding:32px 20px;flex-direction:column;align-items:flex-start;}
+  .risk-banner{margin:0 20px 32px;}
+}
+@media(max-width:480px){
+  .tab{font-size:8px;padding:7px 0;}
+}
 </style>
 </head>
 <body>
  
-<!-- SIGNUP MODAL -->
-<div class="signup-overlay" id="signupModal">
-  <div class="signup-box">
-    <button class="signup-close" onclick="closeSignupModal()">✕ Close</button>
-    <div id="signupFormWrap">
-      <div class="signup-tag"><div class="dot"></div>Early Access · Free</div>
-      <h2>JOIN THE<br><span>WAITLIST.</span></h2>
-      <p>Be the first to know when Apex Futures Academy goes live. Get early access, founding member pricing, and a free trading starter kit.</p>
-      <div class="signup-form">
-        <input class="signup-input" type="text" id="signupName" placeholder="Your first name" autocomplete="given-name" />
-        <input class="signup-input" type="email" id="signupEmail" placeholder="Your email address" autocomplete="email" />
-        <button class="signup-btn" id="signupBtn" onclick="handleSignup()">Reserve My Spot →</button>
-      </div>
-      <div class="signup-fine">No spam. No credit card. Unsubscribe anytime.<br>Joining the waitlist is 100% free.</div>
-    </div>
-    <div class="signup-success" id="signupSuccess">
-      <span class="success-icon">✓</span>
-      <h3>YOU'RE IN.</h3>
-      <p>Thanks for joining the waitlist!<br>We'll email you the moment we go live.</p>
-    </div>
-  </div>
-</div>
- 
-<!-- CHART MODAL -->
-<div class="modal-overlay" id="chartModal">
-  <div class="modal-header">
-    <div class="modal-title"><div class="dot"></div><strong>APEX FUTURES</strong> · Interactive Chart · ES 5M · Paper Mode</div>
-    <button class="modal-close" onclick="closeChartModal()">✕ Close</button>
-  </div>
-  <div class="modal-body">
-    <div class="modal-tabs">
-      <button class="modal-tab active" data-mconcept="bullish">Bullish</button>
-      <button class="modal-tab" data-mconcept="bearish">Bearish</button>
-      <button class="modal-tab" data-mconcept="support">S&amp;R</button>
-      <button class="modal-tab" data-mconcept="pullback">Pullback</button>
-      <button class="modal-tab" data-mconcept="rr">R/R</button>
-      <button class="modal-tab" data-mconcept="sd">S&amp;D</button>
-    </div>
-    <div class="modal-concept-desc"><span>▸</span><span id="modalDescText">Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.</span></div>
-    <div class="modal-chart-wrap" id="modalChartWrap">
-      <div class="modal-chart-status"><div class="dot"></div>PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE</div>
-      <canvas id="modalChart"></canvas>
-    </div>
-    <div class="modal-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#00d084"></div>Bullish</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#ff4466"></div>Bearish</div>
-      <div class="legend-item" id="modalLegendConcept"><div class="legend-dot" style="background:#00d4ff"></div><span id="modalLegendLabel">Market Structure</span></div>
-      <span style="margin-left:auto">Hover candles for OHLC</span>
-    </div>
+<!-- SLIDE MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="slide-menu" id="slideMenu">
+  <div class="slide-menu-label">Menu</div>
+  <a href="index.html" class="active-link">Home</a>
+  <a href="#chart-section" onclick="closeMenu()">Chart</a>
+  <a href="courses.html">Courses</a>
+  <a href="futures.html">Futures</a>
+  <a href="candlesticks.html">Candles</a>
+  <a href="contracts.html">Contract Info</a>
+  <a href="#concepts" onclick="closeMenu()">Concepts</a>
+  <a href="#roadmap" onclick="closeMenu()">Roadmap</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <div style="margin-top:auto;padding-top:28px;">
+    <a href="#signup-section" onclick="closeMenu()" style="background:var(--green);color:var(--bg);border:none;justify-content:center;font-weight:bold;padding:12px 0;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Save a Spot →</a>
   </div>
 </div>
  
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">APEX<span> FUTURES</span></div>
-  <ul class="nav-links">
-    <li><a href="#chart-section">Chart</a></li>
-    <li><a href="courses.html">Courses</a></li>
-    <li><a href="futures.html">Futures</a></li>
-    <li><a href="candlesticks.html">Candles</a></li>
-    <li><a href="contracts.html">Contract Info</a></li>
-    <li><a href="#concepts">Concepts</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-  </ul>
-  <button class="nav-cta" id="navCta">Save a Spot</button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
+  </div>
+  <a href="#signup-section" class="nav-cta">Save a Spot</a>
 </nav>
  
 <!-- HERO -->
@@ -279,7 +203,7 @@
     <div class="stat"><span class="stat-val">$0</span><span class="stat-label">To Start</span></div>
   </div>
   <div class="hero-btns">
-    <button onclick="openSignupModal()" class="btn-primary">Save a Spot →</button>
+    <a href="#signup-section" class="btn-primary">Save a Spot →</a>
     <a href="#roadmap" class="btn-ghost">View Roadmap</a>
   </div>
 </section>
@@ -293,95 +217,76 @@
     <div>
       <div class="section-label">// interactive chart</div>
       <div class="section-title">READ THE MARKET</div>
-      <p class="section-desc">Click each concept tab to see real annotations on a live-style candlestick chart. Hover candles for OHLC data.</p>
+      <p class="section-desc" style="font-size:13px;">Click each tab to see annotated setups. Hover candles for OHLC data.</p>
     </div>
-    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;line-height:1.8">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;line-height:1.8;">
       <div>ES FUTURES · 5M</div>
-      <div style="color:var(--green)">▲ 4,377.00</div>
+      <div style="color:var(--green);">▲ 4,377.00</div>
       <div>+0.83% today</div>
     </div>
   </div>
   <div class="chart-wrap fade-up">
-    <div class="chart-status"><div class="dot"></div>PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE</div>
-    <div class="tabs">
-      <button class="tab active" data-concept="bullish">Bullish</button>
-      <button class="tab" data-concept="bearish">Bearish</button>
-      <button class="tab" data-concept="support">S&amp;R</button>
-      <button class="tab" data-concept="pullback">Pullback</button>
-      <button class="tab" data-concept="rr">R/R</button>
-      <button class="tab" data-concept="sd">S&amp;D</button>
+    <div class="tabs-sticky">
+      <div class="chart-status"><div class="dot"></div>PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE</div>
+      <div class="tabs">
+        <button class="tab active" data-concept="bullish">Bullish</button>
+        <button class="tab" data-concept="bearish">Bearish</button>
+        <button class="tab" data-concept="support">S&amp;R</button>
+        <button class="tab" data-concept="pullback">Pullback</button>
+        <button class="tab" data-concept="rr">R/R</button>
+        <button class="tab" data-concept="sd">S&amp;D</button>
+      </div>
     </div>
-    <div class="concept-desc"><span>▸</span><span id="desc-text">Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.</span></div>
-    <canvas id="chart" height="380"></canvas>
+    <div class="concept-desc"><span class="arrow">▸</span><span id="desc-text">Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.</span></div>
+    <canvas id="chart" height="360"></canvas>
     <div class="chart-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#00d084"></div>Bullish Candle</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#ff4466"></div>Bearish Candle</div>
-      <div class="legend-item" id="legend-concept"><div class="legend-dot" style="background:#00d4ff"></div><span id="legend-label">Market Structure</span></div>
-      <span style="margin-left:auto;color:var(--muted)">Hover candles for OHLC</span>
+      <div class="legend-item"><div class="legend-dot" style="background:#00d084;"></div>Bullish</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff4466;"></div>Bearish</div>
+      <div class="legend-item" id="legend-concept"><div class="legend-dot" style="background:#00d084;"></div><span id="legend-label">Bullish Structure</span></div>
+      <span style="margin-left:auto;color:var(--muted);">Hover candles for OHLC</span>
     </div>
   </div>
 </section>
  
-<!-- CANDLESTICK SECTION -->
-<section id="candlesticks" style="padding:72px 40px;border-top:1px solid var(--border);">
+<!-- CANDLESTICK ANATOMY -->
+<section id="candlesticks">
   <div class="fade-up">
     <div class="section-label">// candlestick guide</div>
     <div class="section-title">READ EVERY CANDLE.</div>
-    <p class="section-desc">Every candle tells the story of a battle between buyers and sellers. Learn anatomy, reversal patterns, and continuation setups.</p>
+    <p class="section-desc">Every candle tells the story of a battle between buyers and sellers. Learn the anatomy and key patterns.</p>
   </div>
- 
-  <!-- Anatomy row -->
-  <div class="fade-up" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:40px;">
- 
-    <!-- Bullish anatomy -->
-    <div style="background:var(--bg);padding:32px;display:flex;gap:32px;align-items:center;flex-wrap:wrap;">
-      <canvas id="homeAnatomyBull" style="flex-shrink:0;width:90px;height:200px;background:#070b14;"></canvas>
+  <div class="anatomy-grid fade-up">
+    <div class="anatomy-card">
+      <canvas id="homeAnatomyBull" style="width:80px;height:180px;background:#070b14;flex-shrink:0;"></canvas>
       <div>
-        <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--green);margin-bottom:12px;">BULLISH CANDLE</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;letter-spacing:1px;">▲ HIGH — Top of upper wick</div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:1px;">▲ CLOSE — Top of green body</div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:1px;">▼ OPEN — Bottom of green body</div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:1px;">▼ LOW — Bottom of lower wick</div>
+        <div style="font-family:var(--display);font-size:26px;letter-spacing:2px;color:var(--green);margin-bottom:12px;">BULLISH CANDLE</div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;">▲ HIGH — Top of upper wick</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--green);">▲ CLOSE — Top of green body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);">▼ OPEN — Bottom of green body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:#ff4466;">▼ LOW — Bottom of lower wick</div>
         </div>
-        <div style="margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:10px;border-left:2px solid var(--green);background:rgba(0,208,132,0.05);">
-          Close &gt; Open = Buyers won. Green = bullish momentum.
-        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:10px;border-left:2px solid var(--green);background:rgba(0,208,132,0.05);">Close &gt; Open = Buyers won.</div>
       </div>
     </div>
- 
-    <!-- Bearish anatomy -->
-    <div style="background:var(--bg);padding:32px;display:flex;gap:32px;align-items:center;flex-wrap:wrap;">
-      <canvas id="homeAnatomyBear" style="flex-shrink:0;width:90px;height:200px;background:#070b14;"></canvas>
+    <div class="anatomy-card">
+      <canvas id="homeAnatomyBear" style="width:80px;height:180px;background:#070b14;flex-shrink:0;"></canvas>
       <div>
-        <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--red);margin-bottom:12px;">BEARISH CANDLE</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;letter-spacing:1px;">▲ HIGH — Top of upper wick</div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:1px;">▲ OPEN — Top of red body</div>
-          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);letter-spacing:1px;">▼ CLOSE — Bottom of red body</div>
-          <div style="font-family:var(--mono);font-size:10px;color:#8a3050;letter-spacing:1px;">▼ LOW — Bottom of lower wick</div>
+        <div style="font-family:var(--display);font-size:26px;letter-spacing:2px;color:var(--red);margin-bottom:12px;">BEARISH CANDLE</div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div style="font-family:var(--mono);font-size:10px;color:#ff9f43;">▲ HIGH — Top of upper wick</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--red);">▲ OPEN — Top of red body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--blue);">▼ CLOSE — Bottom of red body</div>
+          <div style="font-family:var(--mono);font-size:10px;color:#8a3050;">▼ LOW — Bottom of lower wick</div>
         </div>
-        <div style="margin-top:14px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;padding:10px;border-left:2px solid var(--red);background:rgba(255,68,102,0.05);">
-          Close &lt; Open = Sellers won. Red = bearish momentum.
-        </div>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:#ff8899;line-height:1.7;padding:10px;border-left:2px solid var(--red);background:rgba(255,68,102,0.05);">Close &lt; Open = Sellers won.</div>
       </div>
     </div>
   </div>
- 
-  <!-- Pattern preview row -->
-  <div class="fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-top:none;">
-    <div id="homePatternHammer" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-    <div id="homePatternEngulf" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-    <div id="homePatternStar" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-    <div id="homePatternPin" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-    <div id="homePatternDoji" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-    <div id="homePatternMarubozu" style="background:#070b14;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;"></div>
-  </div>
- 
-  <!-- CTA -->
-  <div class="fade-up" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:20px 24px;background:rgba(0,208,132,0.04);border:1px solid rgba(0,208,132,0.15);border-top:none;">
-    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;">Full anatomy · 12 patterns · Bull & Bear flags</div>
-    <a href="candlesticks.html" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
+  <div class="pattern-row fade-up" id="patternRow"></div>
+  <div class="fade-up" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 20px;background:rgba(0,208,132,0.04);border:1px solid rgba(0,208,132,0.15);border-top:none;">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px;">Full anatomy · 12 patterns · Bull &amp; Bear flags</div>
+    <a href="candlesticks.html" onclick="sessionStorage.setItem('apexTab','patterns')" style="font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:10px 24px;background:var(--green);color:var(--bg);text-decoration:none;text-transform:uppercase;font-weight:bold;transition:all 0.2s;" onmouseover="this.style.background='#00ffaa'" onmouseout="this.style.background='var(--green)'">Full Candlestick Guide →</a>
   </div>
 </section>
  
@@ -393,46 +298,12 @@
     <p class="section-desc">Five concepts every futures trader must internalize before risking a single dollar.</p>
   </div>
   <div class="concepts-grid fade-up">
-    <div class="concept-card">
-      <span class="concept-icon" style="color:#00d4ff">01</span>
-      <h3>Market Structure</h3>
-      <p>Price moves in trends. Identify Higher Highs and Higher Lows for bullish structure. This is your compass before every trade.</p>
-      <span class="concept-tag" style="color:#00d4ff;border-color:#00d4ff33">Beginner</span>
-    </div>
-    <div class="concept-card">
-      <span class="concept-icon" style="color:#f0c040">02</span>
-      <h3>Support & Resistance</h3>
-      <p>Key price levels where buyers and sellers historically clash. Mark them before the session opens every single day.</p>
-      <span class="concept-tag" style="color:#f0c040;border-color:#f0c04033">Beginner</span>
-    </div>
-    <div class="concept-card">
-      <span class="concept-icon" style="color:#50fa7b">03</span>
-      <h3>Pullback Entries</h3>
-      <p>Never chase price. Wait for it to pull back to a key level. This gives you the best entry and the tightest stop.</p>
-      <span class="concept-tag" style="color:#50fa7b;border-color:#50fa7b33">Intermediate</span>
-    </div>
-    <div class="concept-card">
-      <span class="concept-icon" style="color:#ff6b6b">04</span>
-      <h3>Risk / Reward</h3>
-      <p>Define your stop and target before every trade. A 1:2 R/R means you only need to be right 34% of the time to break even.</p>
-      <span class="concept-tag" style="color:#ff6b6b;border-color:#ff6b6b33">Essential</span>
-    </div>
-    <div class="concept-card">
-      <span class="concept-icon" style="color:#bd93f9">05</span>
-      <h3>VWAP</h3>
-      <p>Volume Weighted Average Price is the most watched intraday level by institutions. Price above = bullish. Below = bearish.</p>
-      <span class="concept-tag" style="color:#bd93f9;border-color:#bd93f933">Intermediate</span>
-    </div>
-    <div class="concept-card" style="background:rgba(0,208,132,0.04);border-left:2px solid var(--green)">
-      <h3 style="color:var(--green)">Study Resources</h3>
-      <p style="margin-bottom:16px">Recommended reading to accelerate your learning curve.</p>
-      <div style="display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted)">
-        <span>› Trading in the Zone — Mark Douglas</span>
-        <span>› SMB Capital — YouTube</span>
-        <span>› TradingView — charting platform</span>
-        <span>› Bookmap — order flow tool</span>
-      </div>
-    </div>
+    <div class="concept-card"><span class="concept-icon" style="color:#00d4ff">01</span><h3>Market Structure</h3><p>Price moves in trends. Identify Higher Highs and Higher Lows for bullish structure. This is your compass before every trade.</p><span class="concept-tag" style="color:#00d4ff;border-color:#00d4ff33">Beginner</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#f0c040">02</span><h3>Support &amp; Resistance</h3><p>Key price levels where buyers and sellers historically clash. Mark them before the session opens every single day.</p><span class="concept-tag" style="color:#f0c040;border-color:#f0c04033">Beginner</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#50fa7b">03</span><h3>Pullback Entries</h3><p>Never chase price. Wait for it to pull back to a key level. This gives you the best entry and the tightest stop.</p><span class="concept-tag" style="color:#50fa7b;border-color:#50fa7b33">Intermediate</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#ff6b6b">04</span><h3>Risk / Reward</h3><p>Define your stop and target before every trade. A 1:2 R/R means you only need to be right 34% of the time to break even.</p><span class="concept-tag" style="color:#ff6b6b;border-color:#ff6b6b33">Essential</span></div>
+    <div class="concept-card"><span class="concept-icon" style="color:#bd93f9">05</span><h3>VWAP</h3><p>Volume Weighted Average Price is the most watched intraday level by institutions. Price above = bullish. Below = bearish.</p><span class="concept-tag" style="color:#bd93f9;border-color:#bd93f933">Intermediate</span></div>
+    <div class="concept-card" style="background:rgba(0,208,132,0.04);border-left:2px solid var(--green);"><h3 style="color:var(--green);">Study Resources</h3><p style="margin-bottom:16px;">Recommended reading to accelerate your learning.</p><div style="display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted);"><span>› Trading in the Zone — Mark Douglas</span><span>› SMB Capital — YouTube</span><span>› TradingView — charting platform</span><span>› Bookmap — order flow tool</span></div></div>
   </div>
 </section>
  
@@ -444,201 +315,190 @@
     <p class="section-desc">A structured curriculum to go from zero to consistently profitable on simulation.</p>
   </div>
   <div class="roadmap-grid fade-up">
-    <div class="roadmap-card" data-week="WEEK 01">
-      <h3>Foundation</h3>
-      <ul>
-        <li>How futures contracts work</li>
-        <li>Tick values & margin basics</li>
-        <li>Reading candlestick charts</li>
-        <li>Set up TradingView free</li>
-        <li>Open a paper trading account</li>
-      </ul>
-    </div>
-    <div class="roadmap-card" data-week="WEEK 02">
-      <h3>Technical Concepts</h3>
-      <ul>
-        <li>Market structure deep dive</li>
-        <li>Mark support & resistance daily</li>
-        <li>VWAP usage intraday</li>
-        <li>Study 50 historical setups</li>
-        <li>Begin trading journal</li>
-      </ul>
-    </div>
-    <div class="roadmap-card" data-week="WEEK 03">
-      <h3>Strategy Building</h3>
-      <ul>
-        <li>Pullback entry rules</li>
-        <li>Stop loss placement logic</li>
-        <li>Target & partial profit rules</li>
-        <li>Paper trade 10 setups</li>
-        <li>Review journal weekly</li>
-      </ul>
-    </div>
-    <div class="roadmap-card" data-week="WEEK 04">
-      <h3>Consistency</h3>
-      <ul>
-        <li>Trade same setup only</li>
-        <li>Track win rate & avg R/R</li>
-        <li>Manage losing streaks</li>
-        <li>Evaluate real account readiness</li>
-        <li>Start with micro contracts</li>
-      </ul>
-    </div>
+    <div class="roadmap-card" data-week="WEEK 01"><h3>Foundation</h3><ul><li>How futures contracts work</li><li>Tick values &amp; margin basics</li><li>Reading candlestick charts</li><li>Set up TradingView free</li><li>Open a paper trading account</li></ul></div>
+    <div class="roadmap-card" data-week="WEEK 02"><h3>Technical Concepts</h3><ul><li>Market structure deep dive</li><li>Mark support &amp; resistance daily</li><li>VWAP usage intraday</li><li>Study 50 historical setups</li><li>Begin trading journal</li></ul></div>
+    <div class="roadmap-card" data-week="WEEK 03"><h3>Strategy Building</h3><ul><li>Pullback entry rules</li><li>Stop loss placement logic</li><li>Target &amp; partial profit rules</li><li>Paper trade 10 setups</li><li>Review journal weekly</li></ul></div>
+    <div class="roadmap-card" data-week="WEEK 04"><h3>Consistency</h3><ul><li>Trade same setup only</li><li>Track win rate &amp; avg R/R</li><li>Manage losing streaks</li><li>Evaluate real account readiness</li><li>Start with micro contracts</li></ul></div>
   </div>
 </section>
  
 <!-- FOUNDER -->
-<section id="founder" style="padding:80px 40px;border-top:1px solid var(--border);">
+<section id="founder">
   <div class="fade-up" style="display:flex;align-items:center;gap:56px;flex-wrap:wrap;max-width:900px;margin:0 auto;">
     <div style="flex-shrink:0;text-align:center;">
-      <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,rgba(0,208,132,0.15),rgba(0,212,255,0.08));border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-        <span style="font-family:var(--display);font-size:42px;letter-spacing:2px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);">GD</span>
+      <div style="width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,rgba(0,208,132,0.15),rgba(0,212,255,0.08));border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+        <span style="font-family:var(--display);font-size:38px;letter-spacing:2px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);">GD</span>
       </div>
-      <div style="font-family:var(--display);font-size:22px;letter-spacing:3px;color:var(--text);">GUSTAVO DUARTE</div>
+      <div style="font-family:var(--display);font-size:20px;letter-spacing:3px;color:var(--text);">GUSTAVO DUARTE</div>
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-top:4px;">Founder · Apex Futures Academy</div>
     </div>
     <div style="flex:1;min-width:260px;">
       <div style="font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;">// from the founder</div>
-      <div style="font-family:var(--display);font-size:clamp(28px,4vw,44px);letter-spacing:2px;color:var(--text);line-height:1;margin-bottom:16px;">BUILT BY A<br><span style="color:var(--green);">TRADER.</span></div>
-      <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:16px;">Apex Futures Academy was built out of frustration with the noise. Too many courses selling dreams, not enough teaching the real fundamentals that actually move markets.</p>
-      <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px;">This platform exists for one reason — to give serious traders a structured, honest path from zero to consistently profitable. No hype. No shortcuts. Just process.</p>
+      <div style="font-family:var(--display);font-size:clamp(26px,4vw,42px);letter-spacing:2px;color:var(--text);line-height:1;margin-bottom:16px;">BUILT BY A<br><span style="color:var(--green);">TRADER.</span></div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:14px;">Apex Futures Academy was built out of frustration with the noise. Too many courses selling dreams, not enough teaching real fundamentals.</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px;">This platform exists to give serious traders a structured, honest path from zero to consistently profitable. No hype. No shortcuts. Just process.</p>
       <div style="display:flex;gap:24px;flex-wrap:wrap;">
-        <div style="text-align:center;">
-          <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--green);">ES</div>
-          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Primary Market</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--green);">NQ</div>
-          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Secondary Market</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--green);">5M</div>
-          <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Primary Timeframe</div>
-        </div>
+        <div style="text-align:center;"><div style="font-family:var(--display);font-size:26px;letter-spacing:2px;color:var(--green);">ES</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Primary Market</div></div>
+        <div style="text-align:center;"><div style="font-family:var(--display);font-size:26px;letter-spacing:2px;color:var(--green);">NQ</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Secondary Market</div></div>
+        <div style="text-align:center;"><div style="font-family:var(--display);font-size:26px;letter-spacing:2px;color:var(--green);">5M</div><div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Primary Timeframe</div></div>
       </div>
     </div>
   </div>
 </section>
  
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-up" style="max-width:600px;">
+    <div class="section-label">// partnerships &amp; collaborations</div>
+    <div class="section-title">LET'S CONNECT.</div>
+    <p class="section-desc" style="margin-bottom:28px;">Interested in partnering with Apex Futures Academy? Sponsorships, affiliates, content collaborations — reach out directly.</p>
+    <a href="mailto:ft.guglecruz@gmail.com" style="display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;letter-spacing:2px;padding:14px 28px;background:transparent;border:1px solid var(--green);color:var(--green);text-decoration:none;text-transform:uppercase;transition:all 0.2s;" onmouseover="this.style.background='var(--green)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--green)'">✉ ft.guglecruz@gmail.com</a>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:14px;">Founded by Gustavo Duarte · Response within 24–48 hours</div>
+  </div>
+</section>
+ 
+<!-- EMAIL SIGNUP -->
+<section id="signup-section">
+  <div class="fade-up" style="max-width:520px;margin:0 auto;text-align:center;">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;"><div class="dot"></div>Early Access · Free</div>
+    <div style="font-family:var(--display);font-size:clamp(36px,5vw,64px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:12px;">SAVE YOUR<br><span style="color:var(--green);">SPOT.</span></div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:28px;">Be the first to know when Apex Futures Academy goes live. Get early access, founding member pricing, and a free trading starter kit.</p>
+    <div id="signupForm" style="display:flex;flex-direction:column;gap:12px;max-width:380px;margin:0 auto;">
+      <input id="secName" class="signup-input" type="text" placeholder="Your first name" autocomplete="given-name"/>
+      <input id="secEmail" class="signup-input" type="email" placeholder="Your email address" autocomplete="email"/>
+      <button class="signup-btn-main" onclick="handleSignup()">Notify Me When Live →</button>
+    </div>
+    <div id="signupSuccess" style="display:none;padding:24px 0;">
+      <div style="font-family:var(--display);font-size:52px;color:var(--green);text-shadow:0 0 24px rgba(0,208,132,0.4);margin-bottom:8px;">✓</div>
+      <div style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:8px;">YOU'RE IN.</div>
+      <p style="font-size:13px;color:var(--muted);">We'll email you the moment we go live.</p>
+    </div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:14px;">No spam. No credit card. Unsubscribe anytime.</div>
+  </div>
+</section>
+ 
 <!-- RISK -->
-<div class="risk-banner fade-up">
-  <strong>⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. The majority of retail traders lose money. This site is for <strong>educational purposes only</strong> and does not constitute financial advice. Always paper trade before using real capital. Never risk money you cannot afford to lose.
-</div>
+<div class="risk-banner fade-up"><strong>⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. The majority of retail traders lose money. This site is for <strong>educational purposes only</strong> and does not constitute financial advice. Always paper trade before using real capital.</div>
  
 <!-- FOOTER -->
 <footer>
-  <div>
-    <div class="footer-logo">APEX FUTURES</div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div>
-  </div>
-  <ul class="footer-links">
-    <li><a href="#">Disclaimer</a></li>
-    <li><a href="#">Privacy</a></li>
-    <li><a href="courses.html">Courses</a></li>
-  </ul>
+  <div><div class="footer-logo">APEX FUTURES</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:4px;">Founded by Gustavo Duarte</div></div>
+  <ul class="footer-links"><li><a href="courses.html">Courses</a></li><li><a href="futures.html">Futures</a></li><li><a href="candlesticks.html">Candles</a></li><li><a href="contracts.html">Contract Info</a></li></ul>
   <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
 </footer>
  
 <script>
-// ── TICKER TAPE ──
-const tapeData = [
-  {sym:'ES',price:'4,377.25',chg:'+0.83%',up:true},
-  {sym:'NQ',price:'15,842.50',chg:'+1.12%',up:true},
-  {sym:'GC',price:'2,341.80',chg:'-0.22%',up:false},
-  {sym:'CL',price:'78.44',chg:'+0.61%',up:true},
-  {sym:'RTY',price:'2,018.30',chg:'-0.38%',up:false},
-  {sym:'ZB',price:'118.12',chg:'+0.14%',up:true},
-  {sym:'SI',price:'27.83',chg:'+0.95%',up:true},
-  {sym:'HG',price:'4.21',chg:'-0.55%',up:false},
-];
-const tape = document.getElementById('tape');
-[...tapeData,...tapeData].forEach(item => {
-  const el = document.createElement('div');
-  el.className = 'tape-item';
-  el.innerHTML = '<span class="sym">'+item.sym+'</span><span class="'+(item.up?'up':'dn')+'">'+item.price+' '+item.chg+'</span>';
-  tape.appendChild(el);
-});
+// ── HAMBURGER ──
+function toggleMenu(){
+  const m=document.getElementById('slideMenu'),h=document.getElementById('hamburger'),o=document.getElementById('menuOverlay');
+  m.classList.toggle('open');h.classList.toggle('open');o.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMenu(){
+  document.getElementById('slideMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
  
-// ── SHARED CHART DATA ──
-// Bullish candles — uptrend with LH at start then HH
-const bullishCandles = [
-  {o:4310,h:4328,l:4302,c:4318}, // LH area — first swing high
-  {o:4318,h:4322,l:4295,c:4298}, // pullback low
-  {o:4298,h:4315,l:4292,c:4310},
-  {o:4310,h:4335,l:4305,c:4330},
-  {o:4330,h:4345,l:4322,c:4340},
-  {o:4340,h:4358,l:4335,c:4352}, // HH — higher high
-  {o:4352,h:4355,l:4330,c:4335}, // pullback
-  {o:4335,h:4340,l:4318,c:4322},
-  {o:4322,h:4330,l:4315,c:4325},
-  {o:4325,h:4345,l:4320,c:4340},
-  {o:4340,h:4362,l:4336,c:4358},
-  {o:4358,h:4375,l:4352,c:4370},
-  {o:4370,h:4378,l:4362,c:4368},
-  {o:4368,h:4382,l:4362,c:4378}, // HH2
-];
-// Bearish candles — clear downtrend mirroring bullish but inverted
-const bearishCandles = [
-  {o:4380,h:4385,l:4368,c:4372}, // strong drop starts
-  {o:4372,h:4376,l:4355,c:4358},
-  {o:4358,h:4362,l:4340,c:4344}, // LH area — candle 2 high
-  {o:4344,h:4352,l:4325,c:4328}, // LH candle 3 — mark this
-  {o:4328,h:4332,l:4308,c:4312},
-  {o:4312,h:4318,l:4292,c:4295}, // LL candle 5 — mark below this
-  {o:4295,h:4310,l:4288,c:4305}, // small bounce up
-  {o:4305,h:4315,l:4295,c:4298},
-  {o:4298,h:4308,l:4282,c:4285},
-  {o:4285,h:4292,l:4268,c:4272}, // LH candle 9 — second lower high on bounce
-  {o:4272,h:4278,l:4255,c:4258},
-  {o:4258,h:4264,l:4242,c:4245},
-  {o:4245,h:4252,l:4230,c:4234},
-  {o:4234,h:4240,l:4220,c:4222}, // LL2 candle 13 — second lower low
-];
-let candles = bullishCandles;
-const conceptData = {
-  bullish: {color:'#00d4ff', label:'Bullish Structure', desc:'Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.'},
-  bearish: {color:'#ff4466', label:'Bearish Structure', desc:'Bearish market structure = Lower Highs (LH) followed by Lower Lows (LL). Each rally fails below the previous high. As long as this pattern continues, the trend is down.'},
-  support: {color:'#f0c040',label:'Support & Resistance', desc:'Key price levels where buyers (support) or sellers (resistance) historically step in. Price often bounces or rejects at these zones.'},
-  pullback:{color:'#50fa7b',label:'Pullback Entry',       desc:'After identifying the trend, wait for price to pull back to a key level. This gives you a better entry with less risk and more reward.'},
-  rr:      {color:'#ff6b6b',label:'Risk / Reward',        desc:'Always define your stop loss and target BEFORE entering. A 1:2 or 1:3 risk/reward means you can be wrong 50% of the time and still profit.'},
-  vwap:    {color:'#bd93f9',label:'VWAP',                 desc:''},
-  sd:      {color:'#ff9f43',label:'Supply & Demand',      desc:'Supply zones are areas where sellers overwhelmed buyers causing price to drop sharply. Demand zones are where buyers stepped in aggressively. Price often returns to these zones.'},
+// ── TICKER ──
+const tapeData=[{sym:'ES',price:'4,377.25',chg:'+0.83%',up:true},{sym:'NQ',price:'15,842.50',chg:'+1.12%',up:true},{sym:'GC',price:'2,341.80',chg:'-0.22%',up:false},{sym:'CL',price:'78.44',chg:'+0.61%',up:true},{sym:'RTY',price:'2,018.30',chg:'-0.38%',up:false},{sym:'ZB',price:'118.12',chg:'+0.14%',up:true},{sym:'SI',price:'27.83',chg:'+0.95%',up:true},{sym:'HG',price:'4.21',chg:'-0.55%',up:false}];
+const tape=document.getElementById('tape');
+[...tapeData,...tapeData].forEach(item=>{const el=document.createElement('div');el.className='tape-item';el.innerHTML='<span class="sym">'+item.sym+'</span><span class="'+(item.up?'up':'dn')+'">'+item.price+' '+item.chg+'</span>';tape.appendChild(el);});
+ 
+// ── CHART DATA ──
+const bullishCandles=[{o:4310,h:4328,l:4302,c:4318},{o:4318,h:4322,l:4295,c:4298},{o:4298,h:4315,l:4292,c:4310},{o:4310,h:4335,l:4305,c:4330},{o:4330,h:4345,l:4322,c:4340},{o:4340,h:4358,l:4335,c:4352},{o:4352,h:4355,l:4330,c:4335},{o:4335,h:4340,l:4318,c:4322},{o:4322,h:4330,l:4315,c:4325},{o:4325,h:4345,l:4320,c:4340},{o:4340,h:4362,l:4336,c:4358},{o:4358,h:4375,l:4352,c:4370},{o:4370,h:4378,l:4362,c:4368},{o:4368,h:4382,l:4362,c:4378}];
+const bearishCandles=[{o:4380,h:4385,l:4368,c:4372},{o:4372,h:4376,l:4355,c:4358},{o:4358,h:4362,l:4340,c:4344},{o:4344,h:4352,l:4325,c:4328},{o:4328,h:4332,l:4308,c:4312},{o:4312,h:4318,l:4292,c:4295},{o:4295,h:4310,l:4288,c:4305},{o:4305,h:4315,l:4295,c:4298},{o:4298,h:4308,l:4282,c:4285},{o:4285,h:4292,l:4268,c:4272},{o:4272,h:4278,l:4255,c:4258},{o:4258,h:4264,l:4242,c:4245},{o:4245,h:4252,l:4230,c:4234},{o:4234,h:4240,l:4220,c:4222}];
+let candles=bullishCandles;
+const conceptData={
+  bullish:{color:'#00d084',label:'Bullish Structure',desc:'Bullish market structure = Higher Highs (HH) followed by Higher Lows (HL). Each pullback holds above the previous low. As long as this pattern continues, the trend is up.'},
+  bearish:{color:'#ff4466',label:'Bearish Structure',desc:'Bearish market structure = Lower Highs (LH) followed by Lower Lows (LL). Each rally fails below the previous high. As long as this pattern continues, the trend is down.'},
+  support:{color:'#f0c040',label:'Support & Resistance',desc:'Key price levels where buyers (support) or sellers (resistance) historically step in. Price often bounces or rejects at these zones.'},
+  pullback:{color:'#50fa7b',label:'Pullback Entry',desc:'After identifying the trend, wait for price to pull back to a key level. This gives you a better entry with less risk and more reward.'},
+  rr:{color:'#ff6b6b',label:'Risk / Reward',desc:'Always define your stop loss and target BEFORE entering. A 1:2 or 1:3 risk/reward means you can be wrong 50% of the time and still profit.'},
+  sd:{color:'#ff9f43',label:'Supply & Demand',desc:'Supply zones are areas where sellers overwhelmed buyers causing price to drop sharply. Demand zones are where buyers stepped in aggressively. Price often returns to these zones.'}
 };
-const PAD={l:58,r:16,t:36,b:28};
+const PAD={l:54,r:16,t:34,b:26};
 const SUPPORT=4318,RESISTANCE=4352,STOP=4312,T1=4340,T2=4368,ENTRY=9;
+const DZ_TOP=4328,DZ_BOT=4315,SZ_TOP=4352,SZ_BOT=4338;
  
-function buildChart(canvasId, getActiveConcept, getHovered) {
-  const cv = document.getElementById(canvasId);
-  const cx = cv.getContext('2d');
-  const dpr = window.devicePixelRatio||1;
- 
+function buildChart(cvId,getAC,getHov){
+  const cv=document.getElementById(cvId);
+  const cx=cv.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
   function dims(){const W=cv.width/dpr,H=cv.height/dpr;return{W,H,cW:W-PAD.l-PAD.r,cH:H-PAD.t-PAD.b};}
-  function prng(){const p=candles.flatMap(c=>[c.h,c.l]);return{min:Math.min(...p)-8,max:Math.max(...p)+8};}
-  function py(price){const{H,cH}=dims();const{min,max}=prng();return PAD.t+cH*(1-(price-min)/(max-min));}
+  function pr(){const p=candles.flatMap(c=>[c.h,c.l]);return{min:Math.min(...p)-8,max:Math.max(...p)+8};}
+  function py(price){const{H,cH}=dims();const{min,max}=pr();return PAD.t+cH*(1-(price-min)/(max-min));}
   function candX(i){const{cW}=dims();const s=cW/candles.length;return PAD.l+s*i+s/2;}
   function vwap(){return candles.reduce((s,c)=>s+(c.h+c.l+c.c)/3,0)/candles.length;}
- 
   function draw(){
-    const ac=getActiveConcept(), hi=getHovered();
+    const ac=getAC(),hi=getHov();
     const{W,H,cW,cH}=dims();
     cx.clearRect(0,0,W,H);cx.fillStyle='#070b14';cx.fillRect(0,0,W,H);
-    const{min,max}=prng();const step=Math.round((max-min)/6);
-    for(let p=Math.ceil(min/step)*step;p<=max;p+=step){
-      const y=py(p);cx.strokeStyle='#1a2540';cx.setLineDash([3,8]);cx.lineWidth=1;
-      cx.beginPath();cx.moveTo(PAD.l,y);cx.lineTo(W-PAD.r,y);cx.stroke();
-      cx.fillStyle='#2a4060';cx.font="9px 'Share Tech Mono'";cx.textAlign='right';cx.fillText(p,PAD.l-6,y+3);
-    }
+    const{min,max}=pr();const step=Math.round((max-min)/6);
+    for(let p=Math.ceil(min/step)*step;p<=max;p+=step){const y=py(p);cx.strokeStyle='#1a2540';cx.setLineDash([3,8]);cx.lineWidth=1;cx.beginPath();cx.moveTo(PAD.l,y);cx.lineTo(W-PAD.r,y);cx.stroke();cx.fillStyle='#2a4060';cx.font="9px 'Share Tech Mono'";cx.textAlign='right';cx.fillText(p,PAD.l-4,y+3);}
     cx.setLineDash([]);
     const col=conceptData[ac].color;
     const cw=Math.max(8,cW/candles.length*0.7);
- 
+    // ── ANNOTATIONS ──
+    if(ac==='bullish'){
+      const bCol='#00d084';
+      // LH1 below candle 3 (index 2)
+      const lh1X=candX(2),lh1Y=py(candles[2].l);
+      cx.fillStyle='rgba(0,208,132,0.15)';cx.strokeStyle=bCol+'88';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(lh1X-18,lh1Y+10,36,16,4);cx.fill();cx.stroke();
+      cx.fillStyle=bCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('LH',lh1X,lh1Y+22);
+      // LH2 below candle 9 (index 8)
+      const lh2X=candX(8),lh2Y=py(candles[8].l);
+      cx.fillStyle='rgba(0,208,132,0.15)';cx.strokeStyle=bCol+'88';cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(lh2X-18,lh2Y+10,36,16,4);cx.fill();cx.stroke();
+      cx.fillStyle=bCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('LH',lh2X,lh2Y+22);
+      // HH1 above candle 6 (index 5)
+      const hh1X=candX(5),hh1Y=py(candles[5].h);
+      cx.fillStyle='rgba(0,208,132,0.22)';cx.strokeStyle=bCol;cx.lineWidth=1.5;cx.shadowColor=bCol;cx.shadowBlur=6;
+      cx.beginPath();cx.roundRect(hh1X-18,hh1Y-24,36,16,4);cx.fill();cx.stroke();cx.shadowBlur=0;
+      cx.fillStyle=bCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('HH',hh1X,hh1Y-11);
+      // HH2 above candle 14 (index 13)
+      const hhX=candX(13),hhY=py(candles[13].h);
+      cx.fillStyle='rgba(0,208,132,0.28)';cx.strokeStyle=bCol;cx.lineWidth=2;cx.shadowColor=bCol;cx.shadowBlur=10;
+      cx.beginPath();cx.roundRect(hhX-18,hhY-24,36,16,4);cx.fill();cx.stroke();cx.shadowBlur=0;
+      cx.fillStyle=bCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('HH',hhX,hhY-11);
+      // Badge
+      cx.fillStyle='rgba(0,208,132,0.1)';cx.strokeStyle=bCol+'44';cx.lineWidth=1;
+      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+4,140,16,3);cx.fill();cx.stroke();
+      cx.fillStyle=bCol;cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='left';cx.fillText('▲ BULLISH  ·  LH  LH  HH  HH',PAD.l+8,PAD.t+15);
+    }
+    if(ac==='bearish'){
+      const rCol='#ff4466';
+      // LL below candle 7 (index 6)
+      const llX=candX(6),llY=py(candles[6].l);
+      cx.fillStyle='rgba(255,68,102,0.25)';cx.strokeStyle=rCol;cx.lineWidth=2;cx.shadowColor=rCol;cx.shadowBlur=8;
+      cx.beginPath();cx.roundRect(llX-18,llY+18,36,16,4);cx.fill();cx.stroke();cx.shadowBlur=0;
+      cx.fillStyle=rCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('LL',llX,llY+30);
+      // LH above candle 8 (index 7)
+      const lhX=candX(7),lhY=py(candles[7].h);
+      cx.fillStyle='rgba(255,68,102,0.25)';cx.strokeStyle=rCol;cx.lineWidth=2;cx.shadowColor=rCol;cx.shadowBlur=8;
+      cx.beginPath();cx.roundRect(lhX-18,lhY-34,36,16,4);cx.fill();cx.stroke();cx.shadowBlur=0;
+      cx.fillStyle=rCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('LH',lhX,lhY-21);
+      // LL2 below candle 14 (index 13)
+      const ll2X=candX(13),ll2Y=py(candles[13].l);
+      cx.fillStyle='rgba(255,68,102,0.22)';cx.strokeStyle=rCol;cx.lineWidth=1.5;
+      cx.beginPath();cx.roundRect(ll2X-18,ll2Y+18,36,16,4);cx.fill();cx.stroke();
+      cx.fillStyle=rCol;cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='center';cx.fillText('LL',ll2X,ll2Y+30);
+      // Badge
+      cx.fillStyle='rgba(255,68,102,0.1)';cx.strokeStyle=rCol+'44';cx.lineWidth=1;
+      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+4,140,16,3);cx.fill();cx.stroke();
+      cx.fillStyle=rCol;cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='left';cx.fillText('▼ BEARISH  ·  LL  LH  LL  lower',PAD.l+8,PAD.t+15);
+    }
     if(ac==='support'){
-      [[SUPPORT,'#50fa7b'],[RESISTANCE,'#ff4466']].forEach(([p,c])=>{cx.fillStyle=c+'12';cx.fillRect(PAD.l,py(p+3),cW,py(p-3)-py(p+3));});
-      [[SUPPORT,'#50fa7b','Support '+SUPPORT],[RESISTANCE,'#ff4466','Resistance '+RESISTANCE]].forEach(([p,c,lbl])=>{
+      [[SUPPORT,'#50fa7b','Support '+SUPPORT,false],[RESISTANCE,'#ff4466','Resistance '+RESISTANCE,true]].forEach(([p,c,lbl,left])=>{
+        cx.fillStyle=c+'12';cx.fillRect(PAD.l,py(p+3),cW,py(p-3)-py(p+3));
         cx.strokeStyle=c;cx.setLineDash([6,4]);cx.lineWidth=1.5;cx.globalAlpha=0.85;
         cx.beginPath();cx.moveTo(PAD.l,py(p));cx.lineTo(W-PAD.r,py(p));cx.stroke();
-        cx.setLineDash([]);cx.globalAlpha=1;cx.fillStyle=c;cx.font="9px 'Share Tech Mono'";cx.textAlign='right';
-        cx.fillText(lbl,W-PAD.r-4,py(p)-4);
+        cx.setLineDash([]);cx.globalAlpha=1;cx.fillStyle=c;cx.font="9px 'Share Tech Mono'";
+        if(left){cx.textAlign='left';cx.fillText(lbl,PAD.l+4,py(p)-4);}
+        else{cx.textAlign='right';cx.fillText(lbl,W-PAD.r-4,py(p)-4);}
       });
     }
     if(ac==='pullback'){
@@ -659,479 +519,164 @@ function buildChart(canvasId, getActiveConcept, getHovered) {
       [[STOP,'#ff4444','Stop '+STOP],[T1,'#50fa7b','T1 '+T1],[T2,'#00ff88','T2 '+T2]].forEach(([p,c,lbl])=>{
         cx.strokeStyle=c;cx.setLineDash([4,3]);cx.lineWidth=1.2;cx.globalAlpha=0.9;
         cx.beginPath();cx.moveTo(PAD.l,py(p));cx.lineTo(W-PAD.r,py(p));cx.stroke();
-        cx.setLineDash([]);cx.globalAlpha=1;cx.fillStyle=c;cx.textAlign='right';cx.font="9px 'Share Tech Mono'";
-        cx.fillText(lbl,W-PAD.r-4,py(p)-4);
+        cx.setLineDash([]);cx.globalAlpha=1;cx.fillStyle=c;cx.textAlign='right';cx.font="9px 'Share Tech Mono'";cx.fillText(lbl,W-PAD.r-4,py(p)-4);
       });
       cx.fillStyle='#ff4444';cx.textAlign='left';cx.font="9px 'Share Tech Mono'";cx.fillText('RISK',rx+6,sY-4);
       cx.fillStyle='#00ff88';cx.fillText('REWARD',rx+6,t2Y+14);
     }
     if(ac==='sd'){
-      // Demand zone — where price bounced hard from (candles 6-8, the HL area)
-      const DZ_TOP=4328, DZ_BOT=4315;
-      // Supply zone — where price got rejected from the high (candles 4-5 base)
-      const SZ_TOP=4352, SZ_BOT=4338;
- 
-      // Demand zone (green)
-      cx.fillStyle='rgba(0,208,132,0.12)';
-      cx.fillRect(PAD.l, py(DZ_TOP), cW, py(DZ_BOT)-py(DZ_TOP));
-      cx.strokeStyle='#00d084';cx.lineWidth=1;cx.setLineDash([4,3]);cx.globalAlpha=0.7;
-      cx.beginPath();cx.moveTo(PAD.l,py(DZ_TOP));cx.lineTo(W-PAD.r,py(DZ_TOP));cx.stroke();
-      cx.beginPath();cx.moveTo(PAD.l,py(DZ_BOT));cx.lineTo(W-PAD.r,py(DZ_BOT));cx.stroke();
-      cx.setLineDash([]);cx.globalAlpha=1;
- 
-      // Demand zone label box
-      cx.fillStyle='#00d084';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('DEMAND ZONE',PAD.l+6,py(DZ_TOP)-5);
-      cx.fillStyle='rgba(0,208,132,0.15)';
-      cx.fillRect(PAD.l+4, py(DZ_TOP)-16, 92, 13);
-      cx.fillStyle='#00d084';cx.fillText('DEMAND ZONE',PAD.l+6,py(DZ_TOP)-5);
- 
-      // Supply zone (red/orange)
-      cx.fillStyle='rgba(255,68,102,0.12)';
-      cx.fillRect(PAD.l, py(SZ_TOP), cW, py(SZ_BOT)-py(SZ_TOP));
-      cx.strokeStyle='#ff4466';cx.lineWidth=1;cx.setLineDash([4,3]);cx.globalAlpha=0.7;
-      cx.beginPath();cx.moveTo(PAD.l,py(SZ_TOP));cx.lineTo(W-PAD.r,py(SZ_TOP));cx.stroke();
-      cx.beginPath();cx.moveTo(PAD.l,py(SZ_BOT));cx.lineTo(W-PAD.r,py(SZ_BOT));cx.stroke();
-      cx.setLineDash([]);cx.globalAlpha=1;
- 
-      // Supply zone label box
-      cx.fillStyle='rgba(255,68,102,0.15)';
-      cx.fillRect(PAD.l+4, py(SZ_TOP)-16, 82, 13);
-      cx.fillStyle='#ff4466';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('SUPPLY ZONE',PAD.l+6,py(SZ_TOP)-5);
- 
-      // Price reaction arrows — show price leaving demand zone
-      cx.strokeStyle='#00d084';cx.lineWidth=2;cx.shadowColor='#00d084';cx.shadowBlur=6;cx.globalAlpha=0.9;
-      const ax=candX(8), ay=py(DZ_TOP)-8;
-      cx.beginPath();cx.moveTo(ax,ay+20);cx.lineTo(ax,ay);cx.stroke();
-      // arrowhead
-      cx.beginPath();cx.moveTo(ax-5,ay+8);cx.lineTo(ax,ay);cx.lineTo(ax+5,ay+8);cx.stroke();
-      cx.shadowBlur=0;cx.globalAlpha=1;
- 
-      // Price rejection arrow at supply
-      cx.strokeStyle='#ff4466';cx.lineWidth=2;cx.shadowColor='#ff4466';cx.shadowBlur=6;cx.globalAlpha=0.9;
-      const sx=candX(5), sy=py(SZ_BOT)+8;
-      cx.beginPath();cx.moveTo(sx,sy-20);cx.lineTo(sx,sy);cx.stroke();
-      cx.beginPath();cx.moveTo(sx-5,sy-8);cx.lineTo(sx,sy);cx.lineTo(sx+5,sy-8);cx.stroke();
-      cx.shadowBlur=0;cx.globalAlpha=1;
- 
-      // Zone width labels on right
-      cx.fillStyle='#00d084';cx.font="9px 'Share Tech Mono'";cx.textAlign='right';
-      cx.fillText(DZ_BOT+' – '+DZ_TOP, W-PAD.r-4, py((DZ_TOP+DZ_BOT)/2)+3);
-      cx.fillStyle='#ff4466';
-      cx.fillText(SZ_BOT+' – '+SZ_TOP, W-PAD.r-4, py((SZ_TOP+SZ_BOT)/2)+3);
+      cx.fillStyle='rgba(0,208,132,0.12)';cx.fillRect(PAD.l,py(DZ_TOP),cW,py(DZ_BOT)-py(DZ_TOP));
+      cx.fillStyle='rgba(255,68,102,0.12)';cx.fillRect(PAD.l,py(SZ_TOP),cW,py(SZ_BOT)-py(SZ_TOP));
+      [[DZ_TOP,DZ_BOT,'#50fa7b','DEMAND'],[SZ_TOP,SZ_BOT,'#ff4466','SUPPLY']].forEach(([top,bot,c,lbl])=>{
+        cx.strokeStyle=c;cx.setLineDash([4,3]);cx.lineWidth=1;cx.globalAlpha=0.7;
+        cx.beginPath();cx.moveTo(PAD.l,py(top));cx.lineTo(W-PAD.r,py(top));cx.stroke();
+        cx.beginPath();cx.moveTo(PAD.l,py(bot));cx.lineTo(W-PAD.r,py(bot));cx.stroke();
+        cx.setLineDash([]);cx.globalAlpha=1;
+        cx.fillStyle=c+'22';cx.fillRect(PAD.l+4,py(top)-16,70,14);
+        cx.fillStyle=c;cx.font="bold 8px 'Share Tech Mono'";cx.textAlign='left';cx.fillText(lbl+' ZONE',PAD.l+6,py(top)-5);
+        cx.fillStyle=c;cx.textAlign='right';cx.font="9px 'Share Tech Mono'";cx.fillText(bot+' – '+top,W-PAD.r-4,py((top+bot)/2)+3);
+      });
     }
- 
+    // ── CANDLES ──
     candles.forEach((c,i)=>{
       const x=candX(i);const bull=c.c>=c.o;
       const isEntry=ac==='pullback'&&i===ENTRY;const isHov=i===hi;
       const color=isEntry?col:(bull?'#00d084':'#ff4466');
       cx.strokeStyle=color;cx.lineWidth=isHov?2:1.5;cx.globalAlpha=0.9;
-      cx.beginPath();cx.moveTo(x,py(c.h));cx.lineTo(x,py(c.l));cx.stroke();cx.globalAlpha=1;
+      cx.beginPath();cx.moveTo(x,py(c.h));cx.lineTo(x,py(c.l));cx.stroke();
+      cx.globalAlpha=1;
       const bTop=py(Math.max(c.o,c.c)),bBot=py(Math.min(c.o,c.c)),bH=Math.max(2,bBot-bTop);
       if(isEntry){cx.shadowColor=col;cx.shadowBlur=10;}
       cx.fillStyle=color;cx.globalAlpha=isHov?1:0.88;cx.fillRect(x-cw/2,bTop,cw,bH);
       cx.shadowBlur=0;cx.globalAlpha=1;
       if(isHov){cx.strokeStyle='#ffffff55';cx.lineWidth=1;cx.strokeRect(x-cw/2,bTop,cw,bH);}
     });
- 
-    if(ac==='bullish'){
-      // LH1 — BELOW candle 3 (lower high before breakout, below the low)
-      const lh1X=candX(2),lh1Y=py(candles[2].l);
-      cx.fillStyle='rgba(0,212,255,0.15)';cx.strokeStyle='#00d4ff88';cx.lineWidth=1.5;
-      cx.beginPath();cx.roundRect(lh1X-20,lh1Y+10,40,18,4);cx.fill();cx.stroke();
-      cx.fillStyle='#00d4ff';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LH',lh1X,lh1Y+23);
- 
-      // LH2 — BELOW candle 9 (second lower high, below the low)
-      const lh2X=candX(8),lh2Y=py(candles[8].l);
-      cx.fillStyle='rgba(0,212,255,0.15)';cx.strokeStyle='#00d4ff88';cx.lineWidth=1.5;
-      cx.beginPath();cx.roundRect(lh2X-20,lh2Y+10,40,18,4);cx.fill();cx.stroke();
-      cx.fillStyle='#00d4ff';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LH',lh2X,lh2Y+23);
- 
-      // HH — ABOVE candle 13 (last candle, the breakout higher high)
-      const hhX=candX(13),hhY=py(candles[13].h);
-      cx.fillStyle='rgba(0,212,255,0.25)';cx.strokeStyle='#00d4ff';cx.lineWidth=2;
-      cx.shadowColor='#00d4ff';cx.shadowBlur=8;
-      cx.beginPath();cx.roundRect(hhX-20,hhY-26,40,18,4);cx.fill();cx.stroke();
-      cx.shadowBlur=0;
-      cx.fillStyle='#00d4ff';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('HH',hhX,hhY-12);
- 
-      // Badge
-      cx.fillStyle='rgba(0,212,255,0.1)';cx.strokeStyle='#00d4ff44';cx.lineWidth=1;
-      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+6,168,18,3);cx.fill();cx.stroke();
-      cx.fillStyle='#00d4ff';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('▲ BULLISH  ·  LH  LH  →  HH breakout',PAD.l+8,PAD.t+18);
-    }
- 
-    if(ac==='bearish'){
-      // LH — ABOVE candle 3 (lower high — bounce fails)
-      const lhX=candX(3),lhY=py(candles[3].h);
-      cx.fillStyle='rgba(255,68,102,0.25)';cx.strokeStyle='#ff4466';cx.lineWidth=2;
-      cx.shadowColor='#ff4466';cx.shadowBlur=8;
-      cx.beginPath();cx.roundRect(lhX-20,lhY-26,40,18,4);cx.fill();cx.stroke();
-      cx.shadowBlur=0;
-      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LH',lhX,lhY-12);
- 
-      // LL — BELOW candle 5 (lower low — new low made)
-      const llX=candX(5),llY=py(candles[5].l);
-      cx.fillStyle='rgba(255,68,102,0.25)';cx.strokeStyle='#ff4466';cx.lineWidth=2;
-      cx.shadowColor='#ff4466';cx.shadowBlur=8;
-      cx.beginPath();cx.roundRect(llX-20,llY+10,40,18,4);cx.fill();cx.stroke();
-      cx.shadowBlur=0;
-      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LL',llX,llY+23);
- 
-      // LH2 — ABOVE candle 9 (second lower high — bounce fails again)
-      const lh2X=candX(9),lh2Y=py(candles[9].h);
-      cx.fillStyle='rgba(255,68,102,0.18)';cx.strokeStyle='#ff446688';cx.lineWidth=1.5;
-      cx.beginPath();cx.roundRect(lh2X-20,lh2Y-26,40,18,4);cx.fill();cx.stroke();
-      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LH',lh2X,lh2Y-12);
- 
-      // LL2 — BELOW candle 13 (second lower low — trend confirmed down)
-      const ll2X=candX(13),ll2Y=py(candles[13].l);
-      cx.fillStyle='rgba(255,68,102,0.18)';cx.strokeStyle='#ff446688';cx.lineWidth=1.5;
-      cx.beginPath();cx.roundRect(ll2X-20,ll2Y+10,40,18,4);cx.fill();cx.stroke();
-      cx.fillStyle='#ff4466';cx.font="bold 10px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText('LL',ll2X,ll2Y+23);
- 
-      // Badge
-      cx.fillStyle='rgba(255,68,102,0.1)';cx.strokeStyle='#ff446644';cx.lineWidth=1;
-      cx.beginPath();cx.roundRect(PAD.l+4,PAD.t+6,168,18,3);cx.fill();cx.stroke();
-      cx.fillStyle='#ff4466';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText('▼ BEARISH  ·  LH  LL  LH  LL pattern',PAD.l+8,PAD.t+18);
-    }
- 
+    // ── HOVER TOOLTIP ──
     if(hi>=0){
       const c=candles[hi];const bull=c.c>=c.o;const hx=candX(hi);
       cx.strokeStyle='#ffffff15';cx.setLineDash([3,5]);cx.lineWidth=1;
       cx.beginPath();cx.moveTo(hx,PAD.t);cx.lineTo(hx,H-PAD.b);cx.stroke();cx.setLineDash([]);
-      const tx=Math.min(hx+8,W-112),ty=PAD.t+4;
+      const tx=Math.min(hx+8,W-108),ty=PAD.t+4;
       cx.fillStyle='#0a0f1e';cx.strokeStyle='#1a2540';cx.lineWidth=1;
-      cx.beginPath();cx.roundRect(tx,ty,100,68,3);cx.fill();cx.stroke();
-      cx.fillStyle=bull?'#00d084':'#ff4466';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';
-      cx.fillText(bull?'▲ BULL':'▼ BEAR',tx+7,ty+15);
-      [['O',c.o],['H',c.h],['L',c.l],['C',c.c]].forEach(([lbl,val],li)=>{
-        cx.fillStyle='#3a5070';cx.fillText(lbl+':',tx+7,ty+27+li*11);
-        cx.fillStyle='#c8d8e8';cx.fillText(val,tx+28,ty+27+li*11);
-      });
+      cx.beginPath();cx.roundRect(tx,ty,100,66,3);cx.fill();cx.stroke();
+      cx.fillStyle=bull?'#00d084':'#ff4466';cx.font="bold 9px 'Share Tech Mono'";cx.textAlign='left';cx.fillText(bull?'▲ BULL':'▼ BEAR',tx+7,ty+14);
+      [['O',c.o],['H',c.h],['L',c.l],['C',c.c]].forEach(([lbl,val],li)=>{cx.fillStyle='#3a5070';cx.fillText(lbl+':',tx+7,ty+26+li*11);cx.fillStyle='#c8d8e8';cx.fillText(val,tx+26,ty+26+li*11);});
     }
- 
-    candles.forEach((_,i)=>{
-      if(i%3!==0)return;
-      const hour=9+Math.floor(i*5/60),min=(30+i*5)%60;
-      cx.fillStyle='#2a4060';cx.font="8px 'Share Tech Mono'";cx.textAlign='center';
-      cx.fillText(hour+':'+(min<10?'0':'')+min,candX(i),H-PAD.b+16);
-    });
+    // ── TIME LABELS ──
+    candles.forEach((_,i)=>{if(i%3!==0)return;const h=9+Math.floor(i*5/60),m=(30+i*5)%60;cx.fillStyle='#2a4060';cx.font="8px 'Share Tech Mono'";cx.textAlign='center';cx.fillText(h+':'+(m<10?'0':'')+m,candX(i),H-PAD.b+14);});
   }
- 
-  function resize(h){
-    const w=cv.parentElement.clientWidth;
-    const height=h||Math.max(300,w*0.48);
-    cv.width=w*dpr;cv.height=height*dpr;cv.style.height=height+'px';
+  function resize(customH){
+    const w=cv.parentElement.clientWidth,h=customH||Math.max(280,w*0.46);
+    cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
     cx.scale(dpr,dpr);draw();
   }
- 
-  return {draw, resize};
+  return{draw,resize};
 }
  
-// ── HOME CANDLESTICK SECTION ──
-(function(){
-  const DPR = window.devicePixelRatio || 1;
- 
-  function setup(id, w, h) {
-    const cv = document.getElementById(id);
-    if (!cv) return null;
-    cv.width = w * DPR; cv.height = h * DPR;
-    cv.style.width = w + 'px'; cv.style.height = h + 'px';
-    const ctx = cv.getContext('2d');
-    ctx.scale(DPR, DPR);
-    return ctx;
-  }
- 
-  // Anatomy candles
-  function drawAnatomy(ctx, w, h, bull) {
-    const col = bull ? '#00d084' : '#ff4466';
-    const cx = w / 2;
-    const bodyTop = bull ? 55 : 40, bodyBot = bull ? 145 : 160;
-    ctx.fillStyle = '#070b14'; ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = col; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx, 14); ctx.lineTo(cx, h - 14); ctx.stroke();
-    ctx.fillStyle = col; ctx.shadowColor = col; ctx.shadowBlur = 10;
-    ctx.fillRect(cx - 18, bodyTop, 36, bodyBot - bodyTop);
-    ctx.shadowBlur = 0;
-    // Labels on right
-    const pts = [
-      { y: 14, label: 'H', color: '#ff9f43' },
-      { y: bull ? bodyTop : bodyBot, label: bull ? 'C' : 'O', color: bull ? '#00d084' : '#ff4466' },
-      { y: bull ? bodyBot : bodyTop, label: bull ? 'O' : 'C', color: '#00d4ff' },
-      { y: h - 14, label: 'L', color: bull ? '#8a3050' : '#8a3050' },
-    ];
-    pts.forEach(({ y, label, color }) => {
-      ctx.fillStyle = color; ctx.font = "bold 8px 'Share Tech Mono'"; ctx.textAlign = 'right';
-      ctx.fillText(label, w - 4, y + 3);
-      ctx.strokeStyle = color + '55'; ctx.setLineDash([2, 2]); ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(cx + 18, y); ctx.lineTo(w - 10, y); ctx.stroke();
-      ctx.setLineDash([]);
-    });
-  }
- 
-  const bCtx = setup('homeAnatomyBull', 90, 200);
-  if (bCtx) drawAnatomy(bCtx, 90, 200, true);
-  const brCtx = setup('homeAnatomyBear', 90, 200);
-  if (brCtx) drawAnatomy(brCtx, 90, 200, false);
- 
-  // Pattern cards
-  const patterns = [
-    { id: 'homePatternHammer',   name: 'Hammer',          signal: '▲ Bullish', color: '#00d084',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        const cx=w/2;
-        ctx.strokeStyle='#00d084';ctx.lineWidth=2;
-        ctx.beginPath();ctx.moveTo(cx,18);ctx.lineTo(cx,h-14);ctx.stroke();
-        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
-        ctx.fillRect(cx-14,18,28,26);ctx.shadowBlur=0;
-      }
-    },
-    { id: 'homePatternEngulf',   name: 'Engulfing',       signal: '▲ Strong', color: '#00d084',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        ctx.fillStyle='#ff4466';ctx.fillRect(w/2-28,36,22,48);
-        ctx.strokeStyle='#ff4466';ctx.lineWidth=1.5;
-        ctx.beginPath();ctx.moveTo(w/2-17,22);ctx.lineTo(w/2-17,36);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(w/2-17,84);ctx.lineTo(w/2-17,98);ctx.stroke();
-        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
-        ctx.fillRect(w/2+2,22,24,86);ctx.shadowBlur=0;
-        ctx.strokeStyle='#00d084';ctx.lineWidth=1.5;
-        ctx.beginPath();ctx.moveTo(w/2+14,10);ctx.lineTo(w/2+14,22);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(w/2+14,108);ctx.lineTo(w/2+14,118);ctx.stroke();
-      }
-    },
-    { id: 'homePatternStar',     name: 'Shooting Star',   signal: '▼ Bearish', color: '#ff4466',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        const cx=w/2;
-        ctx.strokeStyle='#ff4466';ctx.lineWidth=2;
-        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
-        ctx.fillStyle='#ff4466';ctx.shadowColor='#ff4466';ctx.shadowBlur=8;
-        ctx.fillRect(cx-14,h-46,28,26);ctx.shadowBlur=0;
-      }
-    },
-    { id: 'homePatternPin',      name: 'Pinbar',          signal: '▲ Rejection', color: '#00d084',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        const cx=w/2;
-        ctx.strokeStyle='#00d084';ctx.lineWidth=2;
-        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
-        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;
-        ctx.fillRect(cx-14,14,28,22);ctx.shadowBlur=0;
-      }
-    },
-    { id: 'homePatternDoji',     name: 'Doji',            signal: '→ Indecision', color: '#bd93f9',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        const cx=w/2, mid=h/2;
-        ctx.strokeStyle='#bd93f9';ctx.lineWidth=2;
-        ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();
-        ctx.fillStyle='#bd93f9';ctx.shadowColor='#bd93f9';ctx.shadowBlur=8;
-        ctx.fillRect(cx-16,mid-4,32,8);ctx.shadowBlur=0;
-      }
-    },
-    { id: 'homePatternMarubozu', name: 'Marubozu',        signal: '→ Momentum', color: '#f0c040',
-      draw(ctx, w, h) {
-        ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
-        ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=10;
-        ctx.fillRect(w/2-16,14,32,h-28);ctx.shadowBlur=0;
-      }
-    },
-  ];
- 
-  patterns.forEach(p => {
-    const wrap = document.getElementById(p.id);
-    if (!wrap) return;
-    wrap.innerHTML = '';
-    const cv = document.createElement('canvas');
-    const w = 80, h = 120;
-    cv.width = w * DPR; cv.height = h * DPR;
-    cv.style.width = w + 'px'; cv.style.height = h + 'px';
-    cv.style.background = '#070b14';
-    const ctx = cv.getContext('2d');
-    ctx.scale(DPR, DPR);
-    p.draw(ctx, w, h);
-    wrap.appendChild(cv);
-    const nameEl = document.createElement('div');
-    nameEl.style.cssText = 'font-family:var(--display);font-size:14px;letter-spacing:1px;color:var(--text);margin-top:8px;';
-    nameEl.textContent = p.name;
-    wrap.appendChild(nameEl);
-    const sigEl = document.createElement('div');
-    sigEl.style.cssText = 'font-family:var(--mono);font-size:8px;letter-spacing:1px;margin-top:2px;color:'+p.color+';';
-    sigEl.textContent = p.signal;
-    wrap.appendChild(sigEl);
-  });
-})();
- 
- 
-let inlineActive='bullish', inlineHovered=-1;
-const inlineChart = buildChart('chart', ()=>inlineActive, ()=>inlineHovered);
- 
+// ── INLINE CHART ──
+let inlineActive='bullish',inlineHovered=-1;
+const inlineChart=buildChart('chart',()=>inlineActive,()=>inlineHovered);
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     tab.classList.add('active');
     inlineActive=tab.dataset.concept;
-    // Swap candle data based on active concept
-    if(inlineActive==='bearish') candles=bearishCandles;
-    else candles=bullishCandles;
+    candles=inlineActive==='bearish'?bearishCandles:bullishCandles;
     const c=conceptData[inlineActive];
-    document.getElementById('desc-text').textContent=c.desc;
-    document.getElementById('legend-label').textContent=c.label;
-    document.querySelector('#legend-concept .legend-dot').style.background=c.color;
+    const descEl=document.getElementById('desc-text');
+    descEl.textContent=c.desc;
+    descEl.style.color=inlineActive==='bearish'?'#ff8899':'#8aa8c8';
+    document.querySelector('.concept-desc .arrow').style.color=c.color;
     document.querySelector('.concept-desc').style.background=c.color+'0a';
     document.querySelector('.concept-desc').style.borderBottomColor=c.color+'22';
+    document.getElementById('legend-label').textContent=c.label;
+    document.querySelector('#legend-concept .legend-dot').style.background=c.color;
     inlineChart.draw();
   });
 });
- 
-const inlineCanvas=document.getElementById('chart');
-inlineCanvas.addEventListener('mousemove',e=>{
-  const rect=inlineCanvas.getBoundingClientRect();
+document.getElementById('chart').addEventListener('mousemove',e=>{
+  const cv=document.getElementById('chart');
+  const rect=cv.getBoundingClientRect();
   const mx=e.clientX-rect.left;
-  const cW=inlineCanvas.parentElement.clientWidth-PAD.l-PAD.r;
-  const s=cW/candles.length;
-  const idx=Math.floor((mx-PAD.l)/s);
+  const cW=cv.clientWidth-PAD.l-PAD.r;
+  const idx=Math.floor((mx-PAD.l)/(cW/candles.length));
   inlineHovered=(idx>=0&&idx<candles.length)?idx:-1;
   inlineChart.draw();
 });
-inlineCanvas.addEventListener('mouseleave',()=>{inlineHovered=-1;inlineChart.draw();});
+document.getElementById('chart').addEventListener('mouseleave',()=>{inlineHovered=-1;inlineChart.draw();});
  
-// ── MODAL CHART ──
-let modalActive='bullish', modalHovered=-1;
-let modalChart=null;
+// ── ANATOMY CANDLES ──
+(function(){
+  const DPR=window.devicePixelRatio||1;
+  function setupCV(id,w,h){const cv=document.getElementById(id);cv.width=w*DPR;cv.height=h*DPR;cv.style.width=w+'px';cv.style.height=h+'px';const ctx=cv.getContext('2d');ctx.scale(DPR,DPR);return ctx;}
+  function drawAnat(ctx,w,h,bull){
+    const col=bull?'#00d084':'#ff4466';const cx=w/2;
+    const bodyTop=bull?50:38,bodyBot=bull?140:152;
+    ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle=col;ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,12);ctx.lineTo(cx,h-12);ctx.stroke();
+    ctx.fillStyle=col;ctx.shadowColor=col;ctx.shadowBlur=10;
+    ctx.fillRect(cx-16,bodyTop,32,bodyBot-bodyTop);ctx.shadowBlur=0;
+    // Labels: for bull: top=CLOSE, bot=OPEN. For bear: top=OPEN, bot=CLOSE
+    const pts=[
+      {y:12,lbl:'H',c:'#ff9f43'},
+      {y:bodyTop,lbl:bull?'C':'O',c:bull?'#00d084':'#ff4466'},
+      {y:bodyBot,lbl:bull?'O':'C',c:'#00d4ff'},
+      {y:h-12,lbl:'L',c:'#8a3050'}
+    ];
+    pts.forEach(({y,lbl,c})=>{
+      ctx.fillStyle=c;ctx.font="bold 8px 'Share Tech Mono'";ctx.textAlign='right';ctx.fillText(lbl,w-4,y+3);
+      ctx.strokeStyle=c+'55';ctx.setLineDash([2,2]);ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(cx+16,y);ctx.lineTo(w-10,y);ctx.stroke();ctx.setLineDash([]);
+    });
+  }
+  const bCtx=setupCV('homeAnatomyBull',80,180);drawAnat(bCtx,80,180,true);
+  const brCtx=setupCV('homeAnatomyBear',80,180);drawAnat(brCtx,80,180,false);
  
-function openChartModal(){
-  const modal=document.getElementById('chartModal');
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-  requestAnimationFrame(()=>{
-    modal.classList.add('visible');
-    if(!modalChart) modalChart=buildChart('modalChart',()=>modalActive,()=>modalHovered);
-    const wrap=document.getElementById('modalChartWrap');
-    const mc=document.getElementById('modalChart');
-    const w=wrap.clientWidth, h=wrap.clientHeight||Math.max(300,w*0.5);
-    mc.width=w*(window.devicePixelRatio||1);mc.height=h*(window.devicePixelRatio||1);
-    mc.style.height=h+'px';
-    mc.getContext('2d').scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
-    modalChart.draw();
+  // Pattern cells
+  const patterns=[
+    {id:'pc1',name:'Hammer',sig:'▲ Bullish',col:'#00d084',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);const cx=w/2;ctx.strokeStyle='#00d084';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,16);ctx.lineTo(cx,h-14);ctx.stroke();ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;ctx.fillRect(cx-13,16,26,24);ctx.shadowBlur=0;}},
+    {id:'pc2',name:'Engulfing',sig:'▲ Strong',col:'#00d084',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);ctx.fillStyle='#ff4466';ctx.fillRect(w/2-26,34,20,46);ctx.strokeStyle='#ff4466';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(w/2-16,20);ctx.lineTo(w/2-16,34);ctx.stroke();ctx.beginPath();ctx.moveTo(w/2-16,80);ctx.lineTo(w/2-16,94);ctx.stroke();ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;ctx.fillRect(w/2+2,20,22,84);ctx.shadowBlur=0;ctx.strokeStyle='#00d084';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(w/2+13,10);ctx.lineTo(w/2+13,20);ctx.stroke();ctx.beginPath();ctx.moveTo(w/2+13,104);ctx.lineTo(w/2+13,114);ctx.stroke();}},
+    {id:'pc3',name:'Shooting Star',sig:'▼ Bearish',col:'#ff4466',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);const cx=w/2;ctx.strokeStyle='#ff4466';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();ctx.fillStyle='#ff4466';ctx.shadowColor='#ff4466';ctx.shadowBlur=8;ctx.fillRect(cx-13,h-44,26,24);ctx.shadowBlur=0;}},
+    {id:'pc4',name:'Doji',sig:'→ Indecision',col:'#bd93f9',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);const cx=w/2,mid=h/2;ctx.strokeStyle='#bd93f9';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();ctx.fillStyle='#bd93f9';ctx.shadowColor='#bd93f9';ctx.shadowBlur=8;ctx.fillRect(cx-14,mid-4,28,8);ctx.shadowBlur=0;}},
+    {id:'pc5',name:'Pinbar',sig:'▲ Rejection',col:'#00d084',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);const cx=w/2;ctx.strokeStyle='#00d084';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,14);ctx.lineTo(cx,h-14);ctx.stroke();ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=8;ctx.fillRect(cx-13,14,26,20);ctx.shadowBlur=0;}},
+    {id:'pc6',name:'Marubozu',sig:'→ Momentum',col:'#f0c040',draw(ctx,w,h){ctx.fillStyle='#070b14';ctx.fillRect(0,0,w,h);ctx.fillStyle='#00d084';ctx.shadowColor='#00d084';ctx.shadowBlur=10;ctx.fillRect(w/2-14,14,28,h-28);ctx.shadowBlur=0;}},
+  ];
+  const row=document.getElementById('patternRow');
+  row.innerHTML='';
+  patterns.forEach(p=>{
+    const cell=document.createElement('div');cell.className='pattern-cell';
+    const cv=document.createElement('canvas');
+    const pw=70,ph=110;cv.width=pw*DPR;cv.height=ph*DPR;cv.style.width=pw+'px';cv.style.height=ph+'px';cv.style.background='#070b14';
+    const ctx=cv.getContext('2d');ctx.scale(DPR,DPR);p.draw(ctx,pw,ph);
+    cell.appendChild(cv);
+    const nm=document.createElement('div');nm.style.cssText='font-family:var(--display);font-size:13px;letter-spacing:1px;color:var(--text);margin-top:6px;';nm.textContent=p.name;cell.appendChild(nm);
+    const sg=document.createElement('div');sg.style.cssText='font-family:var(--mono);font-size:8px;letter-spacing:1px;margin-top:2px;color:'+p.col+';';sg.textContent=p.sig;cell.appendChild(sg);
+    row.appendChild(cell);
   });
-}
+})();
  
-function closeChartModal(){
-  const modal=document.getElementById('chartModal');
-  modal.classList.remove('visible');
-  document.body.style.overflow='';
-  setTimeout(()=>modal.classList.remove('open'),300);
-}
- 
-const modalCanvas=document.getElementById('modalChart');
-modalCanvas.addEventListener('mousemove',e=>{
-  const rect=modalCanvas.getBoundingClientRect();
-  const mx=e.clientX-rect.left;
-  const cW=modalCanvas.parentElement.clientWidth-PAD.l-PAD.r;
-  const s=cW/candles.length;
-  const idx=Math.floor((mx-PAD.l)/s);
-  modalHovered=(idx>=0&&idx<candles.length)?idx:-1;
-  if(modalChart)modalChart.draw();
-});
-modalCanvas.addEventListener('mouseleave',()=>{modalHovered=-1;if(modalChart)modalChart.draw();});
- 
-document.querySelectorAll('.modal-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    modalActive=tab.dataset.mconcept;
-    // Swap candle data for modal too
-    if(modalActive==='bearish') candles=bearishCandles;
-    else candles=bullishCandles;
-    const c=conceptData[modalActive];
-    document.getElementById('modalDescText').textContent=c.desc;
-    document.getElementById('modalLegendLabel').textContent=c.label;
-    document.querySelector('#modalLegendConcept .legend-dot').style.background=c.color;
-    document.querySelector('.modal-concept-desc').style.background=c.color+'0a';
-    document.querySelector('.modal-concept-desc').style.borderBottomColor=c.color+'22';
-    if(modalChart)modalChart.draw();
-  });
-});
- 
-// ── SIGNUP MODAL ──
-function openSignupModal(){
-  const modal=document.getElementById('signupModal');
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-  requestAnimationFrame(()=>modal.classList.add('visible'));
-  setTimeout(()=>document.getElementById('signupName').focus(),350);
-}
- 
-function closeSignupModal(){
-  const modal=document.getElementById('signupModal');
-  modal.classList.remove('visible');
-  document.body.style.overflow='';
-  setTimeout(()=>{
-    modal.classList.remove('open');
-    setTimeout(()=>{
-      document.getElementById('signupFormWrap').style.display='block';
-      document.getElementById('signupSuccess').style.display='none';
-      document.getElementById('signupName').value='';
-      document.getElementById('signupEmail').value='';
-      document.getElementById('signupBtn').disabled=false;
-      document.getElementById('signupBtn').textContent='Reserve My Spot →';
-    },300);
-  },300);
-}
- 
+// ── SIGNUP ──
 function handleSignup(){
-  const name=document.getElementById('signupName').value.trim();
-  const email=document.getElementById('signupEmail').value.trim();
-  const btn=document.getElementById('signupBtn');
+  const name=document.getElementById('secName').value.trim();
+  const email=document.getElementById('secEmail').value.trim();
   if(!name){alert('Please enter your first name.');return;}
   if(!email||!email.includes('@')){alert('Please enter a valid email address.');return;}
-  btn.disabled=true;btn.textContent='Submitting...';
+  const btn=document.querySelector('.signup-btn-main');
+  btn.disabled=true;btn.textContent='Saving...';
   setTimeout(()=>{
-    document.getElementById('signupFormWrap').style.display='none';
+    document.getElementById('signupForm').style.display='none';
     document.getElementById('signupSuccess').style.display='block';
-    try{
-      const signups=JSON.parse(localStorage.getItem('apexSignups')||'[]');
-      signups.push({name,email,date:new Date().toISOString()});
-      localStorage.setItem('apexSignups',JSON.stringify(signups));
-    }catch(e){}
-  },1000);
+    try{const s=JSON.parse(localStorage.getItem('apexSignups')||'[]');s.push({name,email,date:new Date().toISOString()});localStorage.setItem('apexSignups',JSON.stringify(s));}catch(e){}
+  },900);
 }
  
-document.getElementById('navCta').addEventListener('click',openSignupModal);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSignupModal();closeChartModal();}});
- 
 // ── FADE IN ──
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
  
 // ── RESIZE ──
-window.addEventListener('resize',()=>{
-  inlineChart.resize();
-  if(document.getElementById('chartModal').classList.contains('open')&&modalChart){
-    const wrap=document.getElementById('modalChartWrap');
-    const mc=document.getElementById('modalChart');
-    const w=wrap.clientWidth,h=wrap.clientHeight||400;
-    mc.width=w*(window.devicePixelRatio||1);mc.height=h*(window.devicePixelRatio||1);
-    mc.style.height=h+'px';
-    mc.getContext('2d').scale(window.devicePixelRatio||1,window.devicePixelRatio||1);
-    modalChart.draw();
-  }
-});
+window.addEventListener('resize',()=>inlineChart.resize());
 inlineChart.resize();
 </script>
 </body>
