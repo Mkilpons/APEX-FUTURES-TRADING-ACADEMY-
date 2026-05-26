@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX FUTURES — Trading Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070b14;
+    --bg2: #0a0f1e;
+    --bg3: #0d1428;
+    --border: #1a2540;
+    --green: #00d084;
+    --red: #ff4466;
+    --blue: #00d4ff;
+    --gold: #f0c040;
+    --purple: #bd93f9;
+    --text: #c8d8e8;
+    --muted: #3a5070;
+    --dim: #1a2a40;
+    --mono: 'Share Tech Mono', monospace;
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    overflow-x: hidden;
+  }
+ 
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    background: rgba(7,11,20,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+ 
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--green);
+    text-shadow: 0 0 20px rgba(0,208,132,0.4);
+  }
+ 
+  .nav-logo span { color: var(--text); }
+ 
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+ 
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+ 
+  .nav-links a:hover { color: var(--green); }
+ 
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid var(--green);
+    color: var(--green);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+ 
+  .nav-cta:hover {
+    background: var(--green);
+    color: var(--bg);
+  }
+ 
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+ 
+  .hero-ticker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--green);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+ 
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: blink 1.5s infinite;
+  }
+ 
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+ 
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(52px, 9vw, 110px);
+    letter-spacing: 6px;
+    line-height: 0.92;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+ 
+  .hero h1 .accent { color: var(--green); }
+ 
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin: 28px 0 48px;
+    max-width: 500px;
+    line-height: 1.8;
+  }
+ 
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+ 
+  .stat {
+    text-align: center;
+  }
+ 
+  .stat-val {
+    font-family: var(--display);
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--green);
+    display: block;
+  }
+ 
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+ 
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+ 
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 14px 36px;
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+ 
+  .btn-primary:hover {
+    background: #00ffaa;
+    box-shadow: 0 0 30px rgba(0,208,132,0.4);
+    transform: translateY(-1px);
+  }
+ 
+  .btn-ghost {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 14px 36px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+ 
+  .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+ 
+  /* ── TICKER TAPE ── */
+  .tape {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+  }
+ 
+  .tape-track {
+    display: flex;
+    gap: 0;
+    animation: scroll 25s linear infinite;
+    width: max-content;
+  }
+ 
+  @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+ 
+  .tape-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 0 32px;
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+  }
+ 
+  .tape-item .sym { color: var(--muted); margin-right: 8px; }
+  .tape-item .up { color: var(--green); }
+  .tape-item .dn { color: var(--red); }
+ 
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+ 
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+ 
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: 3px;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+ 
+  .section-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+ 
+  /* ── CHART SECTION ── */
+  #chart-section {
+    padding: 80px 40px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+ 
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+ 
+  /* Concept tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+ 
+  .tabs::-webkit-scrollbar { display: none; }
+ 
+  .tab {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+ 
+  .tab.active { color: var(--green); border-bottom-color: var(--green); background: rgba(0,208,132,0.04); }
+  .tab:hover:not(.active) { color: var(--text); }
+ 
+  /* Description */
+  .concept-desc {
+    padding: 12px 20px;
+    background: rgba(0,208,132,0.05);
+    border-bottom: 1px solid rgba(0,208,132,0.15);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #8aa8c8;
+    line-height: 1.6;
+  }
+ 
+  .concept-desc span { color: var(--green); margin-right: 8px; }
+ 
+  /* Chart canvas */
+  .chart-wrap {
+    background: #070b14;
+    border: 1px solid var(--border);
+    border-top: none;
+    position: relative;
+  }
+ 
+  .chart-status {
+    position: absolute;
+    top: 10px; left: 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 2px;
+    z-index: 2;
+  }
+ 
+  canvas { display: block; width: 100%; }
+ 
+  .chart-legend {
+    display: flex;
+    gap: 24px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+ 
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+ 
+  /* ── CONCEPTS GRID ── */
+  #concepts {
+    padding: 80px 40px;
+  }
+ 
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+ 
+  .concept-card {
+    background: var(--bg);
+    padding: 32px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+ 
+  .concept-card:hover { background: var(--bg3); }
+ 
+  .concept-icon {
+    font-family: var(--display);
+    font-size: 40px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    display: block;
+  }
+ 
+  .concept-card h3 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+ 
+  .concept-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+ 
+  .concept-tag {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+ 
+  /* ── ROADMAP ── */
+  #roadmap {
+    padding: 80px 40px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+ 
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+ 
+  .roadmap-card {
+    position: relative;
+    padding: 28px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+ 
+  .roadmap-card::before {
+    content: attr(data-week);
+    position: absolute;
+    top: -1px; left: -1px;
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    background: var(--green);
+    color: var(--bg);
+  }
+ 
+  .roadmap-card h3 {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin: 28px 0 12px;
+  }
+ 
+  .roadmap-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+ 
+  .roadmap-card li {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    padding-left: 14px;
+    position: relative;
+  }
+ 
+  .roadmap-card li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+  }
+ 
+  /* ── RISK BANNER ── */
+  .risk-banner {
+    background: rgba(255,68,102,0.06);
+    border: 1px solid rgba(255,68,102,0.2);
+    border-left: 3px solid var(--red);
+    padding: 20px 32px;
+    margin: 0 40px 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #8a6070;
+    line-height: 1.7;
+    letter-spacing: 0.5px;
+  }
+ 
+  .risk-banner strong { color: var(--red); }
+ 
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+ 
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: var(--green);
+    opacity: 0.6;
+  }
+ 
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+ 
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+ 
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+ 
+  .footer-links a:hover { color: var(--green); }
+ 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 90px 20px 50px; }
+    .hero-stats { gap: 24px; }
+    #chart-section, #concepts, #roadmap { padding: 60px 20px; }
+    .chart-header { flex-direction: column; align-items: flex-start; }
+    footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+    .risk-banner { margin: 0 20px 32px; }
+  }
+ 
+  /* Fade-in animation */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">APEX<span> FUTURES</span></div>
+  <ul class="nav-links">
+    <li><a href="#chart-section">Chart</a></li>
+    <li><a href="#concepts">Concepts</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+  <button class="nav-cta">Start Free</button>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-ticker">
+    <div class="dot"></div>
+    LIVE EDUCATION MODE · ES FUTURES · NQ FUTURES · GC FUTURES
+  </div>
+  <h1>TRADE<br><span class="accent">SMARTER.</span><br>NOT HARDER.</h1>
+  <p class="hero-sub">
+    Master futures trading through interactive charts, annotated concepts,
+    and a proven 30-day curriculum. Paper trade first. Always.
+  </p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-val">5</span>
+      <span class="stat-label">Core Concepts</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">30</span>
+      <span class="stat-label">Day Curriculum</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">1:3</span>
+      <span class="stat-label">Risk / Reward</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">0$</span>
+      <span class="stat-label">To Start</span>
+    </div>
+  </div>
+  <div class="hero-btns">
+    <a href="#chart-section" class="btn-primary">Open Chart →</a>
+    <a href="#roadmap" class="btn-ghost">View Roadmap</a>
+  </div>
+</section>
+ 
+<!-- TICKER TAPE -->
+<div class="tape">
+  <div class="tape-track" id="tape"></div>
+</div>
+ 
+<!-- CHART SECTION -->
+<section id="chart-section">
+  <div class="chart-header fade-up">
+    <div>
+      <div class="section-label">// interactive chart</div>
+      <div class="section-title">READ THE MARKET</div>
+      <p class="section-desc">Click each concept tab to see real annotations on a live-style candlestick chart. Hover candles for OHLC data.</p>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;line-height:1.8">
+      <div>ES FUTURES · 5M</div>
+      <div style="color:var(--green)">▲ 4,377.00</div>
+      <div>+0.83% today</div>
+    </div>
+  </div>
+ 
+  <div class="chart-wrap fade-up">
+    <div class="chart-status">
+      <div class="dot"></div>
+      PAPER MODE · EDUCATIONAL · NOT FINANCIAL ADVICE
+    </div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-concept="trend">Market Structure</button>
+      <button class="tab" data-concept="support">Support & Resistance</button>
+      <button class="tab" data-concept="pullback">Pullback Entry</button>
+      <button class="tab" data-concept="rr">Risk / Reward</button>
+      <button class="tab" data-concept="vwap">VWAP</button>
+    </div>
+    <div class="concept-desc" id="concept-desc">
+      <span>▸</span> <span id="desc-text">Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.</span>
+    </div>
+    <canvas id="chart" height="380"></canvas>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#00d084"></div>Bullish Candle</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff4466"></div>Bearish Candle</div>
+      <div class="legend-item" id="legend-concept"><div class="legend-dot" style="background:#00d4ff"></div><span id="legend-label">Market Structure</span></div>
+      <span style="margin-left:auto;color:var(--muted)">Hover candles for OHLC</span>
+    </div>
+  </div>
+</section>
+ 
+<!-- CONCEPTS GRID -->
+<section id="concepts">
+  <div class="fade-up">
+    <div class="section-label">// core concepts</div>
+    <div class="section-title">THE FOUNDATION</div>
+    <p class="section-desc">Five concepts every futures trader must internalize before risking a single dollar.</p>
+  </div>
+ 
+  <div class="concepts-grid fade-up">
+    <div class="concept-card">
+      <span class="concept-icon" style="color:#00d4ff">01</span>
+      <h3>Market Structure</h3>
+      <p>Price moves in trends. Identify Higher Highs and Higher Lows for bullish structure, Lower Highs and Lower Lows for bearish. This is your compass.</p>
+      <span class="concept-tag" style="color:#00d4ff;border-color:#00d4ff33">Beginner</span>
+    </div>
+    <div class="concept-card">
+      <span class="concept-icon" style="color:#f0c040">02</span>
+      <h3>Support & Resistance</h3>
+      <p>Key price levels where buyers and sellers historically clash. Trades at these zones have asymmetric risk/reward. Mark them before the session opens.</p>
+      <span class="concept-tag" style="color:#f0c040;border-color:#f0c04033">Beginner</span>
+    </div>
+    <div class="concept-card">
+      <span class="concept-icon" style="color:#50fa7b">03</span>
+      <h3>Pullback Entries</h3>
+      <p>Never chase price. Wait for it to pull back to a key level within the trend. This gives you the best entry, tightest stop, and most room to profit.</p>
+      <span class="concept-tag" style="color:#50fa7b;border-color:#50fa7b33">Intermediate</span>
+    </div>
+    <div class="concept-card">
+      <span class="concept-icon" style="color:#ff6b6b">04</span>
+      <h3>Risk / Reward</h3>
+      <p>Define your stop and target before every trade. A 1:2 R/R means you only need to be right 34% of the time to break even. Math is your edge.</p>
+      <span class="concept-tag" style="color:#ff6b6b;border-color:#ff6b6b33">Essential</span>
+    </div>
+    <div class="concept-card">
+      <span class="concept-icon" style="color:#bd93f9">05</span>
+      <h3>VWAP</h3>
+      <p>Volume Weighted Average Price is the most watched intraday level by institutions. Price above VWAP signals bullish bias. Below signals bearish.</p>
+      <span class="concept-tag" style="color:#bd93f9;border-color:#bd93f933">Intermediate</span>
+    </div>
+    <div class="concept-card" style="display:flex;flex-direction:column;justify-content:center;background:rgba(0,208,132,0.04);border-left:2px solid var(--green)">
+      <h3 style="color:var(--green)">Study Resources</h3>
+      <p style="margin-bottom:16px">Recommended reading to accelerate your learning curve.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+        <span>› Trading in the Zone — Mark Douglas</span>
+        <span>› SMB Capital — YouTube</span>
+        <span>› TradingView — charting platform</span>
+        <span>› Bookmap — order flow tool</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="fade-up">
+    <div class="section-label">// 30-day plan</div>
+    <div class="section-title">YOUR ROADMAP</div>
+    <p class="section-desc">A structured curriculum to go from zero to consistently profitable on simulation.</p>
+  </div>
+ 
+  <div class="roadmap-grid fade-up">
+    <div class="roadmap-card" data-week="WEEK 01">
+      <h3>Foundation</h3>
+      <ul>
+        <li>How futures contracts work</li>
+        <li>Tick values & margin basics</li>
+        <li>Reading candlestick charts</li>
+        <li>Set up TradingView free</li>
+        <li>Open a paper trading account</li>
+      </ul>
+    </div>
+    <div class="roadmap-card" data-week="WEEK 02">
+      <h3>Technical Concepts</h3>
+      <ul>
+        <li>Market structure deep dive</li>
+        <li>Mark support & resistance daily</li>
+        <li>VWAP usage intraday</li>
+        <li>Study 50 historical setups</li>
+        <li>Begin trading journal</li>
+      </ul>
+    </div>
+    <div class="roadmap-card" data-week="WEEK 03">
+      <h3>Strategy Building</h3>
+      <ul>
+        <li>Pullback entry rules</li>
+        <li>Stop loss placement logic</li>
+        <li>Target & partial profit rules</li>
+        <li>Paper trade 10 setups</li>
+        <li>Review journal weekly</li>
+      </ul>
+    </div>
+    <div class="roadmap-card" data-week="WEEK 04">
+      <h3>Consistency</h3>
+      <ul>
+        <li>Trade same setup only</li>
+        <li>Track win rate & avg R/R</li>
+        <li>Manage losing streaks</li>
+        <li>Evaluate real account readiness</li>
+        <li>Start with micro contracts</li>
+      </ul>
+    </div>
+  </div>
+</section>
+ 
+<!-- RISK BANNER -->
+<div class="risk-banner fade-up">
+  <strong>⚠ RISK DISCLOSURE:</strong> Futures trading involves substantial risk of loss and is not appropriate for all investors. The majority of retail traders lose money. This site is for <strong>educational purposes only</strong> and does not constitute financial advice. Always paper trade before using real capital. Never risk money you cannot afford to lose.
+</div>
+ 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">APEX FUTURES</div>
+  <ul class="footer-links">
+    <li><a href="#">Disclaimer</a></li>
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
+</footer>
+ 
+<script>
+// ── TICKER TAPE ──
+const tapeData = [
+  { sym: 'ES', price: '4,377.25', chg: '+0.83%', up: true },
+  { sym: 'NQ', price: '15,842.50', chg: '+1.12%', up: true },
+  { sym: 'GC', price: '2,341.80', chg: '-0.22%', up: false },
+  { sym: 'CL', price: '78.44', chg: '+0.61%', up: true },
+  { sym: 'RTY', price: '2,018.30', chg: '-0.38%', up: false },
+  { sym: 'ZB', price: '118.12', chg: '+0.14%', up: true },
+  { sym: 'SI', price: '27.83', chg: '+0.95%', up: true },
+  { sym: 'HG', price: '4.21', chg: '-0.55%', up: false },
+];
+ 
+const tape = document.getElementById('tape');
+const doubled = [...tapeData, ...tapeData];
+doubled.forEach(item => {
+  const el = document.createElement('div');
+  el.className = 'tape-item';
+  el.innerHTML = `<span class="sym">${item.sym}</span><span class="${item.up ? 'up' : 'dn'}">${item.price} ${item.chg}</span>`;
+  tape.appendChild(el);
+});
+ 
+// ── CHART ──
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+ 
+const candles = [
+  { o:4280,h:4295,l:4272,c:4290 },
+  { o:4290,h:4308,l:4285,c:4302 },
+  { o:4302,h:4318,l:4298,c:4315 },
+  { o:4315,h:4330,l:4310,c:4325 },
+  { o:4325,h:4340,l:4318,c:4335 },
+  { o:4335,h:4352,l:4330,c:4348 },
+  { o:4348,h:4350,l:4328,c:4332 },
+  { o:4332,h:4338,l:4318,c:4322 },
+  { o:4322,h:4328,l:4315,c:4325 },
+  { o:4325,h:4342,l:4320,c:4338 },
+  { o:4338,h:4358,l:4334,c:4354 },
+  { o:4354,h:4372,l:4348,c:4368 },
+  { o:4368,h:4375,l:4360,c:4365 },
+  { o:4365,h:4380,l:4360,c:4377 },
+];
+ 
+const concepts = {
+  trend:   { color:'#00d4ff', label:'Market Structure',    desc:'Price makes Higher Highs (HH) and Higher Lows (HL) in an uptrend. This is the foundation — always know the trend before entering.' },
+  support: { color:'#f0c040', label:'Support & Resistance', desc:'Key price levels where buyers (support) or sellers (resistance) historically step in. Price often bounces or rejects at these zones.' },
+  pullback:{ color:'#50fa7b', label:'Pullback Entry',       desc:'After identifying the trend, wait for price to pull back to a key level. This gives you a better entry with less risk and more reward.' },
+  rr:      { color:'#ff6b6b', label:'Risk / Reward',        desc:'Always define your stop loss and target BEFORE entering. A 1:2 or 1:3 risk/reward means you can be wrong 50% of the time and still profit.' },
+  vwap:    { color:'#bd93f9', label:'VWAP',                 desc:'Volume Weighted Average Price — the most important intraday level. Price above VWAP = bullish bias. Below = bearish. Institutions use this.' },
+};
+ 
+let activeConcept = 'trend';
+let hoveredIdx = -1;
+let dpr = window.devicePixelRatio || 1;
+ 
+function resize() {
+  const w = canvas.parentElement.clientWidth;
+  const h = Math.max(300, w * 0.48);
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.height = h + 'px';
+  ctx.scale(dpr, dpr);
+  draw();
+}
+ 
+const PAD = { l:58, r:16, t:36, b:28 };
+const SUPPORT = 4318, RESISTANCE = 4352, STOP = 4312, T1 = 4340, T2 = 4368;
+const ENTRY_IDX = 9;
+ 
+function chartDims() {
+  const W = canvas.width / dpr, H = canvas.height / dpr;
+  return { W, H, cW: W - PAD.l - PAD.r, cH: H - PAD.t - PAD.b };
+}
+ 
+function priceRange() {
+  const prices = candles.flatMap(c => [c.h, c.l]);
+  return { min: Math.min(...prices) - 8, max: Math.max(...prices) + 8 };
+}
+ 
+function py(price) {
+  const { H, cH } = chartDims();
+  const { min, max } = priceRange();
+  return PAD.t + cH * (1 - (price - min) / (max - min));
+}
+ 
+function cx(i) {
+  const { cW } = chartDims();
+  const spacing = cW / candles.length;
+  return PAD.l + spacing * i + spacing / 2;
+}
+ 
+function vwapPrice() {
+  return candles.reduce((s,c) => s + (c.h+c.l+c.c)/3, 0) / candles.length;
+}
+ 
+function draw() {
+  const { W, H, cW, cH } = chartDims();
+  ctx.clearRect(0, 0, W, H);
+ 
+  // Background
+  ctx.fillStyle = '#070b14';
+  ctx.fillRect(0, 0, W, H);
+ 
+  // Grid
+  const { min, max } = priceRange();
+  const step = Math.round((max - min) / 6);
+  for (let p = Math.ceil(min/step)*step; p <= max; p += step) {
+    const y = py(p);
+    ctx.strokeStyle = '#1a2540';
+    ctx.setLineDash([3, 8]);
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(W - PAD.r, y); ctx.stroke();
+    ctx.fillStyle = '#2a4060';
+    ctx.font = `9px 'Share Tech Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(p, PAD.l - 6, y + 3);
+  }
+  ctx.setLineDash([]);
+ 
+  const concept = activeConcept;
+  const col = concepts[concept].color;
+  const candleW = Math.max(8, cW / candles.length * 0.7);
+ 
+  // ── Concept-specific annotations ──
+  if (concept === 'support') {
+    // Zones
+    [[SUPPORT, '#50fa7b'], [RESISTANCE, '#ff4466']].forEach(([p, c]) => {
+      ctx.fillStyle = c + '12';
+      ctx.fillRect(PAD.l, py(p+3), cW, py(p-3) - py(p+3));
+    });
+    // Lines
+    [[SUPPORT, '#50fa7b', `Support ${SUPPORT}`], [RESISTANCE, '#ff4466', `Resistance ${RESISTANCE}`]].forEach(([p,c,label]) => {
+      ctx.strokeStyle = c;
+      ctx.setLineDash([6,4]);
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath(); ctx.moveTo(PAD.l, py(p)); ctx.lineTo(W-PAD.r, py(p)); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = c;
+      ctx.font = `9px 'Share Tech Mono', monospace`;
+      ctx.textAlign = 'right';
+      ctx.fillText(label, W - PAD.r - 4, py(p) - 4);
+    });
+  }
+ 
+  if (concept === 'pullback') {
+    // Support line
+    ctx.strokeStyle = '#50fa7b';
+    ctx.setLineDash([4,4]); ctx.lineWidth = 1.2; ctx.globalAlpha = 0.7;
+    ctx.beginPath(); ctx.moveTo(PAD.l, py(SUPPORT)); ctx.lineTo(W-PAD.r, py(SUPPORT)); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+    ctx.fillStyle = '#50fa7b'; ctx.textAlign = 'right'; ctx.font = `9px 'Share Tech Mono'`;
+    ctx.fillText(`Key Level ${SUPPORT}`, W-PAD.r-4, py(SUPPORT)-4);
+    // Entry circle
+    const ex = cx(ENTRY_IDX), ey = py(candles[ENTRY_IDX].l) + 18;
+    ctx.strokeStyle = col; ctx.lineWidth = 2;
+    ctx.shadowColor = col; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.arc(ex, ey, 14, 0, Math.PI*2); ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = col; ctx.textAlign = 'center'; ctx.font = `9px 'Share Tech Mono'`;
+    ctx.fillText('ENTRY', ex, ey + 28);
+  }
+ 
+  if (concept === 'rr') {
+    const entryY = py(candles[ENTRY_IDX].c);
+    const stopY = py(STOP), t1Y = py(T1), t2Y = py(T2);
+    const rx = cx(ENTRY_IDX) - candleW;
+    const rw = W - PAD.r - rx - 8;
+    // Risk zone
+    ctx.fillStyle = '#ff446622';
+    ctx.fillRect(rx, entryY, rw, stopY - entryY);
+    // Reward zone
+    ctx.fillStyle = '#00ff8815';
+    ctx.fillRect(rx, t2Y, rw, entryY - t2Y);
+    // Lines
+    [[STOP,'#ff4444',`Stop ${STOP}`],[T1,'#50fa7b',`T1 ${T1}`],[T2,'#00ff88',`T2 ${T2}`]].forEach(([p,c,lbl]) => {
+      ctx.strokeStyle = c; ctx.setLineDash([4,3]); ctx.lineWidth = 1.2; ctx.globalAlpha = 0.9;
+      ctx.beginPath(); ctx.moveTo(PAD.l, py(p)); ctx.lineTo(W-PAD.r, py(p)); ctx.stroke();
+      ctx.setLineDash([]); ctx.globalAlpha = 1;
+      ctx.fillStyle = c; ctx.textAlign = 'right'; ctx.font = `9px 'Share Tech Mono'`;
+      ctx.fillText(lbl, W-PAD.r-4, py(p)-4);
+    });
+    ctx.fillStyle = '#ff4444'; ctx.textAlign = 'left'; ctx.font = `9px 'Share Tech Mono'`;
+    ctx.fillText('RISK', rx+6, stopY-4);
+    ctx.fillStyle = '#00ff88';
+    ctx.fillText('REWARD', rx+6, t2Y+14);
+  }
+ 
+  if (concept === 'vwap') {
+    const vp = vwapPrice();
+    ctx.strokeStyle = col; ctx.setLineDash([8,4]); ctx.lineWidth = 1.8;
+    ctx.shadowColor = col; ctx.shadowBlur = 6; ctx.globalAlpha = 0.85;
+    ctx.beginPath(); ctx.moveTo(PAD.l, py(vp)); ctx.lineTo(W-PAD.r, py(vp)); ctx.stroke();
+    ctx.setLineDash([]); ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.font = `9px 'Share Tech Mono'`;
+    ctx.fillText(`VWAP ${vp.toFixed(0)}`, W-PAD.r-4, py(vp)-5);
+  }
+ 
+  // ── Candles ──
+  candles.forEach((c, i) => {
+    const x = cx(i);
+    const bull = c.c >= c.o;
+    const isEntry = concept === 'pullback' && i === ENTRY_IDX;
+    const isHover = i === hoveredIdx;
+    const color = isEntry ? col : (bull ? '#00d084' : '#ff4466');
+ 
+    // Wick
+    ctx.strokeStyle = color;
+    ctx.lineWidth = isHover ? 2 : 1.5;
+    ctx.globalAlpha = 0.9;
+    ctx.beginPath();
+    ctx.moveTo(x, py(c.h)); ctx.lineTo(x, py(c.l)); ctx.stroke();
+    ctx.globalAlpha = 1;
+ 
+    // Body
+    const bodyTop = py(Math.max(c.o, c.c));
+    const bodyBot = py(Math.min(c.o, c.c));
+    const bodyH = Math.max(2, bodyBot - bodyTop);
+    if (isEntry) { ctx.shadowColor = col; ctx.shadowBlur = 10; }
+    ctx.fillStyle = color;
+    ctx.globalAlpha = isHover ? 1 : 0.88;
+    ctx.fillRect(x - candleW/2, bodyTop, candleW, bodyH);
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+ 
+    if (isHover) {
+      ctx.strokeStyle = '#ffffff55'; ctx.lineWidth = 1;
+      ctx.strokeRect(x - candleW/2, bodyTop, candleW, bodyH);
+    }
+  });
+ 
+  // ── Trend arrows ──
+  if (concept === 'trend') {
+    // Trend arrow
+    ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.setLineDash([5,3]); ctx.globalAlpha = 0.7;
+    ctx.beginPath(); ctx.moveTo(cx(0), py(4282)); ctx.lineTo(cx(5), py(4345)); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1;
+    // Labels
+    [['HH', 5, 4358], ['HL', 7, 4308]].forEach(([lbl, i, p]) => {
+      ctx.fillStyle = col; ctx.textAlign = 'center'; ctx.font = `bold 11px 'Share Tech Mono'`;
+      ctx.shadowColor = col; ctx.shadowBlur = 6;
+      ctx.fillText(lbl, cx(i), py(p));
+      ctx.shadowBlur = 0;
+    });
+  }
+ 
+  // ── Hover tooltip ──
+  if (hoveredIdx >= 0) {
+    const c = candles[hoveredIdx];
+    const bull = c.c >= c.o;
+    const hx = cx(hoveredIdx);
+    // Crosshair
+    ctx.strokeStyle = '#ffffff15'; ctx.setLineDash([3,5]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(hx, PAD.t); ctx.lineTo(hx, H-PAD.b); ctx.stroke();
+    ctx.setLineDash([]);
+    // Tooltip box
+    const tx = Math.min(hx + 8, W - 112);
+    const ty = PAD.t + 4;
+    ctx.fillStyle = '#0a0f1e';
+    ctx.strokeStyle = '#1a2540'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.roundRect(tx, ty, 100, 68, 3); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = bull ? '#00d084' : '#ff4466';
+    ctx.font = `bold 9px 'Share Tech Mono'`;
+    ctx.textAlign = 'left';
+    ctx.fillText(bull ? '▲ BULL' : '▼ BEAR', tx+7, ty+15);
+    [['O', c.o], ['H', c.h], ['L', c.l], ['C', c.c]].forEach(([lbl, val], li) => {
+      ctx.fillStyle = '#3a5070';
+      ctx.fillText(lbl + ':', tx+7, ty+27+li*11);
+      ctx.fillStyle = '#c8d8e8';
+      ctx.fillText(val, tx+28, ty+27+li*11);
+    });
+  }
+ 
+  // Time labels
+  candles.forEach((_, i) => {
+    if (i % 3 !== 0) return;
+    const hour = 9 + Math.floor(i*5/60);
+    const min = (30 + i*5) % 60;
+    ctx.fillStyle = '#2a4060';
+    ctx.font = `8px 'Share Tech Mono'`;
+    ctx.textAlign = 'center';
+    ctx.fillText(`${hour}:${String(min).padStart(2,'0')}`, cx(i), H-PAD.b+16);
+  });
+}
+ 
+// Mouse interaction
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const { cW } = chartDims();
+  const spacing = cW / candles.length;
+  const idx = Math.floor((mx - PAD.l) / spacing);
+  hoveredIdx = (idx >= 0 && idx < candles.length) ? idx : -1;
+  draw();
+});
+ 
+canvas.addEventListener('mouseleave', () => { hoveredIdx = -1; draw(); });
+ 
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeConcept = tab.dataset.concept;
+    const c = concepts[activeConcept];
+    document.getElementById('desc-text').textContent = c.desc;
+    document.getElementById('legend-label').textContent = c.label;
+    document.querySelector('#legend-concept .legend-dot').style.background = c.color;
+    document.querySelector('.concept-desc').style.background = c.color + '0a';
+    document.querySelector('.concept-desc').style.borderBottomColor = c.color + '22';
+    draw();
+  });
+});
+ 
+// Fade-in on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+ 
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
