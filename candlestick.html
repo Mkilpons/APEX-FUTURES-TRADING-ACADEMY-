@@ -19,7 +19,7 @@
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
   body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
- 
+
   /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(7,11,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
   .nav-logo{font-family:var(--display);font-size:22px;letter-spacing:4px;color:var(--green);text-shadow:0 0 20px rgba(0,208,132,0.4);text-decoration:none;}
@@ -44,7 +44,7 @@
   .nav-links a:hover,.nav-links a.active{color:var(--green);}
   .nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:2px;padding:8px 20px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
   .nav-cta:hover{background:var(--green);color:var(--bg);}
- 
+
   /* PAGE HERO */
   .page-hero{padding:100px 40px 56px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
   .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 100% 100% at 50% 0%,black 30%,transparent 100%);}
@@ -58,12 +58,12 @@
   .breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:20px;}
   .breadcrumb a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
   .breadcrumb a:hover{color:var(--green);}
- 
+
   section{position:relative;z-index:1;padding:72px 40px;}
   .section-label{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px;}
   .section-title{font-family:var(--display);font-size:clamp(32px,4vw,56px);letter-spacing:3px;color:var(--text);line-height:1;margin-bottom:16px;}
   .section-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:560px;margin-bottom:40px;}
- 
+
   /* ANATOMY */
   .anatomy-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:8px;}
   .anatomy-card{background:var(--bg);padding:32px;display:flex;flex-direction:column;align-items:center;gap:24px;}
@@ -75,7 +75,7 @@
   .part-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
   .part-label{color:var(--text);min-width:60px;}
   .part-desc{color:var(--muted);font-size:10px;}
- 
+
   /* TABS */
   .tab-nav{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;margin-bottom:0;}
   .tab-nav::-webkit-scrollbar{display:none;}
@@ -84,12 +84,12 @@
   .tab-btn:hover:not(.active){color:var(--text);}
   .tab-desc{padding:10px 20px;background:rgba(0,208,132,0.05);border-bottom:1px solid rgba(0,208,132,0.12);font-family:var(--mono);font-size:11px;color:#8aa8c8;line-height:1.6;}
   .tab-desc span{color:var(--green);margin-right:6px;}
- 
+
   /* PATTERN CHARTS */
   .pattern-section{border:1px solid var(--border);}
   .pattern-canvas-wrap{background:#070b14;padding:0;position:relative;}
   .pattern-canvas-wrap canvas{display:block;width:100%;}
- 
+
   /* PATTERN GRID */
   .patterns-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
   .pattern-card{background:var(--bg);padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:16px;transition:background 0.2s;}
@@ -99,7 +99,7 @@
   .pattern-name{font-family:var(--display);font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:6px;}
   .pattern-signal{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
   .pattern-desc{font-size:12px;color:var(--muted);line-height:1.6;}
- 
+
   /* FLAGS */
   .flags-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:48px;}
   .flag-card{background:var(--bg);padding:32px;display:flex;flex-direction:column;align-items:center;gap:20px;}
@@ -109,7 +109,7 @@
   .flag-rules{list-style:none;width:100%;display:flex;flex-direction:column;gap:8px;margin-top:8px;}
   .flag-rules li{font-family:var(--mono);font-size:10px;color:var(--muted);padding-left:14px;position:relative;letter-spacing:0.5px;}
   .flag-rules li::before{content:'›';position:absolute;left:0;color:var(--green);}
- 
+
   /* RISK */
   .risk-banner{background:rgba(255,68,102,0.06);border:1px solid rgba(255,68,102,0.2);border-left:3px solid var(--red);padding:20px 32px;margin:0 40px 40px;font-family:var(--mono);font-size:11px;color:#8a6070;line-height:1.7;letter-spacing:0.5px;}
   .risk-banner strong{color:var(--red);}
@@ -121,7 +121,7 @@
   .footer-links a:hover{color:var(--green);}
   .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
   .fade-up.visible{opacity:1;transform:translateY(0);}
- 
+
   @media(max-width:768px){
     nav{padding:0 20px;}.nav-links{display:none;}
     section,.page-hero{padding:60px 20px;}
@@ -132,7 +132,7 @@
 </style>
 </head>
 <body>
- 
+
 <nav>
   <a href="index.html" class="nav-logo">APEX<span> FUTURES</span></a>
   <ul class="nav-links">
@@ -143,7 +143,7 @@
   </ul>
   <button class="nav-cta" onclick="window.location='index.html#signup'">Save a Spot</button>
 </nav>
- 
+
 <div class="page-hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
@@ -153,7 +153,7 @@
     <p>Candlesticks are the language of price. Learn anatomy, key reversal patterns, continuation patterns, and bull & bear flags — the setups traders use every single session.</p>
   </div>
 </div>
- 
+
 <!-- ANATOMY -->
 <section id="anatomy">
   <div class="fade-up">
@@ -194,7 +194,7 @@
     </div>
   </div>
 </section>
- 
+
 <!-- PATTERNS -->
 <section id="patterns" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="fade-up">
@@ -202,7 +202,7 @@
     <div class="section-title">KEY PATTERNS</div>
     <p class="section-desc">These are the most reliable single and two-candle patterns. Each signals a potential shift in momentum — but always confirm with context.</p>
   </div>
- 
+
   <!-- Tabs -->
   <div class="pattern-section fade-up">
     <div class="tab-nav">
@@ -214,7 +214,7 @@
     <div style="background:#070b14;padding:32px 24px;" id="pattern-canvas-area"></div>
   </div>
 </section>
- 
+
 <!-- FLAGS -->
 <section id="flags">
   <div class="fade-up">
@@ -249,11 +249,11 @@
     </div>
   </div>
 </section>
- 
+
 <div class="risk-banner">
   <strong>⚠ EDUCATIONAL NOTE:</strong> Candlestick patterns are tools, not guarantees. Always use them in context — at key levels, with trend confirmation, and with a defined risk/reward. No pattern works 100% of the time.
 </div>
- 
+
 <footer>
   <div>
     <div class="footer-logo">APEX FUTURES</div>
@@ -266,10 +266,10 @@
   </ul>
   <div class="footer-copy">© 2026 Apex Futures Academy · Educational Use Only</div>
 </footer>
- 
+
 <script>
 const DPR = window.devicePixelRatio || 1;
- 
+
 function setupCanvas(id, w, h) {
   const cv = document.getElementById(id);
   if (!cv) return null;
@@ -279,30 +279,30 @@ function setupCanvas(id, w, h) {
   ctx.scale(DPR, DPR);
   return ctx;
 }
- 
+
 // ── ANATOMY CANDLES ──
 function drawAnatomyCandle(ctx, w, h, bullish) {
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = '#070b14';
   ctx.fillRect(0, 0, w, h);
- 
+
   const cx = w / 2;
   const bodyTop = bullish ? 80 : 60;
   const bodyBot = bullish ? 180 : 200;
   const highY = 20; const lowY = h - 20;
   const bodyW = 40;
   const col = bullish ? '#00d084' : '#ff4466';
- 
+
   // Wick
   ctx.strokeStyle = col; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(cx, highY); ctx.lineTo(cx, lowY); ctx.stroke();
- 
+
   // Body
   ctx.fillStyle = col;
   ctx.shadowColor = col; ctx.shadowBlur = 12;
   ctx.fillRect(cx - bodyW / 2, bodyTop, bodyW, bodyBot - bodyTop);
   ctx.shadowBlur = 0;
- 
+
   // Labels
   const labels = [
     { y: highY, label: 'HIGH', color: '#ff9f43' },
@@ -310,7 +310,7 @@ function drawAnatomyCandle(ctx, w, h, bullish) {
     { y: bullish ? bodyTop : bodyBot, label: bullish ? 'CLOSE' : 'CLOSE', color: bullish ? '#00d084' : '#00d4ff' },
     { y: lowY, label: 'LOW', color: bullish ? '#8a3050' : '#8a3050' },
   ];
- 
+
   labels.forEach(({ y, label, color }) => {
     // Line
     ctx.strokeStyle = color + '66'; ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
@@ -324,19 +324,19 @@ function drawAnatomyCandle(ctx, w, h, bullish) {
     ctx.fillStyle = color; ctx.font = "bold 9px 'Share Tech Mono'"; ctx.textAlign = 'right';
     ctx.fillText(label, w - 10, y + 3);
   });
- 
+
   // Body bracket
   ctx.strokeStyle = col + '44'; ctx.lineWidth = 1; ctx.setLineDash([]);
   ctx.beginPath(); ctx.moveTo(cx - bodyW / 2 - 6, bodyTop); ctx.lineTo(cx - bodyW / 2 - 14, bodyTop); ctx.lineTo(cx - bodyW / 2 - 14, bodyBot); ctx.lineTo(cx - bodyW / 2 - 6, bodyBot); ctx.stroke();
   ctx.fillStyle = col; ctx.font = "8px 'Share Tech Mono'"; ctx.textAlign = 'center';
   ctx.save(); ctx.translate(cx - bodyW / 2 - 20, (bodyTop + bodyBot) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('BODY', 0, 0); ctx.restore();
 }
- 
+
 const bCtx = setupCanvas('bullCandle', 160, 260);
 if (bCtx) drawAnatomyCandle(bCtx, 160, 260, true);
 const brCtx = setupCanvas('bearCandle', 160, 260);
 if (brCtx) drawAnatomyCandle(brCtx, 160, 260, false);
- 
+
 // ── PATTERN DEFINITIONS ──
 const patterns = {
   'bullish-patterns': [
@@ -358,7 +358,7 @@ const patterns = {
     { name: 'Three Soldiers', signal: '▲ Strong Bull', color: '#00d084', desc: 'Three consecutive green candles each closing near their high. Sustained buying pressure — trend continuation.', draw: drawThreeSoldiers },
   ],
 };
- 
+
 function drawHammer(ctx, w, h) {
   ctx.clearRect(0,0,w,h); ctx.fillStyle='#070b14'; ctx.fillRect(0,0,w,h);
   const cx=w/2; ctx.strokeStyle='#00d084'; ctx.lineWidth=2;
@@ -490,7 +490,7 @@ function drawThreeSoldiers(ctx, w, h) {
     ctx.beginPath(); ctx.moveTo(x+17,bot); ctx.lineTo(x+17,bot+8); ctx.stroke();
   });
 }
- 
+
 function renderPatterns(tabId) {
   const area = document.getElementById('pattern-canvas-area');
   area.innerHTML = '';
@@ -518,16 +518,16 @@ function renderPatterns(tabId) {
     p.draw(ctx, 160, 160);
   });
 }
- 
+
 function showPatternTab(tabId, desc) {
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
   document.getElementById('patternTabDesc').textContent = desc;
   renderPatterns(tabId);
 }
- 
+
 renderPatterns('bullish-patterns');
- 
+
 // ── BULL FLAG ──
 function drawFlag(canvasId, bull) {
   const cv = document.getElementById(canvasId);
@@ -538,10 +538,10 @@ function drawFlag(canvasId, bull) {
   const ctx = cv.getContext('2d');
   ctx.scale(DPR, DPR);
   ctx.fillStyle = '#070b14'; ctx.fillRect(0, 0, w, h);
- 
+
   const col = bull ? '#00d084' : '#ff4466';
   const cw = 18, gap = 6;
- 
+
   if (bull) {
     // Pole — strong up candles
     const poleCandles = [
@@ -620,14 +620,14 @@ function drawFlag(canvasId, bull) {
     ctx.fillText('breakdown level',224,202);
   }
 }
- 
+
 drawFlag('bullFlag', true);
 drawFlag('bearFlag', false);
- 
+
 // Fade in
 const obs = new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:0.08});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
- 
+
 // ── HAMBURGER MENU ──
 function toggleMenu(){
   const m=document.getElementById('slideMenu'),h=document.getElementById('hamburger'),o=document.getElementById('menuOverlay');
@@ -641,7 +641,7 @@ function closeMenu(){
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
- 
+
 // ── AUTO OPEN TAB ──
 (function(){
   const target = sessionStorage.getItem('apexTab');
